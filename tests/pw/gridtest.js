@@ -60,11 +60,11 @@ const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fails++
   // 7. mở cửa, pha 1 ly, chạm máy đóng gói để giao
   await p.evaluate(() => { tab = 'quay'; renderPrep() }); await p.click('#openBtn');
   for (let i = 0; i < 30; i++) { await p.waitForTimeout(300); if (await p.evaluate(() => !!(D && target()))) break }
-  await p.evaluate(() => { const c = target(), o = c.items[c.cur]; o.ts = []; o.sugar = 0; o.ice = 0; tkKey = ''; renderTicket() });
+  await p.evaluate(() => { const c = target(), o = c.items[c.cur]; o.ts = []; o.ss = []; o.fs = []; o.xf = null; o.sugar = 0; o.ice = 0; tkKey = ''; renderTicket() });
   const st = '#st', sh = async (id) => { const R = await cv(st); const o = await p.evaluate(id => { const o = LAYG().find(o => o.id === id), r = objRect(o); return { x: (r.x + r.w / 2) / ST.LW, y: (r.y + r.h / 2) / ST.LH } }, id); return [R.x + o.x * R.w, R.y + o.y * R.h] };
   const sz = await p.evaluate(() => target().items[0].size); await p.waitForTimeout(300); await p.click('.nextBtn[data-next]'); await p.waitForTimeout(500);
   ok(await p.evaluate(sz => !!cup && cup.size === sz && MK, sz), 'chạm ly ' + sz + ' ở màn quán: sang màn pha');
-  await p.evaluate(() => { const o = target().items[0]; cup.pours = o.bs.map(k => ({ k, amt: 1, q: 1 })); o.bs.forEach(k => cup.used[k] = 1) });
+  await p.evaluate(() => { const o = target().items[0]; cup.pours = o.bs.map(k => ({ k, n: xN(o, k), amt: 1, q: 1 })); o.bs.forEach(k => cup.used[k] = 1) });
   await p.waitForTimeout(200); await p.screenshot({ path: `${out}/g-7-cho-giao.png` });
   const served0 = await p.evaluate(() => D.served);
   await p.mouse.click(...await sh('seal')); await p.waitForTimeout(350); await p.screenshot({ path: `${out}/g-8-dang-giao.png` });

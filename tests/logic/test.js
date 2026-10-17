@@ -36,20 +36,19 @@ run(null, `
   let withTop=0,two=0,bad=0,priceOk=true;
   for(let i=0;i<2000;i++){const o=makeOrder();if(o.ts.length)withTop++;if(o.ts.length>1)two++;
     if(o.ts.some(k=>!onCounter(k)))bad++;
-    const r=recById(o.r);const exp=r.price+(o.size==='L'?5000:0)+o.ts.reduce((a,k)=>a+topPrice(k),0);if(priceOf(o)!==exp)priceOk=false}
+    const b=o.bs.reduce((a,k)=>a+xN(o,k)*unitPrice(k),0);const exp=(o.fam?r1k(b*1.2):b)+o.ts.reduce((a,k)=>a+topPrice(k),0);if(priceOf(o)!==exp)priceOk=false}
   ok(withTop>900&&withTop<1500,'ngày 1, quầy có 2 topping: khoảng 60% đơn có topping ('+withTop+'/2000)');
   ok(two>0,'có thể gọi nhiều topping ('+two+' đơn có 2 topping)');
   ok(bad===0,'chỉ gọi topping đang bày trên quầy');
-  ok(priceOk,'giá đơn = giá món + size + tiền topping');
+  ok(priceOk,'giá đơn = số xiên × giá mỗi xiên + tiền rau');
   ok(topPrice('dualeo')===5000&&topPrice('kimchi')===14000,'giá topping: TC đen 5k, mochi 14k');
   S.day=5;let n2=0,n0=0;for(let i=0;i<2000;i++){const o=makeOrder();if(o.ts.length===2)n2++;if(!o.ts.length)n0++}
   ok(n2>0&&n0>400,'ngày 5: có đơn 2 topping ('+n2+') và đơn không topping ('+n0+')');
   S.stock.dualeo=[];S.stock.dochua=[];let any=0;for(let i=0;i<300;i++)if(makeOrder().ts.length)any++;
   ok(any===0,'hết hàng topping thì khách không gọi');
-  const lab0=labHTML();ok(!lab0.includes('data-lt'),'xưởng chế món không còn hàng Topping');
   ok(thucdonHTML().includes('Giá rau')&&thucdonHTML().includes('data-tpd'),'tab Thực đơn có bảng giá topping (chỉnh được)');
   tab='quay';ok(quayHTML().includes('khoBox')&&quayHTML().includes('Kho'),'tab Quầy luôn có ô Kho');
-  ok(quayHTML().includes('1 đồ trên quầy không món nào dùng'),'chỉ đường đen bị tính là đồ thừa, topping thì không');
+  ok(!quayHTML().includes('không món nào dùng'),'sốt trên quầy là đồ khách chọn, rau là đồ kèm: không bị tính là đồ thừa');
 `);
 
 

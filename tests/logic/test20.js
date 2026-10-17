@@ -24,13 +24,13 @@ ctx.window=ctx;vm.createContext(ctx);vm.runInContext(src+`;toast=()=>{};
   // 3b. đồ siêu hiếm: gắn vào món hạng A thì lên S/SS/SSS, giá trị món tăng; một đồ chỉ gắn một món
   {r.status='ok';r.grade='A';r.mult=3.4;const r2={...JSON.parse(JSON.stringify(r)),id:S.ruid++,name:'T2'};S.recipes.push(r2);S.gems=[{id:1,k:'lavang'},{id:2,k:'kimtuyen'}];
    const v0=recValue(r);r.gem=1;ok(gradeShown(r)==='SS'&&recValue(r)>v0,'gắn Lá vàng 24K: hạng SS, giá trị món '+v0+' → '+recValue(r));
-   r2.gem=1;ok(gradeShown(r2)==='SS','món thứ hai cũng trỏ tới đồ đó');S.recipes.forEach(x=>{if(x.gem===1)x.gem=null});r2.gem=1;ok(!gemOf(r)&&gradeShown(r)==='A'&&gradeShown(r2)==='SS','gắn sang món khác thì món cũ về A (một đồ chỉ một món)');
-   r2.grade='B';ok(gradeShown(r2)==='B'&&!gemOf(r2),'món không phải hạng A thì đồ không có tác dụng');S.recipes=S.recipes.filter(x=>x!==r2);r.gem=null}
+   r2.gem=1;ok(gradeShown(r2)==='SS','món thứ hai cũng trỏ tới đồ đó');S.recipes.forEach(x=>{if(x.gem===1)x.gem=null});r2.gem=1;ok(!gemOf(r)&&gradeShown(r)===''&&gradeShown(r2)==='SS','gắn sang món khác thì món cũ hết đồ (một đồ chỉ một món)');
+   r2.grade='B';ok(gradeShown(r2)==='SS'&&!!gemOf(r2),'đồ siêu hiếm gắn được cho mọi món, không cần hạng');S.recipes=S.recipes.filter(x=>x!==r2);r.gem=null}
   // 3d. rắc đồ: đơn món có đồ thì ghi o.gem; quên rắc thì −2★ và review nhắc; nhân viên tự rắc
   {D=null;startDay();D.next=1e9;D.queue=[];r.status='ok';r.grade='A';r.on=true;S.gems=[{id:7,k:'lavang'}];r.gem=7;['cavien','bovien'].forEach(k=>S.stock[k]=[{q:99,e:99}]);
    const o=makeOrder(r);ok(o.gem==='lavang','khách gọi món có Lá vàng: đơn ghi đồ cần rắc');
    const mk=()=>{spawn('thuong');const c=D.queue.at(-1);c.items=[{...o}];c.o=c.items[0];c.price=priceOf(c.o);c.p=c.max=999;return c};
-   const full=(it)=>Object.assign(newCup(it.size),{pours:it.bs.map(k=>({k,amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0});
+   const full=(it)=>Object.assign(newCup(it.size),{pours:it.bs.map(k=>({k,n:xN(it,k),amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0});
    let c=mk(),cp=full(c.items[0]);serveCup(c,0,cp,null);let rv=S.reviews.at(-1);ok(c.res[0].s===3&&/quên lá vàng/.test(c.res[0].notes.join())&&/lá vàng/.test(rv.t),'quên rắc: 3★, review: “'+rv.t+'”');
    c=mk();cp=full(c.items[0]);cp.gem='lavang';serveCup(c,0,cp,null);ok(c.res[0].s===5,'có rắc: 5★');
    const L=checks(c.items[0]);ok(L.some(x=>x[6]&&/Lá vàng/.test(x[0])),'phiếu có bước rắc Lá vàng (chạm được)');

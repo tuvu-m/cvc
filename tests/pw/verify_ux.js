@@ -7,19 +7,19 @@ const [, , game, out] = process.argv; fs.mkdirSync(out, { recursive: true });let
   await p.evaluate(() => { document.body.classList.remove('help'); S.day = 6; S.money = 2e6; ['cavien','bovien','s_tuongot','dualeo','dochua'].forEach(k => S.stock[k] = [{ q: 30, e: 30 }]); S.notice = []; tab = 'quay'; renderPrep() });
   await p.click('#openBtn'); await p.waitForTimeout(600);
   // 1. hai nền: rót đầy trà rồi sữa không quá vạch
-  let r = await p.evaluate(async () => { D.next = 1e9; D.evPlan = []; D.queue = []; spawn('thuong'); const c = D.queue.at(-1); Object.assign(c.items[0], { bs: ['cavien','bovien'], size: 'M', ts: [], ss: [], fs: [], sugar: 0, ice: 0 }); c.o = c.items[0]; c.p = c.max = 999; layoutQ(); tkKey=''; renderTicket();
+  let r = await p.evaluate(async () => { D.next = 1e9; D.evPlan = []; D.queue = []; spawn('thuong'); const c = D.queue.at(-1); Object.assign(c.items[0], { n: null, fam: null, bs: ['cavien','bovien'], size: 'M', ts: [], ss: [], fs: [], sugar: 0, ice: 0 }); c.o = c.items[0]; c.p = c.max = 999; layoutQ(); tkKey=''; renderTicket();
     takeCup('M'); startPour('cavien'); startPour('bovien'); for (let i = 0; i < 80; i++) { now += .05; tickDay(.05); if (cup.fry.every(f => f.c >= 1)) break } fryScoop(); const m = cupMiss(c.items[0]); return { n: cup.pours.length, m: m && m.msg } });
   ok(!r.m && r.n === 2, 'thả cá viên và bò viên, vàng rồi vớt: ly đạt (' + r.m + ')');
   // 2. chạm nhanh không mất hàng
-  r = await p.evaluate(() => { useTool('trash'); takeCup('M'); const q0 = qty('cavien'); startPour('cavien'); startPour('cavien'); return { q0, q1: qty('cavien'), t: document.querySelector('#toast').textContent } });
-  ok(r.q0 - r.q1 === 1 && /đang trong chảo/.test(r.t), 'chạm khay hai lần: chỉ thả một phần, nhắc "' + r.t + '"');
+  r = await p.evaluate(() => { useTool('trash'); takeCup('M'); const q0 = qty('cavien'); startPour('cavien'); startPour('cavien'); return { q0, q1: qty('cavien'), n: cup.fry.length === 1 && cup.fry[0].n } });
+  ok(r.q0 - r.q1 === 2 && r.n === 2, 'chạm khay hai lần: gắp 2 xiên vào cùng một mẻ');
   await p.waitForTimeout(400); await p.screenshot({ path: out + '/empty-cup.png' });
   // 3. nhân viên tự nhận khách: bạn không còn khách thì phiếu báo nhân viên đang pha
   r = await p.evaluate(() => { useTool('trash'); S.staff = [Object.assign(genStaff(), { role: 'barista', skill: 5, spd: 3, mood: 90 })]; for (let i = 0; i < 10 && !S.staff[0].w; i++) { now += .05; tickDay(.05) } tkKey = ''; renderTicket(); return { w: !!S.staff[0].w, tg: !!target(), t: document.querySelector('#tk').textContent } });
   ok(r.w && !r.tg && /nhân viên/.test(r.t), 'nhân viên nhận khách duy nhất: phiếu báo "' + r.t + '"');
   // 4. ly hỏng: nhãn trên bàn pha + phiếu
   r = await p.evaluate(() => { S.staff.forEach(x => x.w = null); S.staff = []; D.queue.forEach(c => c.items.forEach(x => x.sj = null)); if (!cup) takeCup('L'); PV = true; syncMode(); breakCup('sai size'); tkKey = ''; renderTicket(); const b = document.querySelector('#ordp .op.bad'); return b ? b.textContent : '' });
-  ok(/Cá viên/.test(r), 'ly hỏng: mục đồ chiên tô đỏ trong khung đơn "' + r + '"');
+  ok(/Hỏng/.test(r), 'ly hỏng: nhãn đỏ đầu tiên trong khung đơn "' + r + '"');
   await p.waitForTimeout(500); await p.screenshot({ path: out + '/broken.png' });
   // 5. toast lúc bán không che đồng hồ
   r = await p.evaluate(() => { toast('Thử một câu thông báo khá dài để xem vị trí'); const a = document.querySelector('#toast').getBoundingClientRect(), h = document.querySelector('.hudMini').getBoundingClientRect(); return { overlap: a.left < h.right && a.top < h.bottom } });

@@ -32,7 +32,7 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
   // 3. tab mở dần
   S=fresh();S.money=500000;const vis=()=>TABS.filter(([k])=>tabOpen(k)).map(([k])=>k).join(',');
   ok(vis()==='quay,thucdon,menu,luu','ngày 1: '+vis());
-  S.day=2;ok(vis()==='quay,thucdon,congthuc,menu,rv,luu','ngày 2: '+vis());
+  S.day=2;ok(vis()==='quay,thucdon,menu,rv,luu','ngày 2: '+vis());
   S.day=3;ok(vis().includes('trangtri')&&!vis().includes('staff'),'ngày 3: thêm Trang trí');
   S.day=4;ok(['staff','taichinh'].every(k=>vis().includes(k)),'ngày 4: đủ tab');
   S.day=1;S.money=90000;ok(tabOpen('taichinh'),'sắp hết tiền: hiện Tài chính sớm để vay');
@@ -49,7 +49,7 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
   S.recipes.forEach(r=>r.on=false);const rr=mkR('Trà đào',['tomvien'],['s_mayo']);rr.on=true;
   storeObj(S.grid.find(o=>o.id==='tomvien'));ok(!onCounter('tomvien'),'cất trà lài vào kho (thực đơn cần)');
   const before=S.grid.map(o=>o.id+'@'+o.c+','+o.r);const P=layPlan();
-  ok(P.add.includes('tomvien')&&P.store.includes('xucxich')&&P.store.includes('s_tuongot'),'kế hoạch: bày '+P.add.join(',')+' / cất '+P.store.join(','));
+  ok(P.add.includes('tomvien')&&P.store.includes('xucxich')&&!P.store.includes('s_tuongot'),'kế hoạch: bày '+P.add.join(',')+' / cất '+P.store.join(','));
   autoLay();ok(onCounter('tomvien')&&onCounter('s_mayo')&&!onCounter('xucxich')&&S.stored.includes('xucxich'),'sau khi bày: đủ đồ thực đơn, đồ không dùng vào kho');
   ok(S.tops.every(k=>onCounter(k)),'còn chỗ: bày hết topping');
   const kept=S.grid.filter(o=>FIXED.includes(o.id)).every(o=>before.includes(o.id+'@'+o.c+','+o.r));ok(kept,'ly, máy, bàn pha giữ nguyên chỗ');

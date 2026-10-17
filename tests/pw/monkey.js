@@ -42,7 +42,7 @@ while(Date.now()-t0<SECS*1000){
   else{ // màn pha: lúc thì pha xong chạm máy đóng gói, lúc về quán
     if(a<.25&&st.back){await p.touchscreen.tap(st.back.x,st.back.y);act='back'}
     else if(a<.7){act=await p.evaluate(()=>{if(!cup||sealing)return 'mk-wait';const c=target(),it=c&&c.items[c.cur];if(!it)return 'mk-none';if(Math.random()<.5)return 'mk-think';
-      Object.assign(cup,{pours:it.bs.map(k=>({k,amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null,lyOk:1});trySeal();return 'seal'})}
+      Object.assign(cup,{pours:it.bs.map(k=>({k,n:xN(it,k),amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null,lyOk:1});trySeal();return 'seal'})}
     else act='mk-idle'}
   }catch(e){act='ERR '+e.message.slice(0,80)}
   await p.evaluate(a=>{window.__M.act.push(a);if(window.__M.act.length>50)window.__M.act.shift()},act);

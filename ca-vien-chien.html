@@ -97,7 +97,7 @@ html,body{touch-action:pan-x pan-y}
 .coinspin{display:inline-block;animation:coinspin .45s linear infinite}@keyframes coinspin{to{transform:rotateY(360deg)}}.btn.que{font-size:22px;min-width:52px}
 .qt.qnk{color:#a87400;font-size:11px}.qt.qnk .spk{width:10px;height:10px;vertical-align:-1px}.qt{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;margin-top:-2px}
 .qd{flex:1;min-height:0;display:flex;align-items:center;gap:4px}.qd img{height:58px;width:auto;flex:none}.qd span{display:flex;flex-direction:column;gap:3px;min-width:0}
-.qd b{font-size:12px;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.qd .sz{font-style:normal;align-self:flex-start;font-size:11px;font-weight:800;padding:0 7px;border-radius:999px;background:#fff1e3;border:1.5px solid #ee7a1f;color:#7a3f0e}
+.qd b .qx1{display:block;white-space:nowrap;font-style:normal;font-size:11.5px}.qd b{font-size:12px;line-height:1.15;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.qd .sz{font-style:normal;align-self:flex-start;font-size:11px;font-weight:800;padding:0 7px;border-radius:999px;background:#fff1e3;border:1.5px solid #ee7a1f;color:#7a3f0e}
 .qslv{font-size:10.5px;font-weight:800;color:#fff;background:var(--c1);border-radius:6px;padding:0 5px;align-self:flex-start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.qtp{font-size:11px;font-weight:700;color:#7a3f0e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .qs{font-size:11px;font-weight:800;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:4px;min-width:0}.qs>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .qc .pbar{display:block;flex:none;height:5px;border-radius:99px;background:#d6eee1;overflow:hidden}.qc .pbar i{display:block;height:100%;width:0;background:#4f9a72}
@@ -447,18 +447,18 @@ const FONT='"Be Vietnam Pro",system-ui,sans-serif',FONTD='"Baloo 2","Be Vietnam 
 /* Nguyên liệu thô. f = vị [béo, cay, đậm, chua ngọt, bùi]. c = giá vốn 1 phần. rare = hàng nhập hiếm.
    BASES: đồ chiên (kind 'vien' viên hải sản/bò, 'cha' xúc xích, chả, đậu hũ…), ck = số giây chiên tới vàng giòn */
 const BASES={
-  cavien:{name:'Cá viên',sh:'Cá viên',kind:'vien',col:'#f1d9a2',c:2500,pack:10,life:4,rc:0,ck:3.2,f:[1,0,2,0,1]},
-  bovien:{name:'Bò viên',sh:'Bò viên',kind:'vien',col:'#9a6a4e',c:3000,pack:10,life:4,rc:0,ck:3.6,f:[2,0,3,0,1]},
-  tomvien:{name:'Tôm viên',sh:'Tôm viên',kind:'vien',col:'#f3a88e',c:3500,pack:10,life:3,rc:60000,ck:3,f:[1,0,2,1,1]},
-  mucvien:{name:'Mực viên',sh:'Mực viên',kind:'vien',col:'#efe4d2',c:3500,pack:10,life:3,rc:80000,ck:3,f:[1,0,2,0,2]},
-  xucxich:{name:'Xúc xích',sh:'Xúc xích',kind:'cha',col:'#d65a48',c:3000,pack:10,life:5,rc:50000,ck:3.4,f:[3,0,2,0,0]},
-  dauhu:{name:'Đậu hũ phô mai',sh:'Đậu hũ PM',kind:'cha',col:'#f6e3a6',c:3500,pack:10,life:3,rc:90000,ck:2.6,f:[3,0,1,0,1]},
-  chaca:{name:'Chả cá',sh:'Chả cá',kind:'cha',col:'#e6c08a',c:3000,pack:10,life:3,rc:70000,ck:3.8,f:[1,0,2,0,2]},
-  khoailang:{name:'Khoai lang kén',sh:'Khoai lang',kind:'cha',col:'#f0a64c',c:2500,pack:10,life:4,rc:60000,ck:3,f:[1,0,0,2,3]},
-  tomhum:{name:'Viên tôm hùm',sh:'Tôm hùm',kind:'vien',col:'#e8735c',c:8000,pack:8,life:4,rare:'Úc',ck:3,f:[2,0,2,1,1]},
-  kani:{name:'Thanh cua Kani',sh:'Kani',kind:'cha',col:'#f07a5c',c:7000,pack:8,life:4,rare:'Nhật Bản',ck:2.4,f:[1,0,1,1,1]},
-  chabusan:{name:'Chả cá Busan',sh:'Busan',kind:'cha',col:'#efd59c',c:7000,pack:8,life:5,rare:'Hàn Quốc',ck:3,f:[1,1,2,0,1]},
-  xxduc:{name:'Xúc xích Đức',sh:'XX Đức',kind:'cha',col:'#b9523e',c:7500,pack:8,life:6,rare:'Đức',ck:3.6,f:[3,0,3,0,1]}
+  cavien:{name:'Cá viên',sh:'Cá viên',kind:'vien',col:'#f1d9a2',c:1000,pack:30,life:4,rc:0,ck:3.2,f:[1,0,2,0,1]},
+  bovien:{name:'Bò viên',sh:'Bò viên',kind:'vien',col:'#9a6a4e',c:1500,pack:30,life:4,rc:0,ck:3.6,f:[2,0,3,0,1]},
+  tomvien:{name:'Tôm viên',sh:'Tôm viên',kind:'vien',col:'#f3a88e',c:1800,pack:30,life:3,rc:60000,ck:3,f:[1,0,2,1,1]},
+  mucvien:{name:'Mực viên',sh:'Mực viên',kind:'vien',col:'#efe4d2',c:1800,pack:30,life:3,rc:80000,ck:3,f:[1,0,2,0,2]},
+  xucxich:{name:'Xúc xích',sh:'Xúc xích',kind:'cha',col:'#d65a48',c:2500,pack:24,life:5,rc:50000,ck:3.4,f:[3,0,2,0,0]},
+  dauhu:{name:'Đậu hũ phô mai',sh:'Đậu hũ PM',kind:'cha',col:'#f6e3a6',c:2000,pack:24,life:3,rc:90000,ck:2.6,f:[3,0,1,0,1]},
+  chaca:{name:'Chả cá',sh:'Chả cá',kind:'cha',col:'#e6c08a',c:1500,pack:30,life:3,rc:70000,ck:3.8,f:[1,0,2,0,2]},
+  khoailang:{name:'Khoai lang kén',sh:'Khoai lang',kind:'cha',col:'#f0a64c',c:1000,pack:30,life:4,rc:60000,ck:3,f:[1,0,0,2,3]},
+  tomhum:{name:'Viên tôm hùm',sh:'Tôm hùm',kind:'vien',col:'#e8735c',c:4000,pack:20,life:4,rare:'Úc',ck:3,f:[2,0,2,1,1]},
+  kani:{name:'Thanh cua Kani',sh:'Kani',kind:'cha',col:'#f07a5c',c:3500,pack:20,life:4,rare:'Nhật Bản',ck:2.4,f:[1,0,1,1,1]},
+  chabusan:{name:'Chả cá Busan',sh:'Busan',kind:'cha',col:'#efd59c',c:3500,pack:20,life:5,rare:'Hàn Quốc',ck:3,f:[1,1,2,0,1]},
+  xxduc:{name:'Xúc xích Đức',sh:'XX Đức',kind:'cha',col:'#b9523e',c:4000,pack:20,life:6,rare:'Đức',ck:3.6,f:[3,0,3,0,1]}
 };
 /* sốt (kind 'sot') và bột lắc (kind 'bot'); sour: sốt chua, gặp phô mai thì kỵ */
 const SYRUPS={
@@ -512,7 +512,7 @@ const OWNK={tea:'drinks',syrup:'syrups',top:'tops',foam:'foams'};
 const zoneOf=k=>BASES[k]?'tea':SYRUPS[k]?'syrup':TOPS[k]?'top':typeof CUPSKIN!=='undefined'&&CUPSKIN[k]?'sleeve':'foam';
 const ownList=k=>S[OWNK[zoneOf(k)]];
 const isRare=k=>!!(ITEM(k)&&ITEM(k).rare);
-const EMERG=[{id:-1,name:'Khoai mì chiên',bs:['khoaimi'],ss:[],ts:[],fs:[],price:3000,ice:'none',status:'ok',mult:1},{id:-2,name:'Khoai mì chanh muối',bs:['khoaimi'],ss:[],ts:[],fs:[],price:3000,ice:'it',status:'ok',mult:1}];
+const EMERG=[{id:-1,name:'Khoai mì chiên',bs:['khoaimi'],ss:[],ts:[],fs:[],price:1000,ice:'none',status:'ok',mult:1},{id:-2,name:'Khoai mì chanh muối',bs:['khoaimi'],ss:[],ts:[],fs:[],price:1000,ice:'it',status:'ok',mult:1}];
 const kindOf=k=>{const it=ITEM(k);return it.kind||(TOPS[k]?'top':'foam')};
 const SPECIAL={'cavien|s_tuongot':2,'cavien|s_tuongden':1,'bovien|s_tuongden':2,'bovien|s_sate':1,'cavien|bovien':1,'tomvien|s_me':2,'mucvien|s_me':1,'tomvien|s_mayo':1,'mucvien|s_mayo':1,
   'xucxich|s_tuongca':2,'xucxich|s_mutat':2,'xucxich|s_phomai':1,'dauhu|s_tuongot':1,'dauhu|s_phomai':1,'chaca|s_tuongot':2,'chaca|s_tuongden':1,'khoailang|s_mattong':2,'khoailang|b_phomai':2,
@@ -574,13 +574,12 @@ function autoName(bs,ts,fs,ss=[]){let n=bs.map(k=>BASES[k].sh).join(' & ');
 /* món đã kiểm định trước đây mà trùng món nổi tiếng thì được nhận ra (lên A, có tên chuẩn); món cơ bản thì phải đem kiểm định ở Xưởng chế món */
 function famousSync(){S.famous=(S.famous||[]).filter(id=>FAMOUS.some(F=>F.id===id));(S.recipes||[]).forEach(r=>{if(r.famous&&!FAMOUS.some(F=>F.id===r.famous)){delete r.famous;r.grade=gradeOf(r.mult,recIds(r).length)}if(r.basic||r.status!=='ok')return;const F=famousOf(recIds(r));if(!F)return;if(!r.famous){r.famous=F.id;r.grade='A';r.mult=Math.max(r.mult||0,3.3)}famousFound(F,true)})}
 /* món cơ bản game tự tạo: mỗi loại đồ chiên chiên trơn, mỗi sốt/bột đi với cá viên (sốt chua ngọt đi với xúc xích nếu có) */
-function basicsList(){const out=[],fr=S.drinks.filter(k=>BASES[k]&&!BASES[k].free);
-  const add=(bs,ss,name)=>out.push({key:[...bs,...ss].join('+'),bs,ss,name:name||autoName(bs,[],[],ss)});
-  fr.forEach(k=>add([k],[],BASES[k].name+' chiên'));
-  S.syrups.forEach(k=>{const y=SYRUPS[k],b=(y.sour||y.f[3]>=3)&&fr.includes('xucxich')?'xucxich':'cavien';if(fr.includes(b))add([b],[k])});
-  return out}
-function syncBasics(){S.recipes=S.recipes||[];famousSync();basicsList().forEach(b=>{if(S.recipes.some(r=>r.basic&&r.key===b.key))return;
-  const r={id:S.ruid++,name:b.name,bs:b.bs,ss:b.ss,ts:[],fs:[],status:'ok',mult:2.4,grade:'cơ bản',on:false,until:null,basic:true,key:b.key};r.price=Math.max(5000,r1k(comboInfo(recIds(r)).cost*2.4));S.recipes.push(r)})}
+/* thực đơn là bảng giá: mỗi loại đồ chiên một dòng, giá tính theo xiên (r.price); khách tự gọi bao nhiêu xiên mỗi loại, sốt chọn từ quầy */
+function basicsList(){return S.drinks.filter(k=>BASES[k]&&!BASES[k].free).map(k=>({key:k,bs:[k],ss:[],name:BASES[k].name}))}
+const XIEN_M=2.2,itemRec=k=>(S.recipes||[]).find(r=>r.basic&&r.key===k),unitPrice=k=>{const r=itemRec(k);return r&&r.price||Math.max(1000,r1k(ITEM(k).c*XIEN_M))};
+function syncBasics(){S.recipes=(S.recipes||[]).filter(r=>r.basic&&r.bs.length===1&&BASES[r.key]&&r.key===r.bs[0]);basicsList().forEach(b=>{if(itemRec(b.key))return;
+  const r={id:S.ruid++,name:b.name,bs:b.bs,ss:[],ts:[],fs:[],status:'ok',mult:XIEN_M,grade:'',on:false,until:null,basic:true,key:b.key};r.price=Math.max(1000,r1k(BASES[b.key].c*XIEN_M));S.recipes.push(r)});
+  if(!S.menuInit){S.menuInit=1;['cavien','bovien'].forEach(k=>{const r=itemRec(k);if(r)r.on=true})}}
 const sameSet=(a,b)=>a.length===b.length&&a.every(x=>b.includes(x));
 function compatLabel(avg,n){if(n<2)return 'Vị cơ bản';return avg>=2?'Rất hợp':avg>=1?'Hợp':avg>=-.5?'Tạm được':avg>-1.5?'Hơi lạ':'Không hợp, dễ trượt kiểm định'}
 const hearts=s=>s>=3?'♥♥♥':s===2?'♥♥':s===1?'♥':s===0?'·':s===-1?'✕':s===-2?'✕✕':'✕✕✕';
@@ -609,7 +608,7 @@ const gradeOf=(m,n=3)=>m>=3.3&&n>=3?'A':m>=2.8?'B':'C',multOf=(avg,n)=>Math.roun
 /* đồ siêu hiếm: nhân viên đi chợ cuối ngày có khi thấy (marketTrip), mua ở tab Kho; mỗi món đồ gắn cho đúng một món hạng A (r.gem), gỡ ra gắn món khác được */
 const GEMS={kimtuyen:{n:'Kim tuyến ăn được',i:'✨',g:'S',c:5e5},tobiko:{n:'Trứng cá chuồn',i:'🟠',g:'S',c:5e5},lavang:{n:'Lá vàng 24K',i:'🌟',g:'SS',c:2e6},cahoi:{n:'Trứng cá hồi',i:'🔴',g:'SS',c:2e6},truffle:{n:'Nấm truffle đen',i:'🍄',g:'SSS',c:6e6},caviar:{n:'Trứng cá tầm',i:'⚫',g:'SSS',c:6e6}},GEM_B={S:.2,SS:.35,SSS:.5};
 const gemImg=(k,h=20)=>SPRSRC['gem_i_'+k]?`<img class="gemi" src="${SPRSRC['gem_i_'+k]}" alt="" style="height:${h}px">`:GEMS[k].i;
-const gemOf=r=>r&&r.gem&&r.grade==='A'?(S.gems||[]).find(g=>g.id===r.gem)||null:null,gradeShown=r=>{const g=gemOf(r);return g?GEMS[g.k].g:r.grade};
+const gemOf=r=>r&&r.gem?(S.gems||[]).find(g=>g.id===r.gem)||null:null,gradeShown=r=>{const g=gemOf(r);return g?GEMS[g.k].g:''};
 /* sổ công thức: điểm hợp vị của các cặp nguyên liệu đã biết qua kiểm định (S.book, khóa pk) */
 const pk=(a,b)=>a<b?a+'|'+b:b+'|'+a;
 function learnPairs(ids,B){B=B||S.book||(S.book={});comboInfo(ids.filter(k=>ITEM(k))).pairs.forEach(p=>B[pk(p.a,p.b)]=p.s)}
@@ -627,13 +626,13 @@ function inspect(r){const ci=comboInfo(recIds(r)),n=ci.ids.length;learnPairs(ci.
 function famousReplace(r){if(!r.famous)return;const b=S.recipes.find(x=>x.basic&&x!==r&&sameSet(recIds(x),recIds(r)));if(!b)return;if(b.on){r.on=true;r.price=r.price||b.price}S.recipes=S.recipes.filter(x=>x!==b)}
 const PICS={};
 /* hình một ly đồ chiên đã làm xong (thẻ order, thực đơn) */
-function drinkPic(bs,ts,fs,size='M',ss=[],gem=null){const key=[bs.join(','),ss.join(','),ts.join(','),fs.join(','),size,gem||''].join('|');if(PICS[key])return PICS[key];const cv=document.createElement('canvas');cv.width=160;cv.height=220;const C=mk(cv,32,44);C.s=5;const old=K;begin(C);
-  EL(16,42.4,10,1.4,'rgba(90,60,40,.15)',null);drawCup(16,41.6,size==='L'?.82:.86,{size,pours:bs.map(k=>({k,amt:1,q:1})),fry:[],syrups:ss,tops:ts,foams:fs,ice:0,sugar:0,sealed:true,gem},false);K=old;return PICS[key]=cv.toDataURL()}
-const drinkPicR=(r,size)=>drinkPic(r.bs,r.ts,r.fs,size||'M',r.ss||[],typeof r.gem==='string'?r.gem:(gemOf(r)||{}).k||null);
+function drinkPic(bs,ts,fs,size='M',ss=[],gem=null,n=null){const key=[bs.join(','),ss.join(','),ts.join(','),fs.join(','),size,gem||'',n?bs.map(k=>n[k]).join(','):''].join('|');if(PICS[key])return PICS[key];const cv=document.createElement('canvas');cv.width=160;cv.height=220;const C=mk(cv,32,44);C.s=5;const old=K;begin(C);
+  EL(16,42.4,10,1.4,'rgba(90,60,40,.15)',null);drawCup(16,41.6,size==='L'?.82:.86,{size,pours:bs.map(k=>({k,n:n?n[k]:3,amt:1,q:1})),fry:[],syrups:ss,tops:ts,foams:fs,ice:0,sugar:0,sealed:true,gem},false);K=old;return PICS[key]=cv.toDataURL()}
+const drinkPicR=(r,size)=>drinkPic(r.bs,r.ts,r.fs,size||'M',r.ss||[],typeof r.gem==='string'?r.gem:(gemOf(r)||{}).k||null,r.n||null);
 /* độ cay khách dặn (o.sugar, giữ tên cũ): 30/50/70/100 = 1–4 muỗng ớt; chanh (o.ice): không, ít (1), nhiều (2) */
 const SUGAR={30:1,50:2,70:3,100:4}, ICE={none:['Không chanh',0],it:['Ít chanh',1],thuong:['Nhiều chanh',2]};
 /* chiên: độ chín 1 là vàng giòn; vớt được từ FRY_MIN, quá FRY_OK là hơi cháy (−1★), quá FRY_BURN là cháy khét (ly hỏng) */
-const FRY_MIN=.85,FRY_OK=1.2,FRY_BURN=1.5;
+const FRY_MIN=.85,FRY_OK=1.2,FRY_BURN=1.5,FRY_CAP=14;
 const TYPES={
   thuong:{label:'Khách thường',w:40,pat:1,day:1},hocsinh:{label:'Học sinh',w:13,pat:1.1,day:1},
   sop:{label:'Đại gia',w:7,pat:1,day:2},khotinh:{label:'Khó tính',w:10,pat:.85,day:2},
@@ -836,13 +835,13 @@ function makeLook(type,dis){
 /* ======================= SAVE ======================= */
 const LS='cvc1';
 function fresh(){return{v:3,day:1,money:500000,uid:1,savedAt:0,
-  stock:{cavien:[{q:8,e:4}],bovien:[{q:8,e:4}],s_tuongot:[{q:10,e:10}],dualeo:[{q:4,e:2}],dochua:[{q:4,e:4}]},raw:1,addon:1,shop:0,
+  stock:{cavien:[{q:30,e:4}],bovien:[{q:30,e:4}],s_tuongot:[{q:10,e:10}],dualeo:[{q:4,e:2}],dochua:[{q:4,e:4}]},raw:1,addon:1,shop:0,
   drinks:['cavien','bovien'],syrups:['s_tuongot'],tops:['dualeo','dochua'],foams:[],staff:[],cands:[],candDay:0,
-  reviews:[],ratings:[],debts:[],spent:0,five:0,recipes:[defaultRecipe()],ruid:2,trend:null,
+  reviews:[],ratings:[],debts:[],spent:0,five:0,recipes:[],ruid:1,trend:null,
   layout:{tea:['cavien','bovien'],syrup:['s_tuongot'],top:['dualeo','dochua'],foam:[],cup:['M','L'],tool:['sugar','ice','trash']},
   owned:['wp_kem','w_ke','o_xanh'],decor:{wallpaper:'wp_kem',W1:'w_ke',W2:null,F1:null,F2:null,C1:null,R:null},outfit:{me:'o_xanh',staff:'o_xanh'},
   me:{look:makeLook('staff')},hot:null,ev:'binhthuong',evDay:0,
-  shopName:'Bé Ba',nameV2:1,notice:[{t:'Chào chủ xe! Bấm Mở cửa để bán Cá bò viên chiên. Từ ngày 2 có tab Công thức để chế món mới.'}]}}
+  shopName:'Bé Ba',nameV2:1,notice:[{t:'Chào chủ xe! Bấm Mở cửa để bán cá viên, bò viên chiên. Khách gọi bao nhiêu xiên thì chạm khay gắp bấy nhiêu.'}]}}
 function normRec(r){if(!r.bs){r.bs=[r.b];r.ts=r.t?[r.t]:[];r.fs=r.f?[r.f]:[];delete r.b;delete r.t;delete r.f}if(!r.ss)r.ss=[];return r}
 function defaultRecipe(){return{id:1,name:'Cá bò viên',bs:['cavien','bovien'],ss:[],ts:[],fs:[],status:'ok',mult:2.6,grade:'C',price:15000,on:true,until:null}}
 const OLDMAP={trasua:[['hongtra','suadac'],[]],matcha:[['suatuoi'],['b_matcha']],hongtra:[['hongtra','suatuoi'],[]],luctra:[['luctra'],[]],tradao:[['hongtra'],['s_dao']],travai:[['luctra'],['s_vai']],olong:[['olong','suatuoi'],[]],socola:[['suatuoi'],['b_cacao']],khoaimon:[['suatuoi'],['b_khoaimon']],trathai:[['trathai','suadac'],[]],duongden:[['suatuoi'],['s_duongden']]};
@@ -1441,7 +1440,7 @@ function drawCup(cx,bot,sc,cp,showTarget){const c=K.ctx;c.save();c.translate(cx,
   const L=cp.size==='L',H=L?25:21,tw=L?23:20,bw=L?16.5:14.5,top=-H,P=cp.pours||[],tops=cp.tops||[],foams=cp.foams||[],syr=cp.syrups||[];
   const trap=()=>{c.beginPath();c.moveTo(-tw/2,top);c.lineTo(tw/2,top);c.lineTo(bw/2,0);c.quadraticCurveTo(0,1,-bw/2,0);c.closePath()};
   EL(0,top,tw/2,1.6,'#e9d3ae',LINE,.4);
-  const s=L?2.8:2.6,per=P.length?Math.max(1,Math.round((L?9:7)/P.length)):0,ord=[];for(let j=0;j<per;j++)P.forEach(p=>ord.push(p));
+  const s=L?2.8:2.6,tot=P.reduce((a,p)=>a+(p.n||1),0),ord=[];if(tot){const cap=10,f=Math.min(1,cap/tot),Q=P.map(p=>Math.max(1,Math.round((p.n||1)*f)));for(let j=0;j<Math.max(...Q);j++)P.forEach((p,i)=>{if(j<Q[i])ord.push(p)})}
   const pos=[];let lastRow=0;{let row=0,left=ord.length;while(left>0){const m=Math.min(left,row===0?4:row===1?3:2);lastRow=pos.length;for(let j=0;j<m;j++)pos.push([(j-(m-1)/2)*s*1.9+(row%2?.5:0),top+.2-row*s*1.25]);left-=m;row++}}
   const piece=i=>{const p=ord[i],[px,py]=pos[i];drawPiece(p.k,px,py,s,cookCol(p.k,p.q??1),i*1.3)};
   for(let i=0;i<lastRow;i++)piece(i);
@@ -1485,9 +1484,10 @@ function drawFryer(R,t,hi){const {x,y,w,h}=R,c=K.ctx,cx=x+w/2,rx=w/2-3.4,cy=y+h*
   EL(cx,cy+.3,rx,ry,LG(0,cy-ry,0,cy+ry,[[0,'#f6cf66'],[1,'#d8902a']]),null);
   if(act)for(let i=0;i<10;i++){const a=i*2.39+t*1.3,rr=.25+.7*((i*.37+t*.6)%1),z=(i*.61+t*2.2)%1;EL(cx+Math.cos(a)*rx*.85*rr,cy+.3+Math.sin(a)*ry*.8*rr,.35+.5*z,.25+.35*z,'rgba(255,250,225,.8)',null)}
   else EL(cx-rx*.35,cy-ry*.3,rx*.25,ry*.18,'rgba(255,255,255,.35)',null);
-  const n=F.length,s=Math.min(3.4,rx/(n>2?6.4:5));
+  const n=F.length,s=Math.min(3.4,rx/(n>2?6.4:5))*(n>4?.8:1);
   F.forEach((f,i)=>{const px=cx+(i-(n-1)/2)*Math.min(rx*.7,2*rx/Math.max(1,n)),py=cy+.2,col=cookCol(f.k,f.c);
-    [[-.95,.25],[.95,.35],[0,-.55]].forEach(([dx,dy],j)=>drawPiece(f.k,px+dx*s*1.05,py+dy*s*1.05+Math.sin(t*5+i*2+j)*.15,s,col,j*1.1));
+    const fn=f.n||1;[[[0,0]],[[-.6,.1],[.6,.15]],[[-.95,.25],[.95,.35],[0,-.55]],[[-.95,.3],[.95,.35],[-.45,-.6],[.5,-.55]]][Math.min(4,fn)-1].forEach(([dx,dy],j)=>drawPiece(f.k,px+dx*s*1.05,py+dy*s*1.05+Math.sin(t*5+i*2+j)*.15,s,col,j*1.1));
+    if(fn>1){RR(px-2.6,py+s*1.3,5.2,3.4,1.7,'#fffaf5',LINE,.3);T('×'+fn,px,py+s*1.3+1.8,2.4,INK,'center',800)}
     if(f.c>FRY_OK)for(let j=0;j<3;j++){const k=(t*.8+j/3)%1;AL(.55*(1-k),()=>EL(px+Math.sin(j*2+t*2)*1.4,py-3-k*10,1.3+k*1.8,1+k*1.3,f.c>FRY_BURN?'#5a5a60':'#a4aab0',null))}
     const ty=y+3.6,fr=Math.min(1,f.c/FRY_BURN);EL(px,ty,2,2,'#fffaf5',LINE,.35);c.beginPath();c.moveTo(px,ty);c.arc(px,ty,1.7,-Math.PI/2,-Math.PI/2+fr*Math.PI*2);c.closePath();
     c.fillStyle=f.c>=FRY_BURN?BURNT:f.c>FRY_OK?'#d9534f':f.c>=FRY_MIN?'#4f9a72':'#f0a83a';c.fill()});
@@ -1503,7 +1503,7 @@ function drawObj(id,r,t,hd=0,busy=false,live=false){const k=objKind(id);if(k==='
 /* đồ trên quầy còn cần cho ly của khách đang phục vụ: chưa có ly thì là chồng ly đúng size, ly hỏng thì là thùng rác */
 function orderNeeds(){const c=D&&target();if(!c||sealing||D.away>now)return null;const o=c.items[c.cur],n=new Set();
   if(!cup){if(!D.emerg&&missingOf(o).length)return n;n.add(o.size);return n}const m=cupMiss(o);if(cup.broken||(m&&m.fatal)){n.add('trash');return n}
-  const got=new Set(cup.pours.map(p=>p.k)),inF=new Set((cup.fry||[]).map(f=>f.k));o.bs.forEach(k=>{if(!got.has(k)&&!inF.has(k))n.add(k)});
+  o.bs.forEach(k=>{if(cpN(cup,k)+cpF(cup,k)<xN(o,k))n.add(k)});
   if((cup.fry||[]).some(f=>f.c>=FRY_MIN))n.add('chao');
   (o.ss||[]).forEach(k=>{if(!cup.syrups.includes(k))n.add(k)});
   if(o.sugar&&cup.sugar<SUGAR[o.sugar])n.add('sugar');if(o.ice&&cup.ice<ICE[o.ice][1])n.add('ice');
@@ -1584,7 +1584,7 @@ function qCard(c,i,st,nx,first){const it=c.items[i],R=regOf(c),sp=R?`${SPARK} ${
   const foot=st.k==='me'?'Bạn đang làm':st.k==='bad'?`${st.s.name} hỏng · Bỏ ly`:st.k==='lz'?`${st.s.name} lướt điện thoại…`:st.k==='sf'?`<span data-qst="${st.s.id}">${st.s.name} · ${ASTEP_L[st.s.w.steps[st.s.w.i]]}</span>`:st.k==='oos'?`Hết ${st.m.map(k=>ITEM(k).sh).join(', ')} · Đổi món`:nx?'Tiếp theo':'Chờ';
   return `<div class="qc ${st.k}${nx?' nx':''}${it.own?' own':''}" role="button" tabindex="0" data-qc="${c.id}:${i}" data-k="${qKey(c,i,st,nx,first)}"><i class="qpat"><i data-pat="${c.id}"></i></i>${c.insp?'<b class="qown" aria-label="Thanh tra">📋</b>':''}
    <div class="qch"><img src="${qPic(c)}" alt=""><b>${R?R.name:c.name}</b></div>
-   ${sp||c.items.length>1?`<div class="qt${R?' qnk':''}">${c.items.length>1&&c.type!=='thanhtra'?`<b class="qn">${i+1}/${c.items.length}</b> `:''}${sp.replace(/ · \d+ ly$/,'')}</div>`:''}<div class="qd"><img src="${drinkPicR(it,it.size)}" alt=""><span><b>${it.name}</b><i class="sz">${it.size}</i></span></div>${it.ts.length?`<div class="qtp">+${it.ts.map(k=>it.en&&EN[k]||TOPS[k].sh).join(', ')}</div>`:''}${c.liveEnd?`<div class="qlive">📹 <b data-live="${c.id}"></b></div>`:''}${it.sk&&CUPSKIN[it.sk]?`<div class="qslv" style="--c1:${CUPSKIN[it.sk].c1}">${CUPSKIN[it.sk].sh}</div>`:''}
+   ${sp||c.items.length>1?`<div class="qt${R?' qnk':''}">${c.items.length>1&&c.type!=='thanhtra'?`<b class="qn">${i+1}/${c.items.length}</b> `:''}${sp.replace(/ · \d+ ly$/,'')}</div>`:''}<div class="qd">${it.bs.length>1&&!it.fam?'':`<img src="${drinkPicR(it,it.size)}" alt="">`}<span><b>${it.fam?it.name:it.bs.map(k=>`${xN(it,k)} ${(it.en&&EN[k]||BASES[k].sh).toLowerCase()}`).map(t=>`<i class="qx1">${t}</i>`).join('')}</b></span></div>${it.ts.length?`<div class="qtp">+${it.ts.map(k=>it.en&&EN[k]||TOPS[k].sh).join(', ')}</div>`:''}${c.liveEnd?`<div class="qlive">📹 <b data-live="${c.id}"></b></div>`:''}${it.sk&&CUPSKIN[it.sk]?`<div class="qslv" style="--c1:${CUPSKIN[it.sk].c1}">${CUPSKIN[it.sk].sh}</div>`:''}
    <div class="qs"><span>${foot}</span>${first&&(st.k==='wait'||st.k==='oos')&&c.type!=='thanhtra'?`<button class="qx${refArm===c.id?' arm':''}" data-qref="${c.id}" aria-label="Từ chối">${refArm===c.id?'Chắc?':'✕'}</button>`:''}</div>${st.k==='sf'||st.k==='lz'?`<i class="pbar"><i data-qp="${st.s.id}"></i></i>`:''}</div>`}
 const qKey=(c,i,st,nx,first)=>[c.id,i,st.k,st.s&&st.s.id,st.m&&st.m.join(),nx,first&&refArm===c.id,c.items[i].name,c.items[i].size,!!c.liveEnd].join(',');
 /* đồng hồ thử thách của streamer: ghi thẳng mỗi khung hình */
@@ -1627,7 +1627,7 @@ function renderPick(){const el=$('#cupPick');if(!D||!el)return;renderQ();
   if(cup||sealing){const c=target(),bad=cup&&cup.broken;
     box.innerHTML=`<button class="btn pink nextBtn${bad?' bad':''}" data-enter="1"><b>${sealing?'Đang gói…':bad?`Ly hỏng (${bad})`:'Làm tiếp'}</b><small>${bad?'Vào bỏ ly':`Ly ${cup?cup.size:''}${c?' · '+c.name:''}`}</small></button>`;return}
   const it=n&&n.c.items[n.i];
-  box.innerHTML=`<button class="btn pink nextBtn" data-next="1" ${!n||away?'disabled':''}><b>${n&&n.miss?'Đổi món':'Lấy order tiếp theo'}</b><small>${away?(D.awayWhy||'Bạn đang ra ngoài'):n?`${n.c.name} · ${it.name} ${it.size}${n.miss?' (hết hàng)':''}`:D.queue.length?'Nhân viên đang lo hết các ly':D.closing?'Đã đóng cửa':'Chưa có khách'}</small></button>`}
+  box.innerHTML=`<button class="btn pink nextBtn" data-next="1" ${!n||away?'disabled':''}><b>${n&&n.miss?'Đổi món':'Lấy order tiếp theo'}</b><small>${away?(D.awayWhy||'Bạn đang ra ngoài'):n?`${n.c.name} · ${it.name}${n.miss?' (hết hàng)':''}`:D.queue.length?'Nhân viên đang lo hết các ly':D.closing?'Đã đóng cửa':'Chưa có khách'}</small></button>`}
 /* chạm ly: hình ly bay từ ô chọn lên khung ly to */
 function flyCup(a,src){syncMode();layoutShop();const r=$('#stg').getBoundingClientRect();if(!r.width||!a.width)return;
   const H=STG.LH,sc=stageSc(160,H),u=r.width/160,k=sc/.86,hT=44*k*u,wT=hT*192/264,lT=r.left+160*.71*u-wT/2,tT=r.top+(H-5.5)*u-41.8*k*u;
@@ -1663,10 +1663,10 @@ $('#qrow').addEventListener('click',e=>{if(!D)return;qHold=0;lastQ=0;const x=e.t
 /* ======================= PREP UI ======================= */
 let tab='quay',resetArm=false,importTxt='',placeSel=null,noticeAll=false;
 /* tab mở dần theo ngày để người mới không bị ngợp; Tài chính hiện sớm nếu sắp hết tiền hoặc đang vay */
-const TAB_DAY={congthuc:2,rv:2,trangtri:3,staff:4,taichinh:4};
+const TAB_DAY={rv:2,trangtri:3,staff:4,taichinh:4};
 const tabOpen=k=>S.day>=(TAB_DAY[k]||1)||S.allOpen||(k==='taichinh'&&(S.loan||S.money<150000||S.finSeen))||(k==='staff'&&S.staff.length>0);
 function tabFade(){const T=$('#tabs');if(!T)return;T.classList.toggle('tfl',T.scrollLeft>4);T.classList.toggle('tfr',T.scrollLeft+T.clientWidth<T.scrollWidth-4)}
-const TABS=[['quay','Quầy'],['thucdon','Thực đơn'],['congthuc','Công thức'],['menu','Kho'],['trangtri','Trang trí'],['staff','Nhân viên'],['taichinh','Tài chính'],['rv','Đánh giá'],['luu','Cài đặt']];
+const TABS=[['quay','Quầy'],['thucdon','Thực đơn'],['menu','Kho'],['trangtri','Trang trí'],['staff','Nhân viên'],['taichinh','Tài chính'],['rv','Đánh giá'],['luu','Cài đặt']];
 const TABI={quay:'🍢',thucdon:'📋',congthuc:'🧪',menu:'📦',trangtri:'🎀',staff:'👩‍🍳',taichinh:'💰',rv:'⭐',luu:'⚙️'};
 let fireArm=null,armT=0;
 function armTimer(f){clearTimeout(armT);armT=setTimeout(()=>{f();if(!$('#prep').hidden)renderPrep()},4500)}
@@ -1682,7 +1682,7 @@ function unlockState(it){if(it.five)return{ok:S.five>=it.five,txt:`⭐ ${Math.mi
 /* nút Mở cửa báo luôn còn thiếu gì: đỏ là chưa mở được, cam là mở được nhưng nên xem lại */
 function openBtnState(){const b=$('#openBtn'),em=emergencyNeeded(),m=activeMenu();let t=`Mở cửa ngày ${S.day}`,sub='',cls='';
   if(S.licDue&&S.day>=S.licDue.by){t='🧑‍⚖️ Kiểm tra giấy phép';sub='trước khi mở cửa';cls='warn'}
-  else if(em){t='Mở cửa bán khoai mì chiên';sub='3.000đ/ly'}
+  else if(em){t='Mở cửa bán khoai mì chiên';sub='1.000đ/xiên'}
   else if(!m.length){cls='bad';sub='📋 Chưa có món bán'}
   else if(!canOpenNormal()){cls='bad';sub='📦 Hết đồ chiên cho thực đơn'}
   else if(cartN()){cls='warn';sub=`🛒 Giỏ chưa nhập · ${fk(cartTot())}`}
@@ -1711,7 +1711,7 @@ function renderPrep(){
   if(tab==='quay'){edC=$('#ed');ED=mk(edC,SW,SH);bindEdit()}else{edC=null;ED=null}
   if(tab==='trangtri'){scEd=$('#scEd');SCE=mk(scEd,160,62);scEd.onpointerdown=e=>{const p=canPt(SCE,e);const hit=Object.entries(DSLOT).find(([k,s])=>k!=='wallpaper'&&p.x>=s.x&&p.x<s.x+s.w&&p.y>=s.y&&p.y<s.y+s.h);decSel=hit?hit[0]:(p.y<40?'wallpaper':decSel);renderPrep()}}else{scEd=null;SCE=null}
 }
-const menuNeed=()=>{const n=new Set();activeMenu().forEach(r=>recIds(r).forEach(k=>n.add(k)));return n};
+const menuNeed=()=>{const n=new Set();activeMenu().forEach(r=>recIds(r).forEach(k=>n.add(k)));S.syrups.filter(k=>qty(k)>0).forEach(k=>n.add(k));return n};
 /* bày theo thực đơn: giữ chỗ cũ của đồ đang dùng, bày đủ đồ thực đơn cần (ưu tiên ô trống), cất đồ không món nào dùng,
    còn chỗ thì bày thêm topping (đang bày giữ nguyên, rồi tới topping hot, hàng hiếm, topping đắt) */
 function layPlan(){const need=menuNeed(),g=S.grid.filter(o=>!storable(o.id)||need.has(o.id)),oldTop=S.grid.filter(o=>objKind(o.id)==='top'),add=[],miss=[];
@@ -1755,7 +1755,7 @@ const upgHTML=()=>`<details class="upg"><summary class="h3">🔧 Nâng cấp d�
 const QTPL={
   cups:{t:q=>`Bán ${q.n} ly`,n:()=>Math.max(5,Math.round(dayCups()*.6)),rw:1},
   top:{t:q=>`Bán ${q.n} ly có ${TOPS[q.arg]?TOPS[q.arg].sh:'rau'}`,ok:()=>S.tops.some(k=>onCounter(k)&&qty(k)>0),arg:()=>pick(S.tops.filter(k=>onCounter(k)&&qty(k)>0)),n:()=>clamp(Math.round(dayCups()*.18),3,12),rw:1.2},
-  L:{t:q=>`Bán ${q.n} ly size L`,n:()=>clamp(Math.round(dayCups()*.25),3,12),rw:1},
+  xien:{t:q=>`Bán ${q.n} xiên`,n:()=>Math.max(15,Math.round(dayCups()*2.4/5)*5),rw:1},
   noleave:{t:()=>'Không để khách nào bỏ về',ok:()=>S.day>=2,n:()=>1,rw:1.5,five:1},
   combo:{t:q=>`Combo ${q.n} ly 5★ liên tiếp`,ok:()=>S.day>=3,n:()=>clamp(4+Math.floor(S.day/10),4,8),rw:1.5,five:1},
   old:{t:q=>`Phục vụ ${q.n} khách lớn tuổi`,ok:()=>S.day>=3,n:()=>clamp(Math.round(dayCups()*.05),1,5),rw:1.2},
@@ -1771,7 +1771,7 @@ function qDone(q){q.done=1;S.money+=q.rw;if(D){D.evIn=(D.evIn||0)+q.rw;D.rev+=q.
 function qAdd(k,n,arg){if(!S.q||S.q.d!==S.day)return;S.q.list.forEach(q=>{if(q.k!==k||q.done||(q.arg&&arg!==q.arg))return;q.p+=n;if(q.p>=q.n)qDone(q)})}
 function qSet(k,v){if(!S.q||S.q.d!==S.day)return;S.q.list.forEach(q=>{if(q.k!==k||q.done)return;q.p=Math.max(q.p,v);if(q.p>=q.n)qDone(q)})}
 /* khách trả tiền xong: tính vào nhiệm vụ */
-function qServe(c){c.items.forEach(it=>{qAdd('cups',1);it.ts.forEach(k=>qAdd('top',1,k));if(it.size==='L')qAdd('L',1);const r=recById(it.r);if(r&&!r.basic&&r.id>0)qAdd('custom',1)});if(isOld(c))qAdd('old',1);if(c.cupN)qAdd('sleeve',c.cupN)}
+function qServe(c){c.items.forEach(it=>{qAdd('cups',1);it.ts.forEach(k=>qAdd('top',1,k));qAdd('xien',xT(it));const r=recById(it.r);if(r&&!r.basic&&r.id>0)qAdd('custom',1)});if(isOld(c))qAdd('old',1);if(c.cupN)qAdd('sleeve',c.cupN)}
 const qHTML=()=>!S.q||S.q.d!==S.day||!S.q.list.length?'':`<div class="qbox"><b class="qh">🎯 Nhiệm vụ hôm nay</b>${S.q.list.map(q=>`<div class="qrow${q.done?' done':''}"><span>${q.done?'✓ ':''}${qText(q)}</span><span class="meta">${q.k==='noleave'?'':q.k==='rev'?`${fk(Math.min(q.p,q.n))}/${fk(q.n)}`:`${Math.min(q.p,q.n)}/${q.n}`} · <b>+${fk(q.rw)}</b>${q.five?' +1★':''}</span></div>`).join('')}</div>`;
 /* ===== TIỆM ĐỐI THỦ: từ ngày 10, thỉnh thoảng có tiệm mở đối diện 7 ngày, khách giảm 15%.
    Mỗi ngày so sao trung bình của mình với sao của họ; thắng 4 ngày thì họ dẹp tiệm, thua 4 ngày thì khách giảm 10% thêm 7 ngày ===== */
@@ -1813,11 +1813,11 @@ function rivalDay(day,log,notice){const R=S.rival;if(!R||day<R.start)return;if(R
    (thừa đồ, dư đường/đá, quá vạch), bỏ ly hoặc hết giờ là trượt. Mời được khi đủ ⭐ + 💰 (shopReady), có món hạng EXAM_G đang bán
    (examDish) và đủ tiền phí (trả khi đạt); mỗi ngày mời một lần (S.examDay). Không tốn ngày bán. */
 const EXAM_N=[0,3,5,7,10],EXAM_G=[0,2,3,3,3],GRADE_R={C:1,B:2,A:3,S:4,SS:5,SSS:6},gradeTxt=g=>g>=3?'A':'B trở lên';
-const examDish=lv=>activeMenu().filter(r=>(GRADE_R[gradeShown(r)]||0)>=EXAM_G[lv]&&canMake(r)).sort((a,b)=>(GRADE_R[gradeShown(b)]||0)-(GRADE_R[gradeShown(a)]||0)||b.mult-a.mult)[0]||null;
+const examDish=lv=>activeMenu().filter(r=>r.id>0&&canMake(r)).sort((a,b)=>b.price-a.price)[0]||null;
 const examTime=(c,o)=>{c.max=c.p=12+6*stepsOf(o).length};
 function examOrder(last){const E=D.exam;for(let i=0;i<15;i++){const o=makeOrder(last?E.dish:undefined);if(!missingOf(o).length)return o}return null}
 /* món thi phải đủ hàng cho cả bài (mỗi ly tốn một phần mỗi nguyên liệu); trả về lý do không thi được */
-const examNeed=(dish,n)=>[...dish.bs,...(dish.ss||[]),...(dish.fs||[])].filter(k=>!(BASES[k]&&BASES[k].free)&&qty(k)<n);
+const examNeed=(dish,n)=>dish.bs.filter(k=>!(BASES[k]&&BASES[k].free)&&qty(k)<n*4);
 /* thi lại lên cấp vừa bị xuống (trượt giấy phép) thì không mất phí (S.freeUp) */
 const upFee=lv=>(S.freeUp||0)>=lv?0:SHOP[lv].fee;
 function startExam(kind){const lic=kind==='lic',lv=lic?(S.shop||0):(S.shop||0)+1,N=SHOP[lv];if(!N||D||lv<1)return;
@@ -1825,8 +1825,8 @@ function startExam(kind){const lic=kind==='lic',lv=lic?(S.shop||0):(S.shop||0)+1
   /* đã thi hôm nay (kể cả bị gián đoạn vì tải lại trang): giấy phép tới hạn thì tính là bỏ thi, không thì mai mời lại */
   if(S.examDay===S.day){if(lic&&S.day>=S.licDue.by)return licFail('bỏ thi');return toast('🧑‍⚖️ Mai mời lại')}
   if(!lic&&ownMoney()<upFee(lv))return toast(`💰 Thiếu ${fk(upFee(lv)-ownMoney())}`);
-  const dish=examDish(lv);if(!dish){if(lic&&S.day>=S.licDue.by&&!activeMenu().some(r=>(GRADE_R[gradeShown(r)]||0)>=EXAM_G[lv])){S.examDay=S.day;return licFail(`chưa có món hạng ${gradeTxt(EXAM_G[lv])}`)}return toast(`🏅 Thiếu món hạng ${EXAM_G[lv]>=3?'A':'B+'} đủ hàng`)}
-  {const nd=examNeed(dish,EXAM_N[lv]);if(nd.length)return toast(`📦 Cần ${EXAM_N[lv]} phần ${nd.map(k=>ITEM(k).sh).join(', ')}`)}
+  const dish=examDish(lv);if(!dish){if(lic&&S.day>=S.licDue.by&&!activeMenu().length){S.examDay=S.day;return licFail('thực đơn trống')}return toast('🍢 Chưa có món đang bán đủ hàng')}
+  {const nd=examNeed(dish,EXAM_N[lv]);if(nd.length)return toast(`📦 Cần ${EXAM_N[lv]*4} xiên ${nd.map(k=>ITEM(k).sh).join(', ')}`)}
   syncLayout();
   D={queue:[],walk:[],fx:[],cid:0,spawned:0,total:1,served:0,left:0,rev:0,stars:[],next:1e9,clock:7,pend:[],chase:null,cop:null,caught:0,lost:0,dodged:0,log:[],five0:S.five,tgt:null,err:{},sales:{},tips:0,other:0,emerg:false,ev:null,evPlan:[],evIn:0,evTax:false,away:0,slowT:0,tipB:null,as:null,rate:0,
     exam:{kind:lic?'lic':'up',lv,n:EXAM_N[lv],ok:0,dish,t0:now+1.2,end:null}};
@@ -1902,7 +1902,7 @@ function storeObj(o){if(!storable(o.id))return toast('Dụng cụ, chảo và qu
 function shopHTML(){const i=S.shop||0,L=SHOP[i],N=SHOP[i+1],rv=lifeRev(S),bar=(v,m)=>`<i><b style="width:${Math.round(Math.min(1,v/m)*100)}%"></b></i>`;
   const pic=k=>SPRSRC[k]?`<img class="shoppic" src="${SPRSRC[k]}" alt="">`:'';
   const nm=(S.shopName||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-  const tried=S.examDay===S.day,reqs=lv=>{const dish=examDish(lv);return `<div class="req ${dish?'ok':'no'}">🏅 ${EXAM_G[lv]>=3?'A':'B+'} · ${dish?`${esc(dish.name)} ✓`:'✗'}</div><div class="req">🧑‍⚖️ ${EXAM_N[lv]} ly · 0 lỗi</div>`};
+  const tried=S.examDay===S.day,reqs=lv=>{const dish=examDish(lv);return `<div class="req ${dish?'ok':'no'}">🍢 ${dish?`${esc(dish.name)} ✓`:'✗'}</div><div class="req">🧑‍⚖️ ${EXAM_N[lv]} ly · 0 lỗi</div>`};
   /* save cũ: thanh tra hẹn kiểm tra giấy phép cấp hiện tại */
   const lic=S.licDue&&i>0?(()=>{const k=S.licDue.by-S.day,dish=examDish(i);return `<div class="licbox"><b>🧑‍⚖️ Giấy phép</b> <span class="meta">· ${k>0?`⏳ ${k} ngày`:'hôm nay'}</span>${reqs(i)}
    <div class="upbar"><button class="btn pink" data-exam="lic" ${!dish||tried?'disabled':''}>🧑‍⚖️ Mời thanh tra</button><span class="meta">${tried?'Mai mời lại':`❌ ⬇ ${SHOP[i-1].n}`}</span></div></div>`})():'';
@@ -1952,9 +1952,14 @@ function cupsPer(){const pool=Object.values(TYPES).filter(t=>t.w&&t.day<=S.day),
 const rivalF=()=>rvMul()*((S.rvPen||0)>=S.day?.9:1),dayCap=()=>Math.round(shopLv().cap*((EVENTS[S.ev]||{}).m||1)*rivalF()),buzzCap=()=>Math.round(dayCap()*1.2);
 /* số ly ước lượng hôm nay (nhập hàng, nhiệm vụ): khách dự kiến × số ly thực bán trên mỗi khách dự kiến các ngày gần đây (S.cupR, cộng 5% dự phòng; chưa có thì cupsPer), dư 15% */
 function dayCups(){const t=Math.min(dayCap(),dayRaw());return Math.round((t+Math.min(S.buzz||0,Math.max(0,buzzCap()-t)))*(S.cupR!=null?S.cupR*1.05:cupsPer())*1.15)}
-function dayNeed(){const m=activeMenu().filter(r=>r.id>0);if(!m.length)return {};const cups=dayCups(),ws=m.map(recW),W=ws.reduce((a,b)=>a+b,0),need={};
-  m.forEach((r,i)=>recIds(r).forEach(k=>{if(!ITEM(k).free)need[k]=(need[k]||0)+cups*ws[i]/W}));
-  const st=S.stored||[],tops=S.tops.filter(k=>onCounter(k)||(!qty(k)&&!st.includes(k))),avg=topAvg(tops.map(k=>topP(k))),tw=k=>isHot(k)?2.5:1,TW=tops.reduce((a,k)=>a+tw(k),0);
+function dayNeed(){const m=activeMenu().filter(r=>r.id>0);if(!m.length)return {};const cups=dayCups(),ws=m.map(recW),W=ws.reduce((a,b)=>a+b,0),need={},f=fancy(),[lo,hi]=xRange();
+  /* mỗi đơn trung bình et loại, mỗi loại (lo+hi)/2 xiên; xác suất một loại có trong đơn theo độ được chuộng */
+  const et=Math.min(m.length,1+.35+.06*f+2*(f>=2?.08*(f-1):0)),ex=(lo+hi)/2;
+  m.forEach((r,i)=>{const k=r.bs[0];if(!ITEM(k).free)need[k]=(need[k]||0)+cups*Math.min(1,et*ws[i]/W)*ex});
+  const st=S.stored||[],sy=S.syrups.filter(k=>onCounter(k)||(!qty(k)&&!st.includes(k))),sw=k=>isHot(k)?2.5:1,SWt=sy.reduce((a,k)=>a+sw(k),0);
+  sy.forEach(k=>{need[k]=(need[k]||0)+cups*(1+.04*f)*sw(k)/SWt});
+  if(f>=2){const fo=S.foams.filter(k=>onCounter(k));fo.forEach(k=>{need[k]=(need[k]||0)+cups*.1*(f-1)/fo.length})}
+  const tops=S.tops.filter(k=>onCounter(k)||(!qty(k)&&!st.includes(k))),avg=topAvg(tops.map(k=>topP(k))),tw=k=>isHot(k)?2.5:1,TW=tops.reduce((a,k)=>a+tw(k),0);
   tops.forEach(k=>{need[k]=(need[k]||0)+cups*avg*tw(k)/TW});return need}
 function buyPlan(){const need=dayNeed();
   return Object.entries(need).map(([k,v])=>{const s=ITEM(k);if(!s||s.free||(s.rare&&!rareOn(k)))return null;const d=Math.max(0,v-qty(k))/s.pack,n=TOPS[k]?Math.ceil(d-.4):Math.max(qty(k)>0?0:1,Math.ceil(d-.15));return n>0?{k,n,cost:n*s.cost,top:!!TOPS[k]}:null})
@@ -2029,8 +2034,8 @@ function labHTML(){
    <div class="h3">Sổ công thức</div>${(()=>{const L=S.famous||[];return `<details class="bookx famx"><summary>📜 Món nổi tiếng · ${L.length}/${FAMOUS.length}</summary><div class="famL">${[...FAMOUS.filter(F=>L.includes(F.id)),...FAMOUS.filter(F=>!L.includes(F.id))].map(F=>L.includes(F.id)?`<span class="ok">✓ ${F.n}</span>`:`<span class="no">❔ ${F.h}</span>`).join('')}</div></details>`})()}<p class="meta hint" style="margin:-2px 0 6px">Món đạt kiểm định sẽ sang tab Thực đơn để đặt giá và đưa lên bán.</p>${(()=>{const E=Object.entries(S.book||{}).sort((a,b)=>b[1]-a[1]);return E.length?`<details class="bookx"><summary>📖 ${E.length} cặp nguyên liệu đã biết</summary><div class="pairs">${E.map(([k,v])=>{const [a,b]=k.split('|');return `<span>${ITEM(a).sh} + ${ITEM(b).sh} <b style="color:${v>0?'var(--accent)':v<0?'var(--bad)':'var(--muted)'}">${hearts(v)}</b></span>`}).join('')}</div></details>`:''})()}<div class="list">${S.recipes.filter(r=>!r.basic).reverse().map(r=>recCard(r,'book')).join('')}</div>`}
 /* thực đơn dạng lưới 3 cột: lọc, sắp xếp; chạm một món để mở khung đặt giá / bán ngay dưới hàng của món đó */
 let menuSort='lai',menuFilter='all',menuSel=null,menuMore=false;const MENU_SHOW=12;
-const MSORT={lai:'Lãi/ly',gia:'Giá bán',moi:'Mới nhất'},MFILT={all:'Tất cả',on:'Đang bán',tu:'Tự chế',cb:'Cơ bản'};
-const recProfit=r=>(r.price||0)-comboInfo(recIds(r)).cost;
+const MSORT={lai:'Lãi/xiên',gia:'Giá bán',moi:'Mới nhất'},MFILT={all:'Tất cả',on:'Đang bán'};
+const recProfit=r=>(r.price||0)-(r.id>0?ITEM(r.bs[0]).c:0);
 /* nhận xét giá (khung đặt giá) và dòng giá trên thẻ món */
 const priceNote=r=>{const p=recProfit(r),ratio=(r.price||0)/Math.max(1000,recValue(r));return `${p>=0?`lãi ${fk(p)}`:`<span class="warn">lỗ ${fk(-p)}</span>`} · ${ratio>1.25?'<span class="warn">quá đắt</span>':ratio>1.05?'hơi cao':ratio<.85?'rẻ 👍':'vừa'}`};
 const cardPrice=r=>{const p=recProfit(r),dear=(r.price||0)/Math.max(1000,recValue(r))>1.25;return `${fk(r.price||0)} <em${p<0||dear?' class="warn"':''}>· ${p<0?'lỗ':'lãi'} ${fk(Math.abs(p))}${dear?' · đắt':''}</em>`};
@@ -2040,21 +2045,23 @@ function thucdonHTML(){const menu=activeMenu(),cap=menuCap(),pend=S.recipes.filt
   if(menuSel&&!L.some(r=>r.id===menuSel))menuSel=null;
   /* chỉ hiện 12 món đầu (đã xếp), bấm Xem thêm mới hiện hết */
   const sel=L.findIndex(r=>r.id===menuSel),cut=menuMore?L.length:Math.max(MENU_SHOW,sel+1),V=L.slice(0,cut);
-  const cards=V.map(r=>{const p=recProfit(r);return `<button class="mcard${r.on?' on':''}${menuSel===r.id?' sel':''}" data-msel="${r.id}" aria-expanded="${menuSel===r.id}"><img src="${drinkPicR(r)}" alt=""><b>${r.name}</b><span>${cardPrice(r)}</span>${r.on?`<i class="mon">${r.until?`${r.until-S.day+1}d`:'✓'}</i>`:''}${r.basic?'':`<i class="mgr${gemOf(r)?' gs':''}">${gradeShown(r)}</i>`}${hotCount(r)?`<i class="mhot">${FLAME}</i>`:''}</button>`});
+  const cards=V.map(r=>{const p=recProfit(r);return `<button class="mcard${r.on?' on':''}${menuSel===r.id?' sel':''}" data-msel="${r.id}" aria-expanded="${menuSel===r.id}"><img src="${SPRSRC[r.key]||drinkPicR(r)}" alt=""><b>${r.name}</b><span>${cardPrice(r)}</span>${r.on?`<i class="mon">${r.until?`${r.until-S.day+1}d`:'✓'}</i>`:''}${gemOf(r)?`<i class="mgr gs">${gradeShown(r)}</i>`:''}${hotCount(r)?`<i class="mhot">${FLAME}</i>`:''}</button>`});
   const i=sel;if(i>=0)cards.splice(Math.min(L.length,Math.floor(i/3)*3+3),0,`<div class="medit">${recCard(L[i],'menu')}</div>`);
   const chips=(o,cur,attr)=>Object.entries(o).map(([k,l])=>`<button data-${attr}="${k}" aria-pressed="${cur===k}">${l}</button>`).join('');
-  return `<p class="sub">Chạm một món để đặt giá và đưa lên bán. Số món bán cùng lúc tùy cấp tiệm, mở rộng tiệm để bán thêm. Món tự chế ở tab Công thức. Món cơ bản có sẵn từ nguyên liệu bạn đang có, không cần kiểm định nhưng hệ số giá thấp hơn; món cơ bản trùng món nổi tiếng thì đem kiểm định ở tab Công thức để nâng lên. 📜 món nổi tiếng: khách biết món nên gọi nhiều hơn. Món tự chế đạt A (không phải món nổi tiếng) bán được giá cao hơn.</p>
+  const fam=S.famous||[];
+  return `<p class="sub">Bảng giá: mỗi loại đồ chiên một giá cho mỗi xiên. Khách tự gọi bao nhiêu xiên mỗi loại và chọn sốt đang bày trên quầy. Số loại bán cùng lúc tùy cấp tiệm. 📜 Món nổi tiếng là combo khách hay gọi (cần hàng hiếm ✈️), đắt hơn 20%.</p>
    <div class="mhead"><div class="h3" style="margin:0">Đang bán <span class="${menu.length>=cap?'full':''}">${menu.length}/${cap}</span> món</div>${pend?`<span class="meta">${pend} món chờ kiểm định</span>`:''}</div>
    ${!menu.length?'<p class="meta warn" style="margin:0 0 6px">Thực đơn đang trống, chưa mở cửa được.</p>':menu.length>cap?`<p class="meta warn" style="margin:0 0 6px">Đang bán quá ${cap} món: món cũ vẫn bán tiếp, nhưng chưa thêm món mới được.</p>`:''}
    <div class="seg mseg">${chips(MFILT,menuFilter,'mf')}</div><div class="seg mseg"><span class="meta">Xếp theo</span>${chips(MSORT,menuSort,'ms')}</div>
    <div class="mgrid">${cards.join('')||'<p class="meta" style="grid-column:1/-1">Chưa có món nào ở mục này.</p>'}</div>${L.length>cut?`<button class="btn sm ghost mmore" data-mmore="1">Xem thêm ${L.length-cut} món</button>`:''}
+   <details class="bookx famx"><summary>📜 Món nổi tiếng · ${fam.length}/${FAMOUS.length}</summary><div class="famL">${[...FAMOUS.filter(F=>fam.includes(F.id)),...FAMOUS.filter(F=>!fam.includes(F.id))].map(F=>fam.includes(F.id)?`<span class="ok">✓ ${F.n}</span>`:`<span class="no">❔ ${F.h}</span>`).join('')}</div></details>
    ${S.tops.length?`<div class="h3">Giá rau & món kèm</div><p class="meta hint" style="margin:0 0 4px">Khách tự chọn rau, món kèm khi gọi, mỗi phần trả thêm. Đặt đắt hơn giá gợi ý thì khách ít gọi và dễ chê đắt, rẻ hơn thì gọi nhiều.</p><div class="tprows">${S.tops.map(tpRow).join('')}</div>`:''}`}
 /* một dòng giá topping: tên, vốn, − giá +, khách gọi nhiều/ít */
 const k1=v=>String(Math.round(v/100)/10).replace('.',',')+'k';
 function tpRow(k){const p=topPrice(k),b=topBase(k),f=topPF(k),lv=f>=1.15?['gọi nhiều','good']:f>=.7?['vừa','']:f>=.4?['gọi ít','warn']:['rất ít gọi','bad'];
   return `<div class="tprow"><span class="tn"><b>${TOPS[k].sh}</b><small>vốn ${k1(TOPS[k].c)}${p!==b?` · gợi ý ${fk(b)}`:''}</small></span><button class="btn sm ghost" data-tpd="${k}:-1000" aria-label="Giảm giá ${TOPS[k].sh}" ${p<=1000?'disabled':''}>−</button><b class="tpp">+${fk(p)}</b><button class="btn sm ghost" data-tpd="${k}:1000" aria-label="Tăng giá ${TOPS[k].sh}" ${p>=30000?'disabled':''}>+</button><span class="tpl ${lv[1]}">${lv[0]}</span></div>`}
 /* hàng gắn đồ siêu hiếm trong khung đặt giá (chỉ món hạng A): đang gắn thì có nút Gỡ, chưa thì các đồ còn rảnh */
-function gemRow(r){if(r.basic||r.grade!=='A')return '';const g=gemOf(r),free=(S.gems||[]).filter(x=>!S.recipes.some(y=>y.gem===x.id&&gemOf(y)));
+function gemRow(r){if(r.id<0)return '';const g=gemOf(r),free=(S.gems||[]).filter(x=>!S.recipes.some(y=>y.gem===x.id&&gemOf(y)));
   if(g){const G=GEMS[g.k];return `<div class="prow gemrow"><span>${gemImg(g.k,24)} ${G.n} · <b class="gsx">${G.g}</b></span><button class="btn sm ghost" data-gemoff="${r.id}">Gỡ</button></div>`}
   return free.length?`<div class="prow gemrow">${free.map(x=>`<button class="btn sm ghost" data-gemon="${r.id}:${x.id}">${gemImg(x.k,22)} ${GEMS[x.k].g}</button>`).join('')}</div>`:''}
 function recCard(r,mode){const ci=comboInfo(recIds(r));const parts=[...r.bs.map(k=>BASES[k].sh),...(r.ss||[]).map(k=>SYRUPS[k].sh),...r.ts.map(k=>TOPS[k].sh),...r.fs.map(k=>FOAMS[k].sh)].join(' + ');
@@ -2062,14 +2069,14 @@ function recCard(r,mode){const ci=comboInfo(recIds(r));const parts=[...r.bs.map(
   let body='';
   if(r.status==='pending')body=`<div class="meta">Đang kiểm định, có kết quả sáng ngày ${r.ready}.</div>`;
   else if(r.status==='fail')body=`<div class="meta warn">Không đạt kiểm định: có nguyên liệu kỵ vị nhau.</div>${pairTxt}`;
-  else{const v=recValue(r),pr=r.price,profit=pr-ci.cost,ratio=pr/v;
-    const head=`<div class="meta">${r.basic?'Cơ bản':`Hạng <b style="color:var(--ink)">${gradeShown(r)}</b>`}${hotCount(r)?' '+FLAME:''} · vốn ${fk(ci.cost)} · nên bán <b style="color:var(--ink)">${fk(v)}</b><span class="hint"> · hệ số x${recMult(r).toFixed(2)}</span></div>`;
+  else{const v=recValue(r),pr=r.price;
+    const head=`<div class="meta">${hotCount(r)?FLAME+' ':''}vốn ${fk(ci.cost)}/xiên · nên bán <b style="color:var(--ink)">${fk(v)}</b><span class="hint"> · hệ số x${recMult(r).toFixed(2)}</span></div>`;
     if(mode==='book')body=`<div class="meta">Độ hợp: <b style="color:var(--ink)">${compatLabel(ci.avg,ci.ids.length)}</b></div>${pairTxt}${head}<div class="meta">${r.on?`Đang bán giá ${fmt(pr)}`:'Chưa lên thực đơn'}</div>`;
     else body=head+`
-     <div class="prow"><button class="btn sm ghost" data-rpd="${r.id}:-1000" aria-label="Giảm giá">−</button><input type="number" inputmode="numeric" step="1000" min="1000" value="${pr}" data-rpi="${r.id}" aria-label="Giá bán"><button class="btn sm ghost" data-rpd="${r.id}:1000" aria-label="Tăng giá">+</button>
+     <div class="prow"><button class="btn sm ghost" data-rpd="${r.id}:-1000" aria-label="Giảm giá">−</button><input type="number" inputmode="numeric" step="1000" min="1000" value="${pr}" data-rpi="${r.id}" aria-label="Giá mỗi xiên"><button class="btn sm ghost" data-rpd="${r.id}:1000" aria-label="Tăng giá">+</button>
      <span class="meta pnote">${priceNote(r)}</span></div>
      ${gemRow(r)}<div class="prow">${r.on?`<button class="btn sm ghost" data-roff="${r.id}">Ngừng bán</button>${r.until?`<span class="meta">còn ${r.until-S.day+1} ngày</span>`:''}`:activeMenu().length>=menuCap()?`<span class="meta warn">Thực đơn đã đủ ${menuCap()} món. Thay cho:</span>${activeMenu().filter(m=>m.id>0).map(m=>`<button class="btn sm ghost" data-rswap="${r.id}:${m.id}">${m.name}</button>`).join('')}`:`<button class="btn sm" data-ron="${r.id}:0">Bán</button><button class="btn sm ghost" data-ron="${r.id}:3">Bán 3 ngày</button><button class="btn sm ghost" data-ron="${r.id}:5">5 ngày</button>`}</div>`;}
-  return `<div class="rcard${r.on?' on':''}"><img src="${drinkPicR(r)}" alt=""><div style="min-width:0"><div style="font-weight:800">${r.name}</div><div class="meta">${parts}</div>${body}
+  return `<div class="rcard${r.on?' on':''}"><img src="${SPRSRC[r.key]||drinkPicR(r)}" alt=""><div style="min-width:0"><div style="font-weight:800">${r.name}${r.id>0?' <span class="meta">· giá mỗi xiên</span>':''}</div>${body}
     ${mode==='book'&&(r.id!==1||r.status!=='ok')?`<button class="refuse" data-rdel="${r.id}" style="margin:4px 0 0">${recDel===r.id?'Bấm lần nữa để xóa':'Xóa công thức'}</button>`:''}</div></div>`}
 /* tab Nhân viên: mỗi người một hàng gọn (hình, vị trí, tinh thần, chỉ số chính, lương); chạm hàng để mở phần chỉnh (vị trí, thưởng, đào tạo, nghỉ, thôi việc) */
 let staffSel=null;
@@ -2241,7 +2248,7 @@ $('#tbody').addEventListener('click',e=>{
   if(d.renick){const R=(S.regs||[]).find(r=>r.id===+d.renick);if(R){const o=R.nick;for(let i=0;i<6&&R.nick===o;i++)R.nick=genNick(R);save();toast(`Biệt danh mới: ${regName(R)}`);sfx('pop');renderPrep()}return}
   if(d.exam!==undefined)return startExam(d.exam||'up');
   if(d.gembuy!==undefined){const m=S.mkt,G=m&&(m.kind||'gem')==='gem'&&GEMS[m.k];if(!G||m.d!==S.day||(S.gems||[]).some(g=>g.k===m.k))return;if(ownMoney()<G.c)return toast(S.money>=G.c?'Tiền vay chỉ dùng để nhập nguyên liệu':`Thiếu ${fk(G.c-ownMoney())}`);
-    spend('sieuhiem',G.c);S.gemId=(S.gemId||0)+1;(S.gems||(S.gems=[])).push({id:S.gemId,k:m.k});S.mkt=null;sfx('coin');toast(`${G.i} ${G.n} · gắn cho món hạng A ở 📋 Thực đơn`,3200);save();renderPrep();return}
+    spend('sieuhiem',G.c);S.gemId=(S.gemId||0)+1;(S.gems||(S.gems=[])).push({id:S.gemId,k:m.k});S.mkt=null;sfx('coin');toast(`${G.i} ${G.n} · gắn cho một món ở 📋 Thực đơn`,3200);save();renderPrep();return}
   if(d.gemon){const [rid,gid]=d.gemon.split(':').map(Number),r=S.recipes.find(x=>x.id===rid);if(!r||r.grade!=='A')return;S.recipes.forEach(x=>{if(x.gem===gid)x.gem=null});r.gem=gid;sfx('fanfare');save();renderPrep();return}
   if(d.gemoff){const r=S.recipes.find(x=>x.id===+d.gemoff);if(r){r.gem=null;sfx('pop');save();renderPrep()}return}
   if(d.unlock){const id=d.unlock,it=DECOR[id]||OUTFITS[id]||CUPSKIN[id],u=unlockState(it);if(!u.ok)return;if(!it.five)spend('trangtri',it.cost);S.owned.push(id);
@@ -2257,7 +2264,7 @@ $('#tbody').addEventListener('click',e=>{
   if(d.cq){const [k,dl]=d.cq.split(':'),s=ITEM(k);if(!s)return;const n=clamp((cart[k]||0)+(+dl),0,99);if(n)cart[k]=n;else delete cart[k];renderPrep();return}
   if(d.cart==='clear'){cart={};renderPrep();return}if(d.cart==='buy'){cartBuy();save();renderPrep();return}
   if(d.buy){const s=ITEM(d.buy),nn=+d.n||1;if(s.rare&&!rareOn(d.buy))return toast('Hàng hiếm chỉ nhập được khi có đợt hàng về');if(S.money<buyCost(d.buy)*nn)return toast('Không đủ vốn'+loanHint());spend('nhaphang',buyCost(d.buy)*nn);stk(d.buy).push({q:s.pack*nn,e:S.day+s.life-1});
-    if(!ownList(d.buy).includes(d.buy)){ownList(d.buy).push(d.buy);syncLayout();toast(`Đã nhập ${s.name} từ ${s.rare}. Vào tab Công thức để chế món mới!`)}}
+    if(!ownList(d.buy).includes(d.buy)){ownList(d.buy).push(d.buy);syncLayout();toast(`Đã nhập ${s.name} từ ${s.rare}. Bật bán ở tab Thực đơn!`)}}
   if(d.learn){const k=d.learn,s=ITEM(k);if(ownMoney()<s.rc)return toast(S.money>=s.rc?'Tiền vay chỉ dùng để nhập nguyên liệu':'Không đủ vốn');spend('mokhoa',s.rc);ownList(k).push(k);syncLayout();toast(`Đã mở bán ${s.name}. Nhớ nhập nguyên liệu!`)}
   if(d.ssel){const id=+d.ssel;staffSel=staffSel===id?null:id;renderPrep();if(staffSel){const e=$('.sedit');if(e)e.scrollIntoView({block:'nearest'})}return}
   if(d.srole){const [id,r]=d.srole.split(':'),x=S.staff.find(s=>s.id==id);if(x&&ROLES[r]&&x.role!==r){x.role=r;toast(`${x.name} chuyển sang ${ROLES[r]}`)}}
@@ -2281,7 +2288,7 @@ $('#tbody').addEventListener('change',e=>{const t=e.target;if(t.dataset.vol||t.d
 $('#tbody').addEventListener('input',e=>{if(e.target.id==='repTxt')repDraft=e.target.value;if(e.target.id==='codeIn')importTxt=e.target.value;if(e.target.id==='labName')lab.name=e.target.value});
 function emergencyNeeded(){return activeMenu().length>0&&!canOpenNormal()&&S.money<cheapestRestock()}
 $('#openBtn').onclick=()=>{
-  if(S.licDue&&S.day>=S.licDue.by){const lv=S.shop||0,dish=examDish(lv);if(S.examDay===S.day||!dish&&!activeMenu().some(r=>(GRADE_R[gradeShown(r)]||0)>=EXAM_G[lv])||dish&&!examNeed(dish,EXAM_N[lv]).length)return startExam('lic');S.licDue.by=S.day+1;toast('🧑‍⚖️ Thiếu hàng cho bài thi · thanh tra hẹn mai',2600)}
+  if(S.licDue&&S.day>=S.licDue.by){const lv=S.shop||0,dish=examDish(lv);if(S.examDay===S.day||!dish&&!activeMenu().length||dish&&!examNeed(dish,EXAM_N[lv]).length)return startExam('lic');S.licDue.by=S.day+1;toast('🧑‍⚖️ Thiếu hàng cho bài thi · thanh tra hẹn mai',2600)}
   if(cartN()&&!openArm){openArm=true;tab='menu';renderPrep();toast(`🛒 Giỏ còn ${fk(cartTot())} chưa nhập. Bấm Mở cửa lần nữa để bỏ qua`,3200);setTimeout(()=>{openArm=false},4500);return}openArm=false;cart={};
   if(emergencyNeeded()){S.notice=[];save();startDay(true);toast('Hôm nay chỉ bán khoai mì chiên nhà trồng 3.000đ/ly');return}
   if(!activeMenu().length){tab='thucdon';renderPrep();return toast('Thực đơn đang trống, đưa ít nhất một món lên thực đơn')}
@@ -2345,19 +2352,42 @@ let D=null,cup=null,pouring=null;
 const frying=()=>!!(cup&&cup.fry&&cup.fry.length&&!cup.broken);
 const working=()=>D&&D.exam?[]:S.staff.filter(s=>!s.rest);
 const hasRole=r=>working().filter(s=>s.role===r);
-function priceOf(o){const r=recById(o.r);if(r&&r.id<0)return r.price;const p=(r?r.price:16000)+(o.size==='L'?5000:0)+o.ts.reduce((a,k)=>a+topPrice(k),0)+(o.xf?foamAdd(o.xf):0)+skUp(o);return o.disc?Math.max(1000,r1k(p*(1-o.disc))):p}
-function ratioOf(o){const r=recById(o.r);if(!(r&&r.id>0))return 1;const ts=o.ts||[];const xf=o.xf?foamAdd(o.xf):0;return (r.price+ts.reduce((a,k)=>a+topPrice(k),0)+xf)/Math.max(1000,recValue(r)+ts.reduce((a,k)=>a+topBase(k),0)+xf)}
+/* số xiên mỗi loại của một đơn (o.n); đơn cũ chưa có o.n thì mỗi loại 1 */
+const xN=(o,k)=>o.n&&o.n[k]!=null?o.n[k]:1,xT=o=>o.bs.reduce((a,k)=>a+xN(o,k),0);
+const itemVal=k=>{const r=itemRec(k);return r?recValue(r):r1k(ITEM(k).c*XIEN_M)};
+/* giá một đơn = số xiên × giá mỗi xiên + rau, món kèm + lớp phủ gọi thêm + giấy bọc; món nổi tiếng (combo) đắt hơn 20% */
+function priceOf(o){const r=recById(o.r);if(r&&r.id<0)return r.price*xT(o);let p=o.bs.reduce((a,k)=>a+xN(o,k)*unitPrice(k),0);if(o.fam)p=r1k(p*1.2);p+=o.ts.reduce((a,k)=>a+topPrice(k),0)+(o.xf?foamAdd(o.xf):0)+skUp(o);return o.disc?Math.max(1000,r1k(p*(1-o.disc))):p}
+function ratioOf(o){const r=recById(o.r);if(r&&r.id<0)return 1;const ts=o.ts||[];const xf=o.xf?foamAdd(o.xf):0;return (o.bs.reduce((a,k)=>a+xN(o,k)*unitPrice(k),0)+ts.reduce((a,k)=>a+topPrice(k),0)+xf)/Math.max(1000,o.bs.reduce((a,k)=>a+xN(o,k)*itemVal(k),0)+ts.reduce((a,k)=>a+topBase(k),0)+xf)}
 function priceF(r){return clamp(Math.exp(-(r.price/Math.max(1000,recValue(r))-1)*2.2),.15,2.2)}
 function pickType(){const pool=Object.entries(TYPES).filter(([,t])=>t.day<=S.day),wt=t=>t.w*(t.g?1+.25*fancy():1);let r=Math.random()*pool.reduce((a,[,t])=>a+wt(t),0);for(const [k,t] of pool){r-=wt(t);if(r<=0)return k}return 'thuong'}
 /* độ được khách chuộng của một món: hợp vị, có đồ hot, hàng hiếm, món bán có hạn, giá hợp lý */
-const recW=r=>{const ci=comboInfo(recIds(r));return Math.max(.05,(1+.25*ci.avg+.6*hotCount(r)+.4*rareCount(r)+(r.until?.5:0))*priceF(r)*(r.basic?.6:1)*(r.famous?FAMOUS_W:1))};
+const recW=r=>Math.max(.05,(1+.6*hotCount(r)+.4*rareCount(r)+(r.until?.5:0))*priceF(r));
 function pickRecipe(){if(D&&D.emerg)return pick(EMERG);const m=activeMenu();const ws=m.map(recW);
   let x=Math.random()*ws.reduce((a,b)=>a+b,0);for(let i=0;i<m.length;i++){x-=ws[i];if(x<=0)return m[i]}return m[0]}
-function makeOrder(rr){const r=rr||pickRecipe();
-  const o={r:r.id,name:r.name,bs:r.bs,ss:r.ss||[],ts:pickTops(r),fs:r.fs,b:r.bs[0],size:Math.random()<.45?'L':'M'};
-  if(r.id<0){o.size='M';o.ice=r.ice;return o}
-  if(S.day>=3){o.sugar=pick([30,50,70,100]);o.ice=S.ev==='nangnong'?pick(['it','thuong']):pick(['none','it','thuong'])}
-  if(fancy()>=2&&!r.fs.length&&Math.random()<.1*(fancy()-1)){const fs=S.foams.filter(k=>onCounter(k)&&qty(k)>0);if(fs.length){o.xf=pick(fs);o.fs=[...r.fs,o.xf]}}{const g=gemOf(r);if(g)o.gem=g.k}return o}
+/* số xiên mỗi loại khách gọi: 2–4 ở xe đẩy, tiệm càng lớn khách gọi càng nhiều (tới 2–7) */
+const xRange=()=>[2,4+Math.min(3,fancy())];
+/* số loại đồ chiên một đơn: 1–2, từ cấp 3 có đơn 3 loại */
+function xTypes(){const f=fancy(),u=Math.random(),p3=f>=2?.08*(f-1):0,p2=.35+.06*f;return u<p3?3:u<p3+p2?2:1}
+const orderName=o=>o.fam?FAMOUS.find(F=>F.id===o.fam).n:o.bs.map(k=>`${xN(o,k)} ${BASES[k].sh.toLowerCase()}`).join(' · ');
+/* sốt khách chọn: trong các sốt/bột đang bày trên quầy và còn hàng; thường 1 loại, có khi không sốt hoặc 2 loại */
+function pickSauces(bs){const pool=S.syrups.filter(k=>onCounter(k)&&qty(k)>0);if(!pool.length)return [];const u=Math.random(),n=u<.12?0:u<.12+.1+.04*fancy()?2:1,w=pool.map(k=>Math.max(.15,1+.3*bs.reduce((a,b)=>a+pairScore(k,b),0)/bs.length)*(isHot(k)?2.5:1)),out=[];
+  for(let i=0;i<n&&pool.length;i++){let x=Math.random()*w.reduce((a,b)=>a+b,0),j=0;while(j<pool.length-1&&(x-=w[j])>0)j++;out.push(pool.splice(j,1)[0]);w.splice(j,1)}return out}
+const pickW=(L,f)=>{const ws=L.map(f);let x=Math.random()*ws.reduce((a,b)=>a+b,0);for(let i=0;i<L.length;i++){x-=ws[i];if(x<=0)return L[i]}return L[0]};
+/* món nổi tiếng là combo (đồ chiên + sốt/lớp phủ, có hàng hiếm): đủ đồ trên quầy thì thỉnh thoảng có khách gọi, giao lần đầu là khám phá được */
+const famOk=F=>F.ids.every(k=>BASES[k]?!!itemRec(k)&&itemRec(k).on&&qty(k)>=4:onCounter(k)&&qty(k)>0);
+/* opt: big (gọi nhiều), small (gọi ít), nofam (không gọi combo nổi tiếng) */
+function makeOrder(rr,opt={}){
+  if(rr&&rr.id<0||!rr&&D&&D.emerg){const r=rr||pick(EMERG),k=r.bs[0],o={r:r.id,bs:r.bs,n:{[k]:ri(2,4)},ss:[],ts:[],fs:[],b:k,size:'M',ice:r.ice};o.name=r.name;return o}
+  if(!rr&&!opt.nofam&&Math.random()<.1){const F=FAMOUS.filter(famOk);if(F.length){const f=pick(F),bs=f.ids.filter(k=>BASES[k]),[lo,hi]=xRange(),n={};bs.forEach(k=>n[k]=ri(lo,hi));
+    const o={r:itemRec(bs[0]).id,fam:f.id,bs,n,ss:f.ids.filter(k=>SYRUPS[k]),fs:f.ids.filter(k=>FOAMS[k]),ts:[],b:bs[0],size:'M'};o.ts=pickTops({id:1,bs,ss:o.ss,ts:[],fs:o.fs});return orderTail(o)}}
+  const m=activeMenu().filter(r=>r.id>0&&r.bs.every(k=>qty(k)>0)),pool=m.length?m:activeMenu().filter(r=>r.id>0);if(!pool.length)return makeOrder(EMERG[0]);
+  const first=rr||pickW(pool,recW),L=[first];let nt=Math.min(xTypes(),pool.length);while(!(rr&&rr.bs.length>1)&&L.length<nt){const rest=pool.filter(r=>!L.includes(r));if(!rest.length)break;L.push(pickW(rest,recW))}
+  /* món có sẵn nhiều loại đồ chiên, sốt, lớp phủ (combo) thì giữ đúng các thứ đó */
+  const [lo,hi]=xRange(),bs=rr&&rr.bs.length>1?[...rr.bs]:L.map(r=>r.bs[0]),n={};bs.forEach(k=>n[k]=opt.small?ri(lo,Math.min(hi,3)):ri(lo,hi)+(opt.big?ri(1,3):0));
+  const ss=rr&&(rr.ss||[]).length?[...rr.ss]:pickSauces(bs),fs=rr&&(rr.fs||[]).length?[...rr.fs]:[],o={r:first.id,bs,n,ss,ts:pickTops({id:1,bs,ss,ts:[],fs}),fs,b:bs[0],size:'M'};
+  if(!fs.length&&fancy()>=2&&Math.random()<.1*(fancy()-1)){const fs=S.foams.filter(k=>onCounter(k)&&qty(k)>0);if(fs.length){o.xf=pick(fs);o.fs=[o.xf]}}
+  {const g=L.map(gemOf).find(Boolean);if(g)o.gem=g.k}return orderTail(o)}
+function orderTail(o){if(S.day>=3){o.sugar=pick([30,50,70,100]);o.ice=S.ev==='nangnong'?pick(['it','thuong']):pick(['none','it','thuong'])}o.name=orderName(o);return o}
 /* giá thêm kem phủ khi khách tự gọi thêm */
 const foamAdd=k=>Math.max(6000,r1k(FOAMS[k].c*2));
 /* khách quen: khách cho 5★ đôi khi thành khách quen; mỗi ngày có thể ghé lại một lần, hay gọi món ruột */
@@ -2375,14 +2405,14 @@ const LAI={Mai:[['dù',1]],Giang:[['đẫm',1]],'Công':[['ngủ',1]]};
 function genNick(R,o){const age=R.age||ageOf(R.name),sex=R.sex||'f',used=new Set((S.regs||[]).filter(x=>x!==R).map(x=>x.nick));
   const lai=(LAI[R.name.split(' ').slice(1).join(' ')]||[]).filter(([w,x])=>!used.has(w)&&(!x||['tre','trung','gia'].includes(age))).map(([w])=>w);
   if(lai.length&&Math.random()<.6)return pick(lai);
-  const habit=[];if(o){if(o.ice==='none')habit.push('không chanh');if(o.sugar===100)habit.push('ăn cay');if(o.sugar===30)habit.push('ít cay');if(o.size==='L')habit.push('ly bự');
+  const habit=[];if(o){if(o.ice==='none')habit.push('không chanh');if(o.sugar===100)habit.push('ăn cay');if(o.sugar===30)habit.push('ít cay');if(xT(o)>=8)habit.push('ăn nhiều');
     if(o.ts.length>=2)habit.push('nhiều rau');else if(o.ts.length===1&&TOPS[o.ts[0]]&&TOPS[o.ts[0]].name.length<=14)habit.push(TOPS[o.ts[0]].name.toLowerCase())}
   if(R.favName&&R.favName.length<=12)habit.push(R.favName.toLowerCase());
   const A=NICK[age]||[],pool=[...NICK.all,...(Array.isArray(A)?A:A[sex]||[])];
   const ok=l=>l.filter(x=>!used.has(x)),h=ok(habit),a=ok(NICK.adj),p=ok(pool);if(h.length&&Math.random()<.3)return pick(h);if(a.length&&Math.random()<.5)return pick(a);return pick(p.length?p:pool)}
 const regName=R=>{if(!R.nick)R.nick=genNick(R);return R.name+' '+R.nick};
 const regOf=c=>c.reg?(S.regs||[]).find(r=>r.id===c.reg):null;
-function favOrder(R){const r=recById(R.fav);return r&&r.on&&r.status==='ok'&&r.bs.every(k=>qty(k)>0)&&Math.random()<.75?r:null}
+function favOrder(R){const r=recById(R.fav)||(R.fav0&&itemRec(R.fav0));return r&&r.on&&r.status==='ok'&&r.bs.every(k=>qty(k)>0)&&Math.random()<.75?r:null}
 /* gọi khi khách rời tiệm với s sao; trả về đoạn chữ thêm vào thông báo */
 function regAfter(c,s){const R=regOf(c);
   if(R){R.visits++;if(s<=2){R.bad=(R.bad||0)+1;if(R.bad>=2){S.regs=S.regs.filter(x=>x!==R);D.log.push(`${regName(R)} buồn tiệm nên không còn là khách quen nữa.`);return ` · ${regName(R)} không còn là khách quen`}}else if(s>=4)R.bad=0;return ''}
@@ -2396,15 +2426,15 @@ function regAfter(c,s){const R=regOf(c);
 const TNAMES={xeom:['Chú Bảy','Chú Ba','Chú Sáu','Chú Hai','Chú Tám'],sigai:['Anh Khoa','Anh Đạt','Anh Tuấn','Anh Phong'],shipper:['Anh Tín','Anh Lộc','Bạn Duy','Anh Toàn'],songao:['Em Vy','Bạn Thư','Bé Na','Chị Mai','Em Ngọc']};
 const TICON={xeom:'🛵',sigai:'💎',shipper:'📦',songao:'📱',betthu:'🪙',thayboi:'🔮',batam:'🗣️',streamer:'📹',tay:'🎒'};
 const makeable=r=>r.bs.every(k=>qty(k)>0);
-function typeOrders(type,n){const m=activeMenu().filter(makeable),all=()=>[...Array(n)].map(()=>makeOrder());if(!m.length||D.emerg)return all();
+function typeOrders(type,n){const m=activeMenu().filter(r=>r.id>0&&makeable(r)),all=()=>[...Array(n)].map(()=>makeOrder());if(!m.length||D.emerg)return all();
   const extraTop=o=>{if(o.ts.length>=topCap())return;const t=S.tops.filter(k=>onCounter(k)&&qty(k)>0&&!o.ts.includes(k));if(t.length)o.ts=[...o.ts,pick(t)]};
-  if(type==='sigai'){/* 2 ly đắt nhất, size L, thêm topping */const top=[...m].sort((a,b)=>b.price-a.price);return [0,1].map(i=>{const o=makeOrder(top[Math.min(i,top.length-1)]);o.size='L';extraTop(o);return o})}
-  if(type==='xeom'){/* món rẻ, ít topping */const cheap=[...m].sort((a,b)=>a.price-b.price);const o=makeOrder(pick(cheap.slice(0,2)));o.ts=o.ts.slice(0,1);o.size='M';return [o]}
-  if(type==='songao'||type==='streamer'){/* món đẹp: có kem phủ hoặc nhiều topping */const pretty=m.filter(r=>r.fs.length||hotCount(r));const o=makeOrder(pretty.length?pick(pretty):pick(m));if(o.ts.length<2)extraTop(o);if(o.ts.length<2)extraTop(o);return [o]}
+  if(type==='sigai'){/* 2 phần món đắt nhất, gọi nhiều xiên, thêm rau */const top=[...m].sort((a,b)=>b.price-a.price);return [0,1].map(i=>{const o=makeOrder(top[Math.min(i,top.length-1)],{big:1,nofam:1});extraTop(o);o.name=orderName(o);return o})}
+  if(type==='xeom'){/* món rẻ, ít xiên, ít rau */const cheap=[...m].sort((a,b)=>a.price-b.price);const o=makeOrder(pick(cheap.slice(0,2)),{small:1,nofam:1});o.ts=o.ts.slice(0,1);return [o]}
+  if(type==='songao'||type==='streamer'){/* món đẹp: có lớp phủ hoặc nhiều rau */const o=makeOrder();if(!o.fs.length&&!o.fam){const fs=S.foams.filter(k=>onCounter(k)&&qty(k)>0);if(fs.length){o.xf=pick(fs);o.fs=[o.xf]}}if(o.ts.length<2)extraTop(o);if(o.ts.length<2)extraTop(o);return [o]}
   return all()}
 function spawn(ft){const R=!ft&&!D.emerg&&Math.random()<.2?pick((S.regs||[]).filter(r=>r.last!==S.day)):null;
   const type=R?'quen':ft||pickType(),TT=TYPES[type],n=TT.g?ri(TT.g[0],TT.g[1]+(TT.g[1]>=3?Math.min(2,fancy()>>1):0)):1,items=R?[makeOrder(favOrder(R))]:typeOrders(type,n),dis=type==='quyt'&&Math.random()<.35,o=items[0];orderSkin(items,type);
-  const max=(Math.max(24,40-S.day*.8)+o.ts.length*2+o.ss.length*1.5+o.fs.length*3+(o.bs.length-1)*3+(o.sugar?6:0)+(n-1)*16)*TT.pat;
+  const max=(Math.max(24,40-S.day*.8)+o.ts.length*2+o.ss.length*1.5+o.fs.length*3+(o.bs.length-1)*3+xT(o)*.8+(o.sugar?6:0)+(n-1)*16)*TT.pat;
   const P=type==='quyt'&&dis?{a:{teen:30,tre:70}}:TPROF[type]||TPROF.thuong,age=wpick(P.a),sex=P.s||pick(['f','m']);
   const c={id:++D.cid,name:genName(age,sex,P.pre),age,sex,type,dis,items,o,cur:0,res:[],price:items.reduce((a,x)=>a+priceOf(x),0),p:max,max,look:makeLook(type,dis),
     friends:type==='shipper'?[]:[...Array(Math.min(n,3)-1)].map(()=>makeLook(type==='vanphong'?'voi':'thuong')),pay:type==='hocsinh'?'Tiền lẻ':type==='xeom'?'Tiền mặt':pick(PAYS),no:++D.spawned,x:168,tx:168,mood:2};
@@ -2419,7 +2449,7 @@ function spawn(ft){const R=!ft&&!D.emerg&&Math.random()<.2?pick((S.regs||[]).fil
   if(now-(D.bellT??-9)>1.1){D.bellT=now;sfx('bell')}
   D.queue.push(c);D.asked=(D.asked||0)+c.items.length;layoutQ();floorSay(c,'hi');
   if(type==='batam')return tamAsk(c);if(type==='streamer')return say(c,'Hello cả nhà! Thử thách chiên cá viên nè!',2600);if(type==='tay')return say(c,'Hello! Fish balls, please!',2400);
-  say(c,n>1?`Cho ${n} ly nha!`:pick([`${o.name} ${o.size}${o.ts.length?' thêm '+o.ts.map(k=>TOPS[k].sh).join(', '):''} nha!`,'Chào tiệm ơi!']),2200)}
+  say(c,n>1?`Cho ${n} ly nha!`:pick([`${o.name}${o.ts.length?' thêm '+o.ts.map(k=>TOPS[k].sh).join(', '):''} nha!`,'Chào tiệm ơi!']),2200)}
 /* số khách muốn ghé hôm nay (chưa tính sức chứa tiệm); dùng cho lúc mở cửa và ước lượng hàng cần nhập */
 function dayRaw(emerg){const pop=popularity();
   const am=emerg?EMERG:activeMenu();if(!am.length)return 0;const tf=emerg?1.1:clamp(am.reduce((a,r)=>a+priceF(r),0)/am.length,.55,1.45);
@@ -2533,7 +2563,7 @@ function arrivalGap(){const B=hasRole('barista'),pg=Math.max(3.2,9-S.day*.3-work
 /* thời gian một nhân viên tự pha một ly (gồm đóng gói): Nhanh tay càng cao càng nhanh. Mệt (tinh thần < 30) chỉ tính cuối ngày (dễ bỏ việc, tô cam ở tab Nhân viên), trong ngày không làm chậm hay dễ hỏng */
 const tired=s=>s.mood<30,soloTime=s=>STAFF_T*(1.24-.08*s.spd)*lvSpd();
 /* ly nhiều bước pha lâu hơn: mỗi bước một khoảng thời gian (nhiều loại trà, siro, topping, kem thì lâu hơn); ly thường (trà, đường, đá, 1 topping) khoảng soloTime */
-const stepDur=(st,it)=>st==='ly'?.6:st==='nuoc'?1.4+.4*(it.bs.length-1)+.3*(it.ss||[]).length:st==='duong'||st==='da'?.5:st==='top'?.8*it.ts.length:st==='kem'?1.1*(it.fs||[]).length:st==='boc'?.6:.9;
+const stepDur=(st,it)=>st==='ly'?.6:st==='nuoc'?1.1+.4*(it.bs.length-1)+.12*xT(it)+.3*(it.ss||[]).length:st==='duong'||st==='da'?.5:st==='top'?.8*it.ts.length:st==='kem'?1.1*(it.fs||[]).length:st==='boc'?.6:.9;
 function wTime(s,w){const k=soloTime(s)/4.7;w.ds=w.steps.map(st=>stepDur(st,w.it)*k);w.T=w.ds.reduce((a,b)=>a+b,0);w.acc=0}
 const errP=s=>clamp(.08-s.skill*.014+(s.trait==='haudau'?.04:0),.01,.14);
 const iceN=o=>o.ice?ICE[o.ice][1]:0;
@@ -2554,19 +2584,19 @@ const walkLeft=c=>c.in?0:Math.abs(c.x-c.tx)/42,estT=(s,it)=>soloTime(s)/4.7*step
 function staffPick(s){for(const c of D.queue){if(c.by||c.dec||c.insp)continue;const wl=walkLeft(c);for(let i=0;i<c.items.length;i++)if(freeIt(c,i)&&!missingOf(c.items[i]).length&&(!wl||!s||wl<=estT(s,c.items[i])))return [c,i]}return null}
 /* ly nhân viên đang pha là một ly thật (w.cup) để người chơi nhảy vào phụ được: bước nào đã đủ thì nhân viên bỏ qua */
 function stepNeed(st,it,cp){if(st==='ly')return !cp.lyOk;if(st==='goi')return true;
-  if(st==='nuoc'){const pd=new Set(cp.pours.map(p=>p.k));return it.bs.some(k=>!pd.has(k))||(it.ss||[]).some(k=>!cp.syrups.includes(k))}
+  if(st==='nuoc')return it.bs.some(k=>cpN(cp,k)<xN(it,k))||(it.ss||[]).some(k=>!cp.syrups.includes(k));
   if(st==='duong')return !!it.sugar&&cp.sugar<SUGAR[it.sugar];if(st==='da')return iceN(it)>0&&cp.ice<iceN(it);
   if(st==='top')return it.ts.some(k=>!cp.tops.includes(k));if(st==='kem')return (it.fs||[]).some(k=>!cp.foams.includes(k));if(st==='boc')return !!it.sk&&cp.skin!==it.sk;return false}
 const staffCup=(s,c,ix,it)=>Object.assign(newCup(it.size),{staff:s.id,cid:c.id,ix});
 /* bắt đầu rót: lấy trà/sữa còn thiếu (mỗi loại 1 phần mỗi ly) và siro, chia đều phần còn thiếu tới vạch */
 /* (nhân viên) bắt đầu chiên: lấy đồ chiên còn thiếu (mỗi loại 1 phần mỗi ly) và sốt; đồ người chơi bỏ dở trong chảo thì nhân viên chiên tiếp luôn */
-function staffPourStart(w){const cp=w.cup,it=w.it,pd=new Set(cp.pours.map(p=>p.k)),to=it.bs.filter(k=>!pd.has(k));
-  if(to.some(k=>!cp.used[k]&&!(BASES[k]&&BASES[k].free)&&!(qty(k)>0))||(it.ss||[]).some(k=>!cp.syrups.includes(k)&&!(qty(k)>0)))return false;
-  to.forEach(k=>{if(!cp.used[k]){use(k);cp.used[k]=1}});(it.ss||[]).forEach(k=>{if(!cp.syrups.includes(k)&&use(k))cp.syrups.push(k)});
-  cp.fry=[];w.share=to.map(k=>({k}));return true}
+function staffPourStart(w){const cp=w.cup,it=w.it,to=it.bs.map(k=>({k,m:Math.max(0,xN(it,k)-cpN(cp,k)-cpF(cp,k))}));
+  if(to.some(x=>x.m&&!(BASES[x.k]&&BASES[x.k].free)&&qty(x.k)<x.m)||(it.ss||[]).some(k=>!cp.syrups.includes(k)&&!(qty(k)>0)))return false;
+  to.forEach(x=>{for(let i=0;i<x.m;i++)use(x.k)});(it.ss||[]).forEach(k=>{if(!cp.syrups.includes(k)&&use(k))cp.syrups.push(k)});
+  cp.fry=[];w.share=it.bs.map(k=>({k}));return true}
 /* xong một bước: bỏ đồ vào ly (topping, kem hết hàng thì trả false) */
 function staffStepEnd(w,st){const cp=w.cup,it=w.it;
-  if(st==='ly')cp.lyOk=1;else if(st==='nuoc'){(w.share||[]).forEach(p=>{if(!cp.pours.some(x=>x.k===p.k))cp.pours.push({k:p.k,amt:1,q:1})});w.share=null}
+  if(st==='ly')cp.lyOk=1;else if(st==='nuoc'){(w.share||[]).forEach(p=>{const m=xN(it,p.k)-cpN(cp,p.k);if(m>0)cp.pours.push({k:p.k,n:m,amt:1,q:1})});w.share=null}
   else if(st==='duong')cp.sugar=SUGAR[it.sugar];else if(st==='da')cp.ice=iceN(it);else if(st==='boc')cp.skin=it.sk;
   else if(st==='top'||st==='kem'){const arr=st==='top'?cp.tops:cp.foams;for(const k of (st==='top'?it.ts:(it.fs||[])))if(!arr.includes(k)){if(!use(k))return false;arr.push(k)}}
   return true}
@@ -2612,8 +2642,8 @@ const errLog=(s,why)=>{const E=D.err[s.id]||(D.err[s.id]={name:s.name,cups:0,lis
 /* pha sai ở một bước: ly thật bị hỏng theo kiểu lỗi đó */
 function staffErr(s,st){const w=s.w,cp=w.cup,it=w.it;let why='sai lớp phủ';
   if(st==='boc'){cp.skin=null;why='làm rách giấy bọc'}
-  else if(st==='ly'){cp.size=it.size==='L'?'M':'L';why='sai size'}
-  else if(st==='nuoc'){const r=Math.random();if(r<.45)why='cháy khét';else if(r<.8){cp.pours.forEach(p=>p.q=1.35);why='chiên quá lửa'}else{cp.pours.pop();why='rơi mất viên'}}
+  else if(st==='ly')why='làm rơi ly';
+  else if(st==='nuoc'){const r=Math.random();if(r<.45)why='cháy khét';else if(r<.8){cp.pours.forEach(p=>p.q=1.35);why='chiên quá lửa'}else{const p=cp.pours[cp.pours.length-1];if(p&&(p.n||1)>1)p.n--;else cp.pours.pop();why='rơi mất xiên'}}
   else if(st==='duong'){cp.sugar=Math.max(0,cp.sugar+(Math.random()<.5?-1:1));why='sai độ cay'}
   else if(st==='da'){cp.ice=Math.random()<.6?0:Math.min(3,cp.ice+1);why=cp.ice?'sai chanh':'quên chanh'}
   else if(st==='top'){const wr=S.tops.find(k=>!it.ts.includes(k)&&onCounter(k)&&qty(k)>0);if(wr&&Math.random()<.6){use(wr);cp.tops.push(wr);why='sai rau'}else{cp.tops.pop();why='thiếu rau'}}
@@ -2716,7 +2746,7 @@ function settle(c,s,payOverride,notes,why){
   /* tip không vượt quá tiền order, kẻo khách trả gấp 2–3 lần */
   tip=Math.min(tip,c.price);
   if(payOverride===0){tip=0;tw.length=0}
-  {const base=pay,tot=c.items.reduce((a,it)=>a+priceOf(it),0)||1;c.items.forEach(it=>{const r=recById(it.r),k=it.r||0,e=D.sales[k]||(D.sales[k]={name:r?r.name:it.name,n:0,rev:0,cost:0});e.n++;e.rev+=base*priceOf(it)/tot;e.cost+=comboInfo(recIds(it)).cost})}
+  {const base=pay,tot=c.items.reduce((a,it)=>a+it.bs.reduce((b,k)=>b+xN(it,k)*unitPrice(k),0),0)||1;c.items.forEach(it=>it.bs.forEach(k=>{const r=itemRec(k),id=r?r.id:k,e=D.sales[id]||(D.sales[id]={name:r?r.name:ITEM(k).name,n:0,rev:0,cost:0});e.n+=xN(it,k);e.rev+=base*xN(it,k)*unitPrice(k)/tot;e.cost+=xN(it,k)*ITEM(k).c}))}
   D.tips+=tip;pay+=tip;S.money+=pay;D.rev+=pay;D.served++;D.stars.push(s);if(s>=3&&pay>0){qServe(c);qSet('rev',D.rev)}bump('cups',c.items.length);if(pay>0)sfx('coin');
   /* combo 5★ liên tiếp: chỉ để vui */
   if(s===5){const n=D.combo=(D.combo||0)+1;qSet('combo',n);S.stat.combo=Math.max(S.stat.combo||0,n);if(n>=3)setTimeout(()=>{if(D){fx(`Combo x${n}!`,'#e2617f',c.x+6,15);if(n%5===0)confetti(c.x+6,20)}},500)}else D.combo=0;
@@ -3053,10 +3083,11 @@ const EN={cavien:'Fish balls',bovien:'Beef balls',tomvien:'Shrimp balls',mucvien
   dualeo:'Cucumber',dochua:'Pickles',hanhphi:'Fried shallot',rauram:'Herbs',xoai:'Green mango',merang:'Sesame',phomaibao:'Grated cheese',trungcut:'Quail eggs',khoaitay:'Fries',chabong:'Pork floss',kimchi:'Kimchi',rongbien:'Seaweed',
   f_mozza:'Mozzarella',f_trungmuoi:'Salted egg',f_botoi:'Garlic butter',f_cheddar:'Cheddar',f_kemchua:'Sour cream'};
 function checks(o){const k=cup||{},has=!!cup,teas=has?[...new Set([...k.pours.map(p=>p.k),...(k.fry||[]).map(f=>f.k)])]:[],en=!!o.en,nm=x=>en&&EN[x]||ITEM(x).sh;
-  const szBad=has&&k.size!==o.size,brk=has&&!!k.broken,got=has?[...new Set(k.pours.map(p=>p.k))]:[];
-  const L=[[`${o.bs.filter(x=>!got.includes(x)).map(nm).join(' + ')||o.bs.map(nm).join(' + ')} ${en?(o.size==='L'?'Large':'Medium'):o.size}`,has&&!szBad&&!brk&&sameSet(got,o.bs),recIds(o).some(isHot),szBad||brk]];
+  const brk=has&&!!k.broken,L=[];if(brk)L.push([en?'Broken':`Hỏng: ${k.broken}`,false,false,true]);
+  /* mỗi loại đồ chiên một nhãn: chưa gắp thì "Cá viên ×5", đang gắp thì "Cá viên 3/5" (đã vớt / cần), dư thì đỏ */
+  o.bs.forEach(x=>{const g=has?cpN(k,x):0,q=xN(o,x);L.push([`${nm(x)} ${g?g+'/':'×'}${q}`,has&&!brk&&g===q,isHot(x),g>q])});
   /* đồ đang trong chảo: nhãn xám */
-  if(has&&(k.fry||[]).length&&!brk)L.push([`🍳 ${k.fry.map(f=>nm(f.k)).join(', ')}${k.fry.some(f=>f.c>=FRY_MIN)?(en?' · scoop!':' · vớt!'):''}`,false,false,false,true]);
+  if(has&&(k.fry||[]).length&&!brk)L.push([`🍳 ${k.fry.map(f=>`${f.n||1} ${nm(f.k)}`).join(', ')}${k.fry.some(f=>f.c>=FRY_MIN)?(en?' · scoop!':' · vớt!'):''}`,false,false,false,true]);
   o.ss.forEach(x=>L.push([nm(x),has&&(k.syrups||[]).includes(x)]));
   /* topping gộp một nhãn, chỉ ghi những cái còn thiếu */
   if(o.ts.length){const lt=o.ts.filter(x=>!(has&&k.tops.includes(x)));L.push(['+ '+(lt.length?lt:o.ts).map(nm).join(', '),!lt.length,o.ts.some(isHot)])}else L.push([en?'No add-on':'Không rau',has&&!k.tops.length,false,false,true]);
@@ -3072,35 +3103,43 @@ function checks(o){const k=cup||{},has=!!cup,teas=has?[...new Set([...k.pours.ma
 /* ---- hết hàng: gợi ý món khác rẻ hơn chút, khách chờ thêm được ---- */
 const SUB_DISC=.1;
 /* đồ của đơn đang hết hàng hoặc không có trên quầy */
-function missingOf(o){if(!o||(D&&D.emerg))return [];const mine=cup&&D&&curOrder()===o,inCup=k=>mine&&(cup.used[k]||cup.syrups.includes(k)||cup.tops.includes(k)||cup.foams.includes(k));
-  return [...o.bs,...(o.ss||[]),...(o.fs||[]),...o.ts].filter(k=>!(BASES[k]&&BASES[k].free)&&!inCup(k)&&(!(qty(k)>0)||!onCounter(k)))}
+function missingOf(o){if(!o||(D&&D.emerg))return [];const mine=cup&&D&&curOrder()===o,inCup=k=>mine&&(cup.syrups.includes(k)||cup.tops.includes(k)||cup.foams.includes(k));
+  /* đồ chiên: còn phải gắp bao nhiêu xiên thì kho phải đủ bấy nhiêu */
+  const fb=o.bs.filter(k=>{if(BASES[k]&&BASES[k].free)return false;const left=mine?Math.max(0,xN(o,k)-cpN(cup,k)-cpF(cup,k)):xN(o,k);return left>0&&(qty(k)<left||!onCounter(k))});
+  return [...fb,...[...(o.ss||[]),...(o.fs||[]),...o.ts].filter(k=>!inCup(k)&&(!(qty(k)>0)||!onCounter(k)))]}
 const canMake=r=>[...r.bs,...(r.ss||[]),...(r.fs||[])].every(k=>(BASES[k]&&BASES[k].free)||(qty(k)>0&&onCounter(k)));
-function subOptions(c,ix=c.cur){const o=c.items[ix],old=recById(o.r),base=old?old.price:16000;
-  return activeMenu().filter(r=>r.id!==o.r&&canMake(r)&&(c.type!=='sigai'||r.price>=base)).sort((a,b)=>Math.abs(a.price-base)-Math.abs(b.price-base)).slice(0,3)}
+function subOptions(c,ix=c.cur){const o=c.items[ix],miss=missingOf(o).filter(k=>BASES[k]);if(!miss.length)return [];const base=Math.max(...miss.map(unitPrice)),cnt=Math.max(...miss.map(k=>xN(o,k)));
+  return activeMenu().filter(r=>r.id>0&&!o.bs.includes(r.bs[0])&&canMake(r)&&qty(r.bs[0])>=cnt&&(c.type!=='sigai'||r.price>=base)).sort((a,b)=>Math.abs(a.price-base)-Math.abs(b.price-base)).slice(0,3)}
+/* đơn sau khi đổi: r thay các loại đồ chiên đang hết (giữ số xiên); r là 'top' thì bỏ sốt, rau, lớp phủ đang hết */
+function subOrder(o,r){const ok=k=>qty(k)>0&&onCounter(k);let n;
+  if(r==='top'){n={...o,ts:o.ts.filter(ok),ss:o.ss.filter(ok),fs:o.fs.filter(ok)}}
+  else{const k2=r.bs[0],miss=missingOf(o).filter(k=>BASES[k]),bs=[],nn={};o.bs.forEach(k=>{const kk=miss.includes(k)?k2:k;nn[kk]=(nn[kk]||0)+xN(o,k);if(!bs.includes(kk))bs.push(kk)});
+    const g=gemOf(r);n={...o,r:bs.includes(o.b)?o.r:r.id,bs,n:nn,b:bs[0],ss:o.ss.filter(ok),fs:o.fs.filter(ok),ts:o.ts.filter(ok),gem:o.gem||(g?g.k:undefined)}}
+  if(n.xf&&!n.fs.includes(n.xf))n.xf=undefined;n.fam=undefined;n.name=orderName(n);return n}
 /* bảng đổi món: hiện từ đáy màn hình, mỗi món là một thẻ to (hình, tên, giá đã giảm) */
 const sugIx=c=>D.sugIx!=null&&c.items[D.sugIx]&&!c.items[D.sugIx].done?D.sugIx:c.cur;
 function renderSug(){const el=$('#sugp');if(!el||!D)return;const c=D.sug!=null?D.queue.find(x=>x.id===D.sug):null,on=!!c,ix=c?sugIx(c):0;
   const key=on?c.id+'|'+ix+'|'+missingOf(c.items[ix]).join():'';if(el.dataset.k===key)return;el.dataset.k=key;el.hidden=!on;if(!on){el.innerHTML='';return}
-  const o=c.items[ix],miss=missingOf(o),onlyTop=miss.length&&miss.every(k=>TOPS[k]),opts=subOptions(c,ix);
-  const nt=r=>priceOf({...o,r:r.id,bs:r.bs,ss:r.ss||[],fs:r.fs,xf:undefined,ts:o.ts.filter(k=>qty(k)>0&&onCounter(k)),disc:SUB_DISC});
+  const o=c.items[ix],miss=missingOf(o),onlyTop=miss.length&&miss.every(k=>!BASES[k]),opts=subOptions(c,ix);
+  const nt=r=>priceOf({...subOrder(o,r),disc:SUB_DISC});
   el.innerHTML=`<div class="sugh"><b>Đổi món cho ${c.name}</b><button class="sugx" data-sugx="1" aria-label="Đóng">✕</button></div>
    <p class="meta" style="margin:0 0 8px">Hết <b class="warn">${miss.map(k=>ITEM(k).sh).join(', ')}</b>. Món đổi giảm ${SUB_DISC*100}%, khách chờ thêm được.</p>
-   ${onlyTop?`<button class="sugo wide" data-sugr="top"><b>Bỏ ${miss.map(k=>TOPS[k].sh).join(', ')}</b><span>${fk(priceOf({...o,ts:o.ts.filter(k=>!miss.includes(k)),disc:SUB_DISC}))}</span></button>`:''}
-   ${opts.length?`<div class="sugg">${opts.map(r=>`<button class="sugo" data-sugr="${r.id}"><img src="${drinkPicR(r,o.size)}" alt=""><b>${r.name}</b><span>${fk(nt(r))}</span></button>`).join('')}</div>`:!onlyTop?'<p class="meta warn">Không còn món nào làm được. Từ chối khách hoặc đóng cửa sớm để nhập thêm hàng.</p>':''}`}
-function sugHTML(c){const o=c.items[c.cur],miss=missingOf(o),onlyTop=miss.length&&miss.every(k=>TOPS[k]),opts=subOptions(c);
-  const nt=r=>{const n={...o,r:r.id,bs:r.bs,ss:r.ss||[],fs:r.fs,xf:undefined,ts:o.ts.filter(k=>qty(k)>0&&onCounter(k)),disc:SUB_DISC};return priceOf(n)};
+   ${onlyTop?`<button class="sugo wide" data-sugr="top"><b>Bỏ ${miss.map(k=>ITEM(k).sh).join(', ')}</b><span>${fk(nt('top'))}</span></button>`:''}
+   ${opts.length?`<div class="sugg">${opts.map(r=>{const n=subOrder(o,r);return `<button class="sugo" data-sugr="${r.id}"><img src="${drinkPicR(n)}" alt=""><b>${n.name}</b><span>${fk(nt(r))}</span></button>`}).join('')}</div>`:!onlyTop?'<p class="meta warn">Không còn món nào làm được. Từ chối khách hoặc đóng cửa sớm để nhập thêm hàng.</p>':''}`}
+function sugHTML(c){const o=c.items[c.cur],miss=missingOf(o),onlyTop=miss.length&&miss.every(k=>!BASES[k]),opts=subOptions(c);
+  const nt=r=>priceOf({...subOrder(o,r),disc:SUB_DISC});
   return `<div class="tkmid sug"><span class="meta">Gợi ý món khác (giảm ${SUB_DISC*100}%, khách chờ thêm được):</span>
-    ${onlyTop?`<button class="btn sm" data-sugr="top">Bỏ ${miss.map(k=>TOPS[k].sh).join(', ')} · ${fk(priceOf({...o,ts:o.ts.filter(k=>!miss.includes(k)),disc:SUB_DISC}))}</button>`:''}
-    ${opts.map(r=>`<button class="btn sm" data-sugr="${r.id}">${r.name} · ${fk(nt(r))}</button>`).join('')}
+    ${onlyTop?`<button class="btn sm" data-sugr="top">Bỏ ${miss.map(k=>ITEM(k).sh).join(', ')} · ${fk(nt('top'))}</button>`:''}
+    ${opts.map(r=>`<button class="btn sm" data-sugr="${r.id}">${subOrder(o,r).name} · ${fk(nt(r))}</button>`).join('')}
     ${!onlyTop&&!opts.length?'<span class="meta warn">Không còn món nào làm được.</span>':''}<button class="btn sm ghost" data-sugx="1">Thôi</button></div>`}
 function suggest(c,pickId,ix=c.cur){if(sealing&&sealing.cid===c.id)return;const o=c.items[ix];
   /* khách khó tính có lúc không chịu */
   if(c.type==='khotinh'&&Math.random()<.4){say(c,'Thôi, tôi đi chỗ khác!',1600);D.queue=D.queue.filter(x=>x!==c);D.left++;review(c,2,['hết món']);regAfter(c,2);leave(c,'leave',0);layoutQ();toast(`${c.name} không chịu đổi món, bỏ về`);return}
-  let n;if(pickId==='top')n={...o,ts:o.ts.filter(k=>qty(k)>0&&onCounter(k))};
-  else{const r=recById(+pickId);if(!r)return;const g=gemOf(r);n={...o,r:r.id,name:r.name,bs:r.bs,ss:r.ss||[],fs:r.fs,xf:undefined,gem:g?g.k:undefined,b:r.bs[0],ts:o.ts.filter(k=>qty(k)>0&&onCounter(k))}}
+  let n;if(pickId==='top')n=subOrder(o,'top');
+  else{const r=recById(+pickId);if(!r)return;n=subOrder(o,r)}
   n.disc=SUB_DISC;n.sub=1;delete n.oosSaid;delete n.sj;c.items[ix]=n;if(c.o===o)c.o=n;c.price=c.items.reduce((a,x)=>a+priceOf(x),0);
   c.p=Math.min(c.max,c.p+c.max*.4);bump('sub');say(c,pick(['Ok, đổi cũng được!','Món này cũng ngon ha!','Được, giảm giá là chịu!']),1600);sfx('pop');
-  toast(`${c.name} đồng ý đổi sang ${n.name}${pickId==='top'?' (bỏ rau hết hàng)':''}, giảm ${SUB_DISC*100}%`,2800)}
+  toast(`${c.name} đồng ý đổi sang ${n.name}${pickId==='top'?' (bỏ món hết hàng)':''}, giảm ${SUB_DISC*100}%`,2800)}
 function typeLabel(c){if(c.type==='thanhtra'){const E=D&&D.exam;return `🧑‍⚖️ Thanh tra${E?` · ly ${Math.min(E.n,E.ok+1)}/${E.n}`:''}`}if(c.type==='chim')return c.revealed?'🕵️ Cảnh sát chìm (lộ diện!)':working().some(s=>s.trait==='tinhy')?'Khách lạ mặt, dáng nghiêm nghị':TYPES.thuong.label;if(c.type==='quen'){const R=regOf(c);return `${SPARK} Khách quen${R?` · lần ghé thứ ${R.visits+1}`:''}`}if(c.items.length>1)return `${TYPES[c.type].label} · ${c.items.length} ly`;if(c.type==='quyt')return c.dis&&!working().some(s=>s.trait==='tinhy')?TYPES.thuong.label:'Khách lạ, trông đáng ngờ';return TYPES[c.type].label}
 let tkKey='';
 /* phần giữa phiếu còn nội dung bị che: làm mờ đáy, cuộn tới cuối thì bỏ mờ */
@@ -3182,15 +3221,14 @@ function takeCup(sz,skin){if(cup&&(cup.pours.length||cup.fry.length||cup.tops.le
 /* chạm khay đồ chiên: thả một phần vào chảo (trừ kho ngay, mỗi ly một phần mỗi loại); chảo tối đa 3 phần. Nhân viên đang chiên ly này thì chờ */
 function startPour(k){if(!cup)return toast('Lấy order trước đã');if(cup.sealed||cup.broken)return cup.broken&&toast('Ly hỏng rồi, chạm Bỏ ly trước');
   {const hs=staffOf(cup);if(hs&&hs.w.got&&hs.w.steps[hs.w.i]==='nuoc')return toast(`${hs.name} đang chiên, chờ chút nha`)}
-  if(cup.fry.some(f=>f.k===k))return toast(`${BASES[k].sh} đang trong chảo rồi`);
-  if(cup.pours.some(p=>p.k===k))return toast(`Ly đã có ${BASES[k].sh.toLowerCase()} rồi`);
-  if(cup.fry.length>=3)return toast('Chảo đầy rồi, vớt ra đã');
-  if(!cup.used[k]){if(!use(k))return toast(`Hết ${BASES[k].ing.toLowerCase()}`);cup.used[k]=1}
-  cup.fry.push({k,c:0});sfx('pop');tkKey='';renderTicket()}
+  /* mỗi lần chạm khay là gắp một xiên thả vào chảo (trừ kho ngay); xiên mới gắp nhập vào mẻ cùng loại vừa thả, mẻ đã chín một phần thì thành mẻ mới */
+  if(cup.fry.reduce((a,f)=>a+(f.n||1),0)>=FRY_CAP)return toast('Chảo đầy rồi, vớt ra đã');
+  if(!use(k))return toast(`Hết ${BASES[k].ing.toLowerCase()}`);cup.used[k]=(cup.used[k]||0)+1;
+  const g=cup.fry.find(f=>f.k===k&&f.c<.35);if(g)g.n=(g.n||1)+1;else cup.fry.push({k,n:1,c:0});sfx('pop');tkKey='';renderTicket()}
 /* chạm chảo: vớt mọi phần đã chín (từ FRY_MIN); phần còn sống để lại. Vớt lúc hơi cháy thì khách chê (−1★) */
 function fryScoop(rd){if(!cup)return toast('Lấy order trước đã');if(cup.broken)return toast('Ly hỏng rồi, chạm Bỏ ly trước');
   if(!rd){if(!cup.fry.length)return toast('Chảo trống: chạm khay đồ chiên để thả vào chảo');rd=cup.fry.filter(f=>f.c>=FRY_MIN);if(!rd.length)return toast('Chưa chín, chờ vàng đã',1400)}
-  cup.fry=cup.fry.filter(f=>!rd.includes(f));rd.forEach(f=>cup.pours.push({k:f.k,amt:1,q:f.c}));sfx('tick');if(rd.some(f=>f.c>FRY_OK))toast('Hơi cháy rồi…',1400);tkKey='';renderTicket()}
+  cup.fry=cup.fry.filter(f=>!rd.includes(f));rd.forEach(f=>cup.pours.push({k:f.k,n:f.n||1,amt:1,q:f.c}));sfx('tick');if(rd.some(f=>f.c>FRY_OK))toast('Hơi cháy rồi…',1400);tkKey='';renderTicket()}
 function stopPour(){}
 /* bọc ly bằng giấy bọc theo mùa (khách trả thêm tiền ly); chạm lần nữa thì tháo */
 function wrapCup(id){if(!cup)return toast('Lấy order trước đã');if(cup.broken||cup.sealed)return;if(cup.skin===id){cup.skin=null;toast('Đã tháo giấy bọc')}else{cup.skin=id;sfx('pop')}tkKey='';renderTicket()}
@@ -3204,19 +3242,20 @@ function useTool(id){
   if(id==='ice'){if(cup.ice>=3)return toast('Đủ chanh rồi');cup.ice++;sfx('ice');renderTicket()}}
 /* ly phải khớp đơn mới giao được. Trả về null nếu khớp, {fatal,msg} nếu chưa:
    fatal = sai không sửa được (phải bỏ ly làm lại), còn lại = còn thiếu, bỏ thêm là được */
-function cupMiss(o){const nm=k=>{const t=ITEM(k).sh;return /^[A-Z]{2}/.test(t)?t:t.toLowerCase()},got=new Set(cup.pours.map(p=>p.k)),inF=(cup.fry||[]).map(f=>f.k),bad=[],need=[];
-  if(cup.size!==o.size)bad.push(`sai size (khách gọi ly ${o.size})`);
-  const extra=[...[...got,...inF].filter(k=>!o.bs.includes(k)),...cup.syrups.filter(k=>!o.ss.includes(k)),...cup.tops.filter(k=>!o.ts.includes(k)),...cup.foams.filter(k=>!o.fs.includes(k))];
+function cupMiss(o){const nm=k=>{const t=ITEM(k).sh;return /^[A-Z]{2}/.test(t)?t:t.toLowerCase()},bad=[],need=[];
+  const extra=[...cup.syrups.filter(k=>!o.ss.includes(k)),...cup.tops.filter(k=>!o.ts.includes(k)),...cup.foams.filter(k=>!o.fs.includes(k))];
   if(extra.length)bad.push('thừa '+extra.map(nm).join(', '));
   const ws=o.sugar?SUGAR[o.sugar]:null,wi=o.ice?ICE[o.ice][1]:null;
   if(ws!=null&&cup.sugar>ws)bad.push(`dư ớt (khách dặn ${ws} lần, ly có ${cup.sugar})`);
   if(wi!=null&&cup.ice>wi)bad.push(`dư chanh (khách dặn ${wi?wi+' lần':'không chanh'}, ly có ${cup.ice})`);
   if(bad.length)return{fatal:true,msg:bad.join(', ')};
-  const mb=o.bs.filter(k=>!got.has(k)),fr=mb.filter(k=>inF.includes(k)),raw=mb.filter(k=>!inF.includes(k));if(raw.length)need.push(raw.map(nm).join(', '));
+  const fr=[],raw=[];o.bs.forEach(k=>{const g=cpN(cup,k),f=cpF(cup,k),q=xN(o,k);if(g+f<q)raw.push(`${q-g-f} ${nm(k)}`);else if(g<q)fr.push(k)});if(raw.length)need.push(raw.join(', '));
   [...o.ss.filter(k=>!cup.syrups.includes(k)),...o.ts.filter(k=>!cup.tops.includes(k)),...o.fs.filter(k=>!cup.foams.includes(k))].forEach(k=>need.push(nm(k)));
   if(ws!=null&&cup.sugar<ws)need.push(`${ws-cup.sugar} lần ớt`);if(wi!=null&&cup.ice<wi)need.push(`${wi-cup.ice} lần chanh`);if(o.sk&&cup.skin!==o.sk)need.push('giấy bọc');
   const msg=[need.length?'còn thiếu '+need.join(', '):'',fr.length?'chưa vớt '+fr.map(nm).join(', '):''].filter(Boolean).join(', ');return msg?{fatal:false,msg}:null}
 const curOrder=()=>{const c=D&&target();return c?c.items[c.cur]:null};
+/* số xiên loại k đã vớt ra ly / còn trong chảo */
+const cpN=(cp,k)=>cp.pours.filter(p=>p.k===k).reduce((a,p)=>a+(p.n||1),0),cpF=(cp,k)=>(cp.fry||[]).filter(f=>f.k===k).reduce((a,f)=>a+(f.n||1),0);
 function trySeal(){if(!target())return toast('Chưa có khách cần bạn làm');if(cup&&cup.broken){sfx('fail');return toast(`Không giao được: ly hỏng (${cup.broken})`,2600)}if(cup){const m=cupMiss(curOrder());if(m)return sfx('fail'),toast('Chưa giao được: '+m.msg.replace(/ \([^)]*\)/g,''),2600)}if(!cup||!cup.pours.length)return toast('Vớt đồ chiên ra ly rồi chạm quầy gói để giao');stopPour();sfx('seal');sealing={cid:target().id,t0:now,d:sealDur(),fx:SEAL.x+SEAL.w/2,fy:-8}}
 function playerServe(cid){const c=cid!=null?D.queue.find(x=>x.id===cid):target();if(!c||!cup||!cup.pours.length){if(cup&&cid!=null)toast('Khách đã đi, ly này bỏ phí');cup=null;tkKey='';renderTicket();return}
   const ix=cup.cid===c.id&&cup.ix!=null&&c.items[cup.ix]&&!c.items[cup.ix].done?cup.ix:c.cur,cp=cup,hs=staffOf(cp);cup=null;if(hs){errLog(hs);cp.helpers=[hs.name];hs.w=null;hs.job=null}serveCup(c,ix,cp,null)}
@@ -3224,8 +3263,9 @@ function playerServe(cid){const c=cid!=null?D.queue.find(x=>x.id===cid):target()
 function serveCup(c,ix,cup,by){const o=c.items[ix];
   if(cupUp(cup)){const x=cupExtra(cup,o);if(x&&Math.random()<.5)c.cupUp=(c.cupUp||0)+x;c.cupN=(c.cupN||0)+1;bump('lyMua')}
   let s=5;const notes=[];if(o.gem&&GEMS[o.gem]&&cup.gem!==o.gem){s-=2;notes.push('quên '+GEMS[o.gem].n.toLowerCase())}if(o.sk&&cup.skin!==o.sk){s--;notes.push('thiếu giấy bọc')}const teas=[...new Set(cup.pours.map(p=>p.k))];
-  if(!teas.some(x=>o.bs.includes(x))){s-=2;notes.push('sai món')}else if(!sameSet(teas,o.bs)){s--;notes.push(teas.length<o.bs.length?'thiếu món':'thừa đồ')}
-  if(cup.size!==o.size){s--;notes.push('sai size')}
+  const xd=o.bs.reduce((a,k)=>a+Math.max(0,cpN(cup,k)-xN(o,k)),0)+cup.pours.filter(p=>!o.bs.includes(p.k)).reduce((a,p)=>a+(p.n||1),0),xm=o.bs.reduce((a,k)=>a+Math.max(0,xN(o,k)-cpN(cup,k)),0);
+  if(!teas.some(x=>o.bs.includes(x))){s-=2;notes.push('sai món')}else{if(xm){s-=xm>=2?2:1;notes.push('thiếu xiên')}if(xd){s-=xd>=3?2:1;notes.push('gắp dư')}}
+  if(o.fam&&!xm){const F=FAMOUS.find(x=>x.id===o.fam);if(F)famousFound(F)}
   const bt=cup.pours.filter(p=>(p.q||1)>FRY_OK).length;if(cup.broken){s-=2;notes.push(cup.broken)}else if(bt){s-=bt>1?2:1;notes.push('hơi cháy')}
   const tMiss=o.ts.filter(x=>!cup.tops.includes(x)).length,tExtra=cup.tops.filter(x=>!o.ts.includes(x)).length;if(tMiss+tExtra){s-=Math.min(2,tMiss+tExtra);notes.push(tMiss?'thiếu rau':'sai rau')}
   const sy=cup.syrups||[],sMiss=o.ss.filter(x=>!sy.includes(x)).length,sExtra=sy.filter(x=>!o.ss.includes(x)).length;if(sMiss+sExtra){s-=Math.min(2,sMiss+sExtra);notes.push(sMiss?'thiếu sốt':'sai sốt')}
@@ -3759,15 +3799,15 @@ const COLL=[
     L:()=>SHOP.slice(1).map((x,i)=>({t:`Cấp ${i+2} · ${x.n}`,ok:(S.certs||[]).includes(i+1)}))},
   {id:'gem',i:'💎',n:'Đồ siêu hiếm',N:()=>Object.keys(GEMS).length,v:()=>(S.gems||[]).length,how:'Nhân viên đi chợ cuối ngày có thể gặp',
     L:()=>Object.entries(GEMS).map(([k,G])=>({t:`${G.i} ${G.n} · ${G.g}`,ok:(S.gems||[]).some(g=>g.k===k)}))},
-  {id:'mon',i:'⭐',n:'Món hạng A',N:()=>6,v:()=>S.recipes.filter(r=>r.status==='ok'&&(GRADE_R[gradeShown(r)]||0)>=3).length,how:'Chế món 3–4 nguyên liệu hợp vị ở 🧪 Công thức',
-    L:()=>{const A=S.recipes.filter(r=>r.status==='ok'&&(GRADE_R[gradeShown(r)]||0)>=3);return [...A.map(r=>({t:`${r.name} · ${gradeShown(r)}`,ok:1})),...[...Array(Math.max(0,6-A.length))].map(()=>({t:'Món hạng A',ok:0}))]}},
+  {id:'mon',i:'🍢',n:'Đồ chiên',N:()=>Object.values(BASES).filter(b=>!b.free).length,v:()=>S.drinks.filter(k=>BASES[k]&&!BASES[k].free).length,how:'Mở loại mới ở 📦 Kho (hàng hiếm ✈️ chờ hàng về)',
+    L:()=>Object.entries(BASES).filter(([,b])=>!b.free).map(([k,b])=>({t:`${b.name}${b.rare?' ✈️':''}`,ok:S.drinks.includes(k)}))},
   {id:'quen',i:'💛',n:'Khách quen',N:()=>50,v:()=>(S.regs||[]).length,how:'Khách cho 5★ đôi khi thành khách quen · đủ 50 người khi tiệm cấp 5',
     L:()=>{const R=S.regs||[];return [...R.map(r=>({t:regName(r),ok:1})),...[...Array(Math.max(0,50-R.length))].map(()=>({t:'Khách quen',ok:0}))]}},
   {id:'own',i:'🧑‍⚖️',n:'Ly cho thanh tra',N:()=>50,v:()=>(S.stat&&S.stat.inspCup)||0,how:'Làm đúng 5★ cho thanh tra (đột xuất hoặc lúc thi lên cấp)'},
   {id:'ly',i:'🧻',n:'Giấy bọc ly',N:()=>Object.keys(CUPSKIN).length,v:()=>Object.keys(CUPSKIN).filter(k=>S.owned.includes(k)).length,how:'Mua ở 🎀 Trang trí › Giấy bọc ly',
     L:()=>Object.entries(CUPSKIN).map(([id,k])=>({t:k.n,ok:S.owned.includes(id),d:S.owned.includes(id)?'':unlockState(k).txt}))},
   {id:'rival',i:'⚔️',n:'Đối thủ đã hạ',N:()=>RIVALN.length,v:()=>(S.rvBeat||[]).length,how:'Hạ hết máu tiệm đối thủ',L:()=>RIVALN.map(n=>({t:n,ok:(S.rvBeat||[]).includes(n)}))},
-  {id:'famous',i:'📜',n:'Món nổi tiếng',N:()=>FAMOUS.length,v:()=>(S.famous||[]).length,how:'Chế đúng công thức nổi tiếng ở 🧪 Công thức (cần hàng hiếm ✈️)',L:()=>FAMOUS.map(F=>{const ok=(S.famous||[]).includes(F.id);return{t:ok?F.n:F.h,ok}})},
+  {id:'famous',i:'📜',n:'Món nổi tiếng',N:()=>FAMOUS.length,v:()=>(S.famous||[]).length,how:'Bán đủ đồ của combo (cần hàng hiếm ✈️), khách sẽ gọi; giao đúng lần đầu là mở',L:()=>FAMOUS.map(F=>{const ok=(S.famous||[]).includes(F.id);return{t:ok?F.n:F.h,ok}})},
   {id:'ach',i:'🏅',n:'Huy hiệu',N:()=>ACH.length,v:()=>ACH.filter(a=>(S.ach||{})[a.id]).length,how:'',
     L:()=>ACH.map(a=>({t:`${a.i} ${a.n}`,ok:!!(S.ach||{})[a.id],d:(S.ach||{})[a.id]?'':a.d}))}];
 let collSel=null;

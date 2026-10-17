@@ -13,8 +13,8 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);
 (function(){const R=Math.random;
   /* thực đơn có 3 món giá khác nhau */
   S.day=10;S.shop=4;['cavien','bovien','tomvien','s_tuongot','dualeo','dochua','hanhphi'].forEach(k=>S.stock[k]=[{q:999,e:9999}]);S.drinks=['cavien','bovien','tomvien'];S.tops=['dualeo','dochua','hanhphi'];syncLayout();
-  const mk=(name,bs,price)=>{const r={id:S.ruid++,name,bs,ss:[],ts:[],fs:[],status:'ok',mult:2.6,grade:'B',price,on:true,until:null};S.recipes.push(r);return r};
-  S.recipes.forEach(r=>r.on=false);const r1=mk('Rẻ',['tomvien'],12000),r2=mk('Vừa',['cavien','bovien'],25000),r3=mk('Đắt',['cavien','bovien','tomvien'],45000);const fair=()=>[r1,r2,r3].forEach(r=>r.price=recValue(r));fair();
+  syncBasics();const mk=(k)=>{const r=itemRec(k);r.on=true;return r};
+  S.recipes.forEach(r=>r.on=false);const r1=mk('cavien'),r2=mk('bovien'),r3=mk('tomvien');const fair=()=>[r1,r2,r3].forEach(r=>r.price=recValue(r));fair();
   const open=()=>{S.evDay=S.day;S.ev='binhthuong';startDay();D.next=1e9;D.evPlan=[];D.evTax=false;D.queue=[];D.walk=[]};
   const make=(type)=>{spawn(type);const c=D.queue.at(-1);c.p=c.max;c.ratio=1;return c};
 
@@ -24,7 +24,7 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);
   S.day=1;const s1=new Set();for(let i=0;i<2000;i++)s1.add(pickType());ok(!s1.has('xeom')&&!s1.has('chim')&&!s1.has('sigai'),'ngày 1: chưa có nhân vật mới');S.day=10;
 
   // 2. đại gia sĩ gái
-  open();let c=make('sigai');ok(c.items.length===2&&c.items[0].r===r3.id&&c.items[1].r===r2.id&&c.items.every(o=>o.size==='L')&&c.friends.length===1,'đại gia: 2 món đắt nhất, size L, đi cùng bạn gái');
+  open();let c=make('sigai');const tp=[r1,r2,r3].sort((a,b)=>b.price-a.price);ok(c.items.length===2&&c.items[0].r===tp[0].id&&c.items[1].r===tp[1].id&&c.items.every(o=>xN(o,o.bs[0])>=3)&&c.friends.length===1,'đại gia: 2 phần món đắt nhất, gọi nhiều xiên, đi cùng bạn gái');
   ok(c.items.some(o=>o.ts.length>=1),'đại gia: gọi thêm topping');
   r3.price=999000;r2.price=999000;served(c,5,[],null);ok(D.stars.at(-1)===5,'đại gia không bao giờ chê đắt (giá gấp nhiều lần vẫn 5★)');fair();
   open();c=make('sigai');let m0=S.money;served(c,5,[],null);ok(S.money-m0>=c.price*1.5,'đại gia 5★: bo từ 50% giá trở lên (thu '+(S.money-m0)+' / giá '+c.price+')');
@@ -33,7 +33,7 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);
   // 3. chú xe ôm
   open();c=make('xeom');ok(c.items.length===1&&c.items[0].ts.length<=1&&[r1.id,r2.id].includes(c.items[0].r)&&c.pay==='Tiền mặt'&&/^(Chú|Bác) /.test(c.name),'xe ôm: món rẻ, tối đa 1 topping, trả tiền mặt, tên "Chú/Bác…"');
   M.random=()=>.1;open();c=make('xeom');const t0=D.total;served(c,5,[],null);M.random=R;ok(D.total===t0+2&&D.log.some(l=>/anh em xe ôm/.test(l)),'xe ôm 5★: rủ thêm 2 anh em ghé');
-  open();c=make('xeom');c.items.forEach(it=>{it.ts=[];const r=recById(it.r);r.price=Math.round(recValue(r)*1.15)});served(c,5,[],null);ok(D.stars.at(-1)===4,'xe ôm nhạy giá: đắt hơn 15% đã chê');fair();
+  open();c=make('xeom');c.items.forEach(it=>{it.ts=[]});[r1,r2,r3].forEach(r=>r.price=Math.round(recValue(r)*1.16));served(c,5,[],null);ok(D.stars.at(-1)===4,'xe ôm nhạy giá: đắt hơn 15% đã chê');fair();
 
   // 4. cảnh sát chìm
   open();c=make('chim');ok(typeLabel(c)==='Khách thường','cảnh sát chìm trông như khách thường');

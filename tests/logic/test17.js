@@ -12,7 +12,7 @@ ctx.window = ctx; vm.createContext(ctx);
 vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
 (function(){const R0=Math.random;
   const open=()=>{S.day=12;S.evDay=12;S.ev='binhthuong';S.shop=1;S.trend={w:1,ids:['s_me','tomvien']};['cavien','bovien','s_tuongot','dualeo'].forEach(k=>S.stock[k]=[{q:999,e:99}]);syncBasics();S.recipes.forEach(r=>r.on=r.status==='ok'&&r.basic);syncLayout();S.staff=[];S.owned=S.owned.filter(x=>!CUPSKIN[x]);startDay();D.next=1e9;D.evPlan=[];D.queue=[];D.walk=[];D.pend=[];D.lostN=9;ASK_P=1};
-  const cust=(type)=>{M.random=()=>.9;spawn(type);M.random=R0;const c=D.queue.at(-1);c.items.length=1;Object.assign(c.items[0],{bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0,disc:0,sk:null});c.o=c.items[0];c.price=priceOf(c.o);c.p=c.max=999;c.ratio=1;return c};
+  const cust=(type)=>{M.random=()=>.9;spawn(type);M.random=R0;const c=D.queue.at(-1);c.items.length=1;Object.assign(c.items[0],{n:null,fam:null,bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0,disc:0,sk:null});c.o=c.items[0];c.price=priceOf(c.o);c.p=c.max=999;c.ratio=1;return c};
   const make=()=>{takeCup('M');cup.pours=[{k:'cavien',amt:1,q:1},{k:'bovien',amt:1,q:1}];cup.used.cavien=cup.used.bovien=1;trySeal();for(let i=0;i<40&&sealing;i++){now+=.05;tickDay(.05)}};
   const tick=s=>{for(let i=0;i<s*20;i++){now+=.05;tickDay(.05)}};
   ['betthu','thayboi','batam','streamer','tay'].forEach(k=>ok(TYPES[k]&&SPRSRC['k_'+k]&&TICON[k]&&CHAT[k],'nhân vật '+TYPES[k].label+': có loại khách, hình riêng k_'+k+', biểu tượng, lời nói'));
@@ -49,7 +49,7 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
   open();c=cust('streamer');takeCup('M');tickDay(.01);tick(liveT(c.items[0])+2);useTool('trash');make();ok(D.stars.at(-1)<=2,'trễ giờ: bị chê trên live ('+D.stars.at(-1)+'★)');
   // --- Tây ba lô
   open();c=cust('tay');c.items[0].en=1;Object.assign(c.items[0],{sugar:50,ice:'it',ts:['dualeo']});c.price=priceOf(c.o);
-  const lb=checks(c.items[0]).map(x=>x[0]).join(' | ');ok(/Fish balls \\+ Beef balls Medium/.test(lb)&&/Cucumber/.test(lb)&&/Chili ×/.test(lb)&&/Lime ×/.test(lb),'phiếu tiếng Anh: '+lb);
+  const lb=checks(c.items[0]).map(x=>x[0]).join(' | ');ok(/Fish balls ×\\d/.test(lb)&&/Beef balls ×\\d/.test(lb)&&/Cucumber/.test(lb)&&/Chili ×/.test(lb)&&/Lime ×/.test(lb),'phiếu tiếng Anh: '+lb);
   ok(/^Anh [A-Z][a-z]+$/.test(c.name)&&c.pay==='Tiền đô','tên và trả tiền: '+c.name+' · '+c.pay);
   open();c=cust('tay');c.items[0].en=1;M.random=()=>.5;make();M.random=R0;ok(D.stars.at(-1)>=4&&/trả \\$\\d, khỏi thối/.test(toasts.find(t=>t.startsWith(c.name))||''),'khách Tây bo bằng đô: '+(toasts.find(t=>t.startsWith(c.name))||''));
   // --- lúc đông khách / tỉ lệ thẻ 0%: nhân vật tự quyết, không hiện thẻ

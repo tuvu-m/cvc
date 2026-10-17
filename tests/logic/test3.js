@@ -59,7 +59,7 @@ run(null, VALID + `
   const d=S.grid.find(o=>o.id==='dualeo'),dc=[d.c,d.r];S.stock.dualeo=[];renderPrep();ok(!S.grid.some(o=>o.id==='dualeo'),'hết topping thì gỡ khỏi quầy');
   S.stock.dualeo=[{q:5,e:S.day+3}];renderPrep();const d2=S.grid.find(o=>o.id==='dualeo');ok(d2&&d2.c===dc[0]&&d2.r===dc[1],'nhập lại thì topping về đúng chỗ cũ');
   // chạm máy đóng gói để giao
-  startDay();spawn();{const o=target().items[0];Object.assign(o,{size:'M',bs:['cavien','bovien'],ss:[],ts:[],fs:[],sugar:0,ice:0})}takeCup('M');cup.pours=[{k:'cavien',amt:.36},{k:'bovien',amt:.36}];cup.fill=.72;trySeal();ok(!!sealing&&sealing.fx===SEAL.x+SEAL.w/2&&sealing.fy<0,'đóng gói: ly từ khung ly to rơi xuống máy');
+  startDay();spawn();{const o=target().items[0];Object.assign(o,{n:null,fam:null,size:'M',bs:['cavien','bovien'],ss:[],ts:[],fs:[],sugar:0,ice:0})}takeCup('M');cup.pours=[{k:'cavien',amt:.36},{k:'bovien',amt:.36}];cup.fill=.72;trySeal();ok(!!sealing&&sealing.fx===SEAL.x+SEAL.w/2&&sealing.fy<0,'đóng gói: ly từ khung ly to rơi xuống máy');
   const o=hitObj(SEAL.x+SEAL.w/2,SEAL.y+SEAL.h/2);ok(o&&o.id==='seal','chạm vào máy đóng gói trúng đúng máy');
   // ngày bán khẩn cấp: thay bình trà bằng trà mạn
   D=null;startDay(true);const g=LAYG();ok(g.some(o=>o.id==='khoaimi')&&!g.some(o=>o.id==='cavien'),'ngày khẩn cấp: quầy chỉ có bình trà mạn');ok(!valid(g),'quầy khẩn cấp vẫn hợp lệ');

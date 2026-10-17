@@ -43,8 +43,9 @@ async function serveOne(page, opt = {}) {
   // cup
   if (!(await page.evaluate(() => !!cup))) return null;
   // thả từng loại đồ chiên vào chảo, vàng rồi thì chạm chảo vớt ra ly
-  for (const k0 of o.bs) { const k = D_emerg_tea(o, k0); if (await page.evaluate(k => cup && (cup.pours.some(p => p.k === k) || cup.fry.some(f => f.k === k)), k)) continue; await tap(page, k) }
-  for (let t = 0; t < 250; t++) { await page.waitForTimeout(30); const st = await page.evaluate(() => !cup || cup.broken || !cup.fry.length ? 2 : cup.fry.every(f => f.c >= 1) ? 1 : 0); if (st === 2) break; if (st === 1) await tap(page, 'chao') }
+  /* mỗi lần chạm khay gắp một xiên: chạm tới khi đủ số xiên khách gọi */
+  for (const k0 of o.bs) { const k = D_emerg_tea(o, k0); for (let i = 0; i < 12; i++) { if (await page.evaluate(([k, k0]) => { const c = target(), it = c && c.items[c.cur]; return !cup || !it || cpN(cup, k) + cpF(cup, k) >= xN(it, k0) }, [k, k0])) break; await tap(page, k) } }
+  for (let t = 0; t < 250; t++) { await page.waitForTimeout(30); const st = await page.evaluate(() => !cup || cup.broken || !cup.fry.length ? 2 : cup.fry.some(f => f.c >= 1) ? 1 : 0); if (st === 2) break; if (st === 1) await tap(page, 'chao') }
   for (const k of o.ss) { if (!(await page.evaluate(k => cup && cup.syrups.includes(k), k))) await tap(page, k) }
   for (let i = await page.evaluate(() => cup ? cup.sugar : 0); i < o.sugar; i++) await tap(page, 'sugar');
   for (let i = await page.evaluate(() => cup ? cup.ice : 0); i < o.ice; i++) await tap(page, 'ice');

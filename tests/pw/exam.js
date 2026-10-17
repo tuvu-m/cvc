@@ -2,13 +2,13 @@
 const L=require('./a2lib');let fails=0;const ok=(c,m)=>{console.log((c?'ok   ':'FAIL ')+m);if(!c)fails++};
 const setup=p=>p.evaluate(()=>{document.body.classList.remove('help');S.notice=[];S.day=12;S.five=260;S.life=Object.assign(newLife(),{sales:12e6,tips:0});S.money=5e6;S.loanCash=0;
   S.drinks=[...new Set([...S.drinks,'cavien','bovien'])];[...S.drinks,...S.syrups,...S.tops,...S.foams].forEach(k=>S.stock[k]=[{q:99,e:99}]);
-  S.recipes.forEach(r=>r.on=false);S.recipes.push({id:S.ruid++,name:'Trà sữa hạng A',bs:['cavien','bovien'],ss:[],ts:[],fs:[],status:'ok',mult:3.4,grade:'A',price:30000,on:true,until:null});
+  syncBasics();S.recipes.forEach(r=>r.on=false);itemRec('cavien').on=true;itemRec('bovien').on=true;
   syncLayout();autoLay&&autoLay();tab='trangtri';renderPrep()});
 (async()=>{const b=await L.chromium.launch({channel:'chrome',headless:true});
  // 1. lên cấp: đạt
  {const {page:p}=await L.open(b,375,667);await setup(p);
   const s0=await p.evaluate(()=>({btn:document.querySelector('[data-exam]')?.disabled,reqs:[...document.querySelectorAll('.shopbox .req')].map(x=>x.textContent)}));
-  ok(s0.btn===false&&s0.reqs.some(t=>/🏅 B\+ · Trà sữa hạng A ✓/.test(t))&&s0.reqs.some(t=>/3 ly/.test(t)),'tab Trang trí: đủ điều kiện, nút Mời thanh tra bật · '+s0.reqs.join(' | '));
+  ok(s0.btn===false&&s0.reqs.some(t=>/🍢 Bò viên ✓/.test(t))&&s0.reqs.some(t=>/3 ly/.test(t)),'tab Trang trí: đủ điều kiện, nút Mời thanh tra bật · '+s0.reqs.join(' | '));
   await p.screenshot({path:'exam0.png'});
   await p.tap('[data-exam]');await p.waitForTimeout(2500);
   const s1=await p.evaluate(()=>({exam:!!(D&&D.exam),staff:working().length,q:D.queue.map(c=>c.name+'|'+c.type),hud:document.querySelector('#hudMini').textContent}));

@@ -10,9 +10,9 @@ const ctx = { console, Math: M, JSON, Date, Object, Array, Set, Map, Promise, St
   localStorage: { getItem: k => store[k] ?? null, setItem: (k, v) => { store[k] = String(v) } }, Image: function () { return {} }, navigator: stub, addEventListener: () => {}, ok, M, toasts };
 ctx.window = ctx; vm.createContext(ctx);
 vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
-(function(){S.recipes.forEach(r=>{if(r.id===1)r.mult=2.6});const R=Math.random;
+(function(){S.recipes.forEach(r=>{});const R=Math.random;
   const open=()=>{S.day=8;S.evDay=8;S.ev='binhthuong';S.trend={w:1,ids:['s_me','tomvien']};['cavien','bovien','s_tuongot'].forEach(k=>S.stock[k]=[{q:99,e:99}]);syncLayout();startDay(),S.q=null;D.next=1e9;D.evPlan=[];D.queue=[];D.walk=[]};
-  const cust=(type)=>{spawn(type);const c=D.queue.at(-1);Object.assign(c.items[0],{bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0,disc:0,sk:null});c.items.length=1;c.o=c.items[0];c.price=priceOf(c.o);c.p=c.max=999;c.ratio=1;return c};
+  const cust=(type)=>{spawn(type);const c=D.queue.at(-1);Object.assign(c.items[0],{n:null,fam:null,bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0,disc:0,sk:null});c.items.length=1;c.o=c.items[0];c.price=priceOf(c.o);c.p=c.max=999;c.ratio=1;return c};
   const make=(skin)=>{takeCup('M');if(skin)wrapCup(skin);cup.pours=[{k:'cavien',amt:1,q:1},{k:'bovien',amt:1,q:1}];cup.used.cavien=cup.used.bovien=1;trySeal();for(let i=0;i<40&&sealing;i++){now+=.05;tickDay(.05)}};
   const sk=Object.keys(CUPSKIN).find(inSeason);
   ok(!!sk,'tháng này có ly theo mùa: '+(sk&&CUPSKIN[sk].n));

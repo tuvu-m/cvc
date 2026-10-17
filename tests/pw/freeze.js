@@ -19,7 +19,7 @@ for(const f of dumps){
       if(!D)return true;
       // người chơi bot: lấy order, 8–12 giây sau pha đủ rồi chạm máy đóng gói
       try{if(!cup&&!sealing&&D.away<=now){const n=nextIt();if(n&&!n.miss&&Math.random()<.05){takeOrder(n.c,n.i,null);F.PT=now+8+Math.random()*4}}
-      else if(cup&&!sealing&&now>=F.PT){const c=D.queue.find(x=>x.id===cup.cid);const it=c&&c.items[cup.ix];if(it&&!it.done){Object.assign(cup,{pours:it.bs.map(k=>({k,amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null});trySeal()}else{cup=null;PV=false}}
+      else if(cup&&!sealing&&now>=F.PT){const c=D.queue.find(x=>x.id===cup.cid);const it=c&&c.items[cup.ix];if(it&&!it.done){Object.assign(cup,{pours:it.bs.map(k=>({k,n:xN(it,k),amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null});trySeal()}else{cup=null;PV=false}}
       S.staff.forEach(x=>{if(x.w&&x.w.broken){x.bk=(x.bk||0)+.05;if(x.bk>1.5){x.bk=0;staffDrop(x.id)}}})}catch(e){const key='BOT '+(e.stack||String(e)).split('\n').slice(0,3).join(' | ');F.E[key]=(F.E[key]||0)+1}
       // đứng hình: còn khách chờ (không đang quyết định) mà tổng kiên nhẫn và tiến độ nhân viên không đổi
       const sig=D.queue.filter(c=>!c.dec).map(c=>c.p.toFixed(2)).join()+'|'+S.staff.map(s=>s.w?(s.w.acc+s.w.t).toFixed(2):'-').join();

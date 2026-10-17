@@ -66,7 +66,7 @@ vm.runInContext(src + `
   ok(rc&&rc.type==='quen'&&S.regs.some(r=>r.id===rc.reg&&regName(r)===rc.name),'khách quen ghé lại đúng tên');
   ok(/Khách quen · lần ghé thứ/.test(typeLabel(rc)),'phiếu order ghi "Khách quen · lần ghé thứ N"');
   ok(rc.max>(Math.max(24,40-S.day*.8))*1.3,'khách quen chịu chờ lâu hơn');
-  const R=S.regs.find(r=>r.id===rc.reg),v0=R.visits,tip0=D.tips;rc.ratio=1;settle(rc,5,null,[]);
+  const R=S.regs.find(r=>r.id===rc.reg),v0=R.visits,tip0=D.tips;rc.ratio=1;rc.price=Math.max(rc.price,30000);settle(rc,5,null,[]);
   ok(D.tips-tip0>=5000&&R.visits===v0+1,'khách quen 5★ bo thêm 5k, tăng số lần ghé');
   let twice=0;for(let i=0;i<300&&twice<2;i++){S.day++;startDay();spawn();const c=D.queue.find(c=>c.reg===R.id);if(c){settle(c,1,null,[]);twice++}}
   ok(!S.regs.some(r=>r.id===R.id),'phục vụ tệ 2 lần liền: không còn là khách quen');

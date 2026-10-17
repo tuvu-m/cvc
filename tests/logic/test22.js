@@ -26,11 +26,11 @@ vm.runInContext(src + `
   const hire=(n,o={})=>{S.staff=[];for(let i=0;i<n;i++){const s=genStaff();Object.assign(s,{role:'barista',trait:'chamchi',spd:3,skill:3,mood:80,name:'NV'+(i+1)},o);S.staff.push(s)}};
   /* mở cửa ngày 5 với 1 khách gọi món cố định, chặn khách mới vào */
   const setup=(order)=>{S.day=5;['cavien','bovien','s_tuongot','dualeo','dochua'].forEach(k=>S.stock[k]=[{q:99,e:99}]);startDay();D.next=1e9;D.total=99;D.evPlan=[];spawn('thuong');const c=D.queue[0];c.p=c.max=1e6;c.type='thuong';
-    Object.assign(c.items[0],{size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0},order);c.items.length=1;c.o=c.items[0];c.price=99000;cup=null;return c};
+    Object.assign(c.items[0],{n:null,fam:null,size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0},order);c.items.length=1;c.o=c.items[0];c.price=99000;cup=null;return c};
   const run=(sec,dt=.05)=>{const steps=[];let t=0;for(;t<sec;t+=dt){now+=dt;tickDay(dt);if(!D)break;const A=D.as;if(A&&A.on){const st=ASTEPS[A.i];if(steps[steps.length-1]!==st)steps.push(st)}}return steps};
   const until=(cond,max=20,dt=.05)=>{let t=0;while(t<max&&!cond()){now+=dt;t+=dt;tickDay(dt);if(!D)break}return t};
   M.random=()=>.5;
-  const fill=(c,i)=>{const it=c.items[i];const k=newCup(it.size);Object.assign(k,{cid:c.id,ix:i,pours:it.bs.map(x=>({k:x,amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null});return k};
+  const fill=(c,i)=>{const it=c.items[i];const k=newCup(it.size);Object.assign(k,{cid:c.id,ix:i,pours:it.bs.map(x=>({k:x,n:xN(it,x),amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null});return k};
   // 1. tháng trong game
   const mo=d=>{S.day=d;return gameMonth()};ok(mo(1)===1&&mo(5)===1&&mo(6)===2&&mo(56)===12&&mo(61)===1,'5 ngày bán = 1 tháng, 60 ngày một năm');
   S.owned.push('cs_tet');S.day=3;const t1=inSeason('cs_tet');S.day=18;const t2=inSeason('cs_tet');S.day=57;const t3=inSeason('cs_tet');ok(t1&&!t2&&t3,'Ly Tết (tháng 12–3) có mùa ngày 1–15, hết mùa ngày 16, quay lại ngày 56');

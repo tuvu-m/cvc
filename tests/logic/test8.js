@@ -13,7 +13,7 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);
 (function(){const R=Math.random;
   const stock=()=>['cavien','bovien','s_tuongot','dualeo','dochua'].forEach(k=>S.stock[k]=[{q:99,e:999}]);
   const open=(day=6)=>{S.day=day;S.evDay=day;S.ev='binhthuong';stock();syncLayout();startDay();D.next=1e9;D.evPlan=[];D.evTax=false;D.queue=[];D.walk=[]};
-  const cust=(o={})=>{spawn('thuong');const c=D.queue.at(-1);c.p=c.max=100;c.type='thuong';Object.assign(c.items[0],{size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0,bs:['cavien','bovien'],r:1,name:'Trà sữa',disc:0},o);c.o=c.items[0];c.price=priceOf(c.o);return c};
+  const cust=(o={})=>{spawn('thuong');const c=D.queue.at(-1);c.p=c.max=100;c.type='thuong';Object.assign(c.items[0],{n:null,fam:null,size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0,bs:['cavien','bovien'],r:1,name:'Trà sữa',disc:0},o);c.o=c.items[0];c.price=priceOf(c.o);return c};
   const fill=()=>{takeCup('M');cup.pours=[{k:'cavien',amt:1,q:1},{k:'bovien',amt:1,q:1}];cup.used.cavien=cup.used.bovien=1};
   const step=(sec,dt=.05)=>{for(let t=0;t<sec;t+=dt){now+=dt;tickDay(dt);if(!D)break}};
 

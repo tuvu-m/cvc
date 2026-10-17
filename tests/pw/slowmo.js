@@ -15,7 +15,7 @@ await cdp.send('Emulation.setCPUThrottlingRate',{rate:THR});
 console.log(f.split('/').pop(),'ngày',pre.day,'cấp',pre.lv+1,'NV',pre.staff,'khách',pre.total,'CPU chậm',THR+'x');
 const t0=Date.now();while(Date.now()-t0<SECS*1000){await p.waitForTimeout(3000);if(await p.evaluate(()=>!D))break;
   // người chơi: thỉnh thoảng lấy order và pha xong ngay
-  await p.evaluate(()=>{if(!D)return;if(!cup&&!sealing&&D.away<=now){const n=nextIt();if(n&&!n.miss){takeOrder(n.c,n.i,null)}}else if(cup&&!sealing){const c=target(),it=c&&c.items[c.cur];if(it){Object.assign(cup,{pours:it.bs.map(k=>({k,amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null,lyOk:1});trySeal()}}})}
+  await p.evaluate(()=>{if(!D)return;if(!cup&&!sealing&&D.away<=now){const n=nextIt();if(n&&!n.miss){takeOrder(n.c,n.i,null)}}else if(cup&&!sealing){const c=target(),it=c&&c.items[c.cur];if(it){Object.assign(cup,{pours:it.bs.map(k=>({k,n:xN(it,k),amt:1,q:1})),fry:[],syrups:[...(it.ss||[])],tops:[...it.ts],foams:[...(it.fs||[])],sugar:it.sugar?SUGAR[it.sugar]:0,ice:it.ice?ICE[it.ice][1]:0,skin:it.sk||null,gem:it.gem||null,lyOk:1});trySeal()}}})}
 const W=await p.evaluate(()=>window.__W.win);
 W.forEach(w=>console.log('  '+JSON.stringify(w)));
 const slow=W.filter(w=>w.ratio<.8);console.log('  cửa sổ chậm (<0.8):',slow.length,'/',W.length,' · tỉ lệ thấp nhất',Math.min(...W.map(w=>w.ratio)));

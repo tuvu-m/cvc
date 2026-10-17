@@ -26,13 +26,13 @@ vm.runInContext(src + `
   const hire=(n,o={})=>{S.staff=[];for(let i=0;i<n;i++){const s=genStaff();Object.assign(s,{role:'barista',trait:'chamchi',spd:3,skill:3,mood:80,name:'NV'+(i+1)},o);S.staff.push(s)}};
   /* mở cửa ngày 5 với 1 khách gọi món cố định, chặn khách mới vào */
   const setup=(order)=>{S.day=5;['cavien','bovien','s_tuongot','dualeo','dochua'].forEach(k=>S.stock[k]=[{q:99,e:99}]);startDay();D.next=1e9;D.total=99;D.evPlan=[];spawn('thuong');const c=D.queue[0];c.p=c.max=1e6;c.type='thuong';
-    Object.assign(c.items[0],{size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0},order);c.items.length=1;c.o=c.items[0];c.price=99000;cup=null;return c};
+    Object.assign(c.items[0],{n:null,fam:null,size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0},order);c.items.length=1;c.o=c.items[0];c.price=99000;cup=null;return c};
   const run=(sec,dt=.05)=>{const steps=[];let t=0;for(;t<sec;t+=dt){now+=dt;tickDay(dt);if(!D)break;const A=D.as;if(A&&A.on){const st=ASTEPS[A.i];if(steps[steps.length-1]!==st)steps.push(st)}}return steps};
   const until=(cond,max=20,dt=.05)=>{let t=0;while(t<max&&!cond()){now+=dt;t+=dt;tickDay(dt);if(!D)break}return t};
   M.random=()=>.5;  // không lỗi, không lười
 
   const W=()=>S.staff.map(s=>s.w);
-  const addC=(order)=>{spawn('thuong');const c=D.queue.at(-1);c.p=c.max=1e6;c.type='thuong';Object.assign(c.items[0],{size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0},order);c.items.length=1;c.o=c.items[0];c.price=99000;return c};
+  const addC=(order)=>{spawn('thuong');const c=D.queue.at(-1);c.p=c.max=1e6;c.type='thuong';Object.assign(c.items[0],{n:null,fam:null,size:'M',ts:[],fs:[],ss:[],sugar:0,ice:0},order);c.items.length=1;c.o=c.items[0];c.price=99000;return c};
   // 1. 1 pha chế, Tốc độ 3: tự pha trọn một ly (gồm đóng gói) trong ~6 giây
   hire(1);let c=setup({bs:['cavien','bovien'],sugar:50,ice:'thuong',ts:['dualeo']});
   let steps=[];const t1=until(()=>{const w=S.staff[0].w;if(w){const st=w.steps[w.i];if(steps[steps.length-1]!==st)steps.push(st)}return !D.queue.includes(c)});
@@ -119,12 +119,11 @@ vm.runInContext(src + `
   useTool('trash');takeCup('M');cup.fry=[{k:'cavien',c:.5}];cup.used.cavien=1;trySeal();ok(!sealing&&/chưa vớt/.test(toasts[toasts.length-1]),'còn trong chảo: chưa giao được, báo chưa vớt');
   cup.fry[0].c=1;fryScoop();trySeal();ok(!!sealing,'vớt ra ly: giao được');until(()=>!sealing);
   // các lỗi không sửa được: phải bỏ ly
-  const fatal=(order,mk,re,name)=>{setup(order);takeCup(order.cupSize||'M');cup.pours=order.bs.map(k=>({k,amt:1,q:1}));mk();trySeal();
+  const fatal=(order,mk,re,name)=>{setup(order);takeCup(order.cupSize||'M');cup.pours=order.bs.map(k=>({k,n:xN(order,k),amt:1,q:1}));mk();trySeal();
     ok(!sealing&&re.test(toasts[toasts.length-1])&&[...orderNeeds()].join()==='trash',name+' ('+toasts[toasts.length-1]+')')};
   fatal({bs:['cavien'],ts:['dualeo']},()=>{addTop('dualeo');addTop('dochua')},/thừa đồ chua/,'thừa topping: máy từ chối, bảo bỏ ly');
-  fatal({bs:['cavien'],cupSize:'L'},()=>{},/sai size/,'sai size: máy từ chối');
   fatal({bs:['cavien']},()=>{cup.fry=[{k:'cavien',c:1.6}];pourTick(.01)},/cháy khét/,'để cháy khét: ly hỏng, không giao được');
-  fatal({bs:['cavien']},()=>{cup.pours.push({k:'bovien',amt:.05})},/thừa bò viên/,'thừa sữa: máy từ chối');
+  fatal({bs:['cavien']},()=>{cup.syrups.push('s_tuongca')},/thừa tương cà/,'thừa sốt: máy từ chối');
   // thiếu topping: báo thiếu, bỏ vào là giao được
   setup({bs:['cavien'],ts:['dualeo','dochua']});takeCup('M');cup.pours=[{k:'cavien',amt:1,q:1}];addTop('dualeo');trySeal();
   ok(!sealing&&/còn thiếu đồ chua/.test(toasts[toasts.length-1])&&orderNeeds().has('dochua'),'thiếu topping: máy báo thiếu, highlight topping đó');addTop('dochua');trySeal();ok(!!sealing,'bỏ đủ topping: giao được');until(()=>!sealing);

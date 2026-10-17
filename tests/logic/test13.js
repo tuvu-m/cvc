@@ -13,7 +13,7 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
 (function(){const R=Math.random;
   const stock=()=>['cavien','bovien','s_tuongot','dualeo','dochua'].forEach(k=>S.stock[k]=[{q:99,e:S.day+3}]);
   const open=(day=12)=>{S.day=day;S.evDay=day;S.ev='binhthuong';stock();syncLayout();startDay();D.next=1e9;D.evPlan=[];D.queue=[];D.walk=[]};
-  const cust=(type='thuong',o={})=>{spawn(type);const c=D.queue.at(-1);Object.assign(c.items[0],{bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0,disc:0},o);c.items.length=1;c.o=c.items[0];c.price=priceOf(c.o);c.p=c.max=999;c.ratio=1;return c};
+  const cust=(type='thuong',o={})=>{spawn(type);const c=D.queue.at(-1);Object.assign(c.items[0],{n:null,fam:null,bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0,disc:0},o);c.items.length=1;c.o=c.items[0];c.price=priceOf(c.o);c.p=c.max=999;c.ratio=1;return c};
   const close=()=>{D.queue=[];D.walk=[];D.pend=[];D.spawned=D.total;D.ev=null;endDay()};
   // 1. màn nhân viên: nhân viên tự pha thì vẫn ở màn quán
   open();S.staff=[Object.assign(genStaff(),{role:'barista',skill:5,spd:4,mood:90})];cust();for(let i=0;i<20&&!S.staff[0].w;i++){now+=.05;tickDay(.05)}

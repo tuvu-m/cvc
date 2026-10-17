@@ -11,13 +11,13 @@ const ctx = { console, Math: M, JSON, Date, Object, Array, Set, Map, Promise, St
 ctx.window = ctx; vm.createContext(ctx);
 vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
 (function(){S.day=6;S.evDay=6;S.ev='binhthuong';['cavien','bovien','s_tuongot'].forEach(k=>S.stock[k]=[{q:30,e:99}]);syncLayout();startDay();D.next=1e9;D.evPlan=[];D.queue=[];
-  spawn('thuong');const c=D.queue.at(-1);Object.assign(c.items[0],{bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0});c.o=c.items[0];c.p=c.max=999;
+  spawn('thuong');const c=D.queue.at(-1);Object.assign(c.items[0],{n:null,fam:null,bs:['cavien','bovien'],size:'M',ts:[],ss:[],fs:[],sugar:0,ice:0});c.o=c.items[0];c.p=c.max=999;
   const pour=(k,sec)=>{startPour(k);for(let t=0;t<sec;t+=.05){now+=.05;tickDay(.05)}stopPour()};
   const t0=qty('cavien'),m0=qty('bovien');takeCup('M');
   for(let i=0;i<6;i++)pour('cavien',.15);for(let i=0;i<4;i++)pour('bovien',.1);
-  ok(t0-qty('cavien')===1&&m0-qty('bovien')===1,'một ly: bấm trà 6 lần, sữa 4 lần vẫn chỉ tốn 1 phần trà, 1 phần sữa');
+  ok(t0-qty('cavien')===6&&m0-qty('bovien')===4,'gắp 6 cá viên, 4 bò viên: kho trừ đúng 6 và 4 xiên');
   useTool('trash');takeCup('M');pour('cavien',.3);pour('bovien',.2);
-  ok(t0-qty('cavien')===2&&m0-qty('bovien')===2,'bỏ ly làm ly khác: tốn thêm 1 phần mỗi loại (trà còn '+qty('cavien')+')');
-  useTool('trash');takeCup('M');startPour('cavien');startPour('cavien');ok(t0-qty('cavien')===3&&cup.fry.length===1,'chạm khay hai lần: chỉ thả một phần vào chảo');
+  ok(t0-qty('cavien')===7&&m0-qty('bovien')===5,'bỏ ly làm ly khác: gắp lại tốn thêm (cá viên còn '+qty('cavien')+')');
+  useTool('trash');takeCup('M');startPour('cavien');startPour('cavien');ok(t0-qty('cavien')===9&&cup.fry.length===1&&cup.fry[0].n===2,'chạm khay hai lần liền: một mẻ 2 xiên');
 })();`, ctx);
 console.log(fails ? fails + ' FAILED' : 'ALL PASSED'); process.exit(fails ? 1 : 0);
