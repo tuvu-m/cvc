@@ -39,7 +39,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one, arranged in a neat grid. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Show 16 tall narrow sauce containers in a grid of 4 columns, each with a blank label: red chili sauce squeeze bottle; tomato ketchup squeeze bottle; dark brown hoisin squeeze bottle; brown tamarind sauce jar with a spoon; yellow cheese sauce squeeze bottle; creamy white mayonnaise squeeze bottle; yellow mustard squeeze bottle; small glass jar of red chili oil with flakes; golden honey butter bottle with a honey dipper; shaker of yellow cheese powder; shaker of red chili powder; small jar of orange shrimp salt; red Korean gochujang tub with a small teal airplane sticker; soft Japanese mayonnaise bottle with a red star cap and a small teal airplane sticker; dark teriyaki bottle with a small teal airplane sticker; red sriracha bottle with a green cap and a small teal airplane sticker.
 ```
 
-## 3 · Rau và món kèm (12 khay vuông)
+## 3 · Rau và món kèm (12 khay vuông) ✅ đã có
 
 Ô 2×2, nhìn từ trên xuống hơi nghiêng. Tên file:
 `dualeo` · `dochua` · `hanhphi` · `rauram` · `xoai` · `merang` · `phomaibao` · `trungcut` · `khoaitay` · `chabong` · `kimchi` · `rongbien`
@@ -48,7 +48,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one, arranged in a neat grid. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Show 12 square shallow stainless steel side-dish trays seen from slightly above, in a grid of 4 columns, each filled: cucumber slices; pickled carrot and daikon strips; crispy fried shallots; Vietnamese coriander leaves; julienned green mango; toasted sesame seeds; grated yellow cheese; peeled boiled quail eggs; golden french fries; fluffy pork floss; red kimchi with a small teal airplane sticker on the tray; dark seaweed strips with a small teal airplane sticker.
 ```
 
-## 4 · Lớp phủ, dụng cụ, quầy gói
+## 4 · Lớp phủ, dụng cụ, quầy gói ✅ đã có
 
 - Tô lớp phủ (ô 1×2): `f_mozza` · `f_trungmuoi` · `f_botoi` · `f_cheddar` · `f_kemchua`
 - Dụng cụ (ô 1×2, giữ tên cũ): `duong` (chén ớt) · `da` (chén chanh) · `thungrac` (thùng rác)
@@ -58,7 +58,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one, arranged in a neat grid. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Top row, 5 small round enamel bowls each with a ladle: melted stretchy white mozzarella; golden salted egg yolk sauce; garlic butter with crispy garlic bits; melted orange cheddar; white sour cream with green onion. Middle row: a small enamel bowl of chopped red chilies with a tiny spoon; a small enamel bowl of lime wedges; a small pedal trash bin. Bottom row: a wide packing station with a stack of brown kraft paper bags on the left, an empty gap in the middle where a paper cup will stand, and a glass jar full of bamboo skewers on the right.
 ```
 
-## 5 · Đồ siêu hiếm (6 hộp + 6 kiểu rắc)
+## 5 · Đồ siêu hiếm (6 hộp + 6 kiểu rắc) ✅ đã có
 
 Hộp `gem_i_<mã>`, đồ rắc trên mặt ly nhìn từ trên `gem_t_<mã>`, mã theo thứ tự: `kimtuyen` (kim tuyến ăn được) · `tobiko` (trứng cá chuồn) · `lavang` (lá vàng 24K) · `cahoi` (trứng cá hồi) · `truffle` (nấm truffle đen) · `caviar` (trứng cá tầm)
 
