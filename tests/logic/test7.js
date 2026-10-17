@@ -9,7 +9,7 @@ const ctx = { console, Math: M, JSON, Date, Object, Array, Set, Map, Promise, St
   document: { querySelector: () => stub, querySelectorAll: () => [], createElement: () => stub, body: stub, addEventListener: () => {} },
   localStorage: { getItem: k => store[k] ?? null, setItem: (k, v) => { store[k] = String(v) } }, Image: function () { return {} }, navigator: stub, addEventListener: () => {}, ok, M, toasts };
 ctx.window = ctx; vm.createContext(ctx);
-vm.runInContext(src + `;toast=m=>toasts.push(m);
+vm.runInContext(src + `XE_LITE=false;;toast=m=>toasts.push(m);
 (function(){const R=Math.random;
   /* thực đơn có 3 món giá khác nhau */
   S.day=10;S.shop=4;['cavien','bovien','tomvien','s_tuongot','dualeo','dochua','hanhphi'].forEach(k=>S.stock[k]=[{q:999,e:9999}]);S.drinks=['cavien','bovien','tomvien'];S.tops=['dualeo','dochua','hanhphi'];syncLayout();
