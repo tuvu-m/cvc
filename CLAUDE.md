@@ -21,7 +21,7 @@ Game được tách (fork) từ Tiệm Trà Bobơ (repo `tuvu-m/bobo`, file `tie
 - `'seal'`/`SEAL`/`trySeal`/`sealing`/`sealDur` = quầy gói (xấp túi giấy + hũ xiên que, vẽ bằng code; hình `maydonggoi` nếu sau này có); vai trò `barista` hiện là "Đứng chảo".
 - Ngày khẩn cấp (hết sạch hàng) bán khoai mì chiên nhà trồng 3.000đ (`BASES.khoaimi`, `free`, `EMERG`), thay cho trà đá.
 - Lưu ở localStorage `cvc1` (cài đặt `cv_*`, IndexedDB `cvc_music`) để không đè save của Bobơ (cùng tên miền GitHub Pages). `migrate()` còn giữ các bước chuyển save cũ của Bobơ, với save mới thì chỉ đặt cờ, vô hại.
-- Hình: dùng lại hình khách, mèo, nhân viên, đồng phục, đồ trang trí, cúp, cảnh tiệm 5 cấp của Bobơ; đã bỏ hình nguyên liệu trà sữa, ly, máy đóng gói, giấy bọc ly, neon TRÀ SỮA, ảnh nền màn loading. Prompt vẽ hình mới ở `prompt-art.md`.
+- Hình: dùng lại hình khách, mèo, nhân viên, đồng phục, đồ trang trí, cúp, cảnh tiệm 5 cấp của Bobơ; đã bỏ hình nguyên liệu trà sữa, ly, máy đóng gói, giấy bọc ly, neon TRÀ SỮA, ảnh nền màn loading. Prompt vẽ hình mới (phong cách mới, cả bộ khách, nhân viên, mèo, đồ trang trí, cảnh tiệm) ở `prompt-art.md`.
 
 ## Nguyên liệu
 - Đồ chiên: Cá viên, Bò viên (có sẵn), Tôm viên, Mực viên, Xúc xích, Đậu hũ phô mai, Chả cá, Khoai lang kén; hàng hiếm ✈️: Viên tôm hùm (Úc), Thanh cua Kani (Nhật), Chả cá Busan (Hàn), Xúc xích Đức (Đức).
@@ -34,7 +34,7 @@ Game được tách (fork) từ Tiệm Trà Bobơ (repo `tuvu-m/bobo`, file `tie
 
 ## Yêu cầu chung
 - Cả game phải vừa một màn hình điện thoại. Các tab được phép cuộn bên trong.
-- Phong cách pastel vẽ tay. Hình là ảnh do người dùng vẽ bằng AI, nhúng thẳng vào file dưới dạng base64 trong `SPRSRC`. Món nào chưa có ảnh thì game tự vẽ bằng code thay thế.
+- Phong cách hình mới (người dùng muốn khác Bobơ cho mới lạ): poster ăn vặt Sài Gòn in risograph, màu phẳng đỏ cà chua, vàng mù tạt, xanh mòng két, kem, viền xanh đen đậm, chấm in lưới (prompt ở `prompt-art.md`, có 2 phong cách dự phòng). Khi đủ hình mới thì đổi màu giao diện (đang hồng pastel của Bobơ) cho hợp, đo lại `SIGNPOS` cho ảnh quầy mới; nếu chọn pixel art thì tắt làm mịn ảnh (`imageSmoothingEnabled`). Hình là ảnh do người dùng vẽ bằng AI, nhúng thẳng vào file dưới dạng base64 trong `SPRSRC`. Món nào chưa có ảnh thì game tự vẽ bằng code thay thế.
 - Đồ trên quầy chỉ di chuyển được lúc chuẩn bị. Quầy là lưới tự do: món nào cũng đặt được ở bất kỳ chỗ trống nào, kể cả máy đóng gói.
 - Không cho phóng to khi chơi: viewport `user-scalable=no` (iPhone bỏ qua), mọi phần tử `touch-action:manipulation` để chặn chạm hai lần phóng to (canvas thì `none`), chặn cử chỉ `gesturestart`, và dự phòng chặn hai lần `touchend` liền nhau ngoài nút/ô nhập.
 - Lúc bán có hai màn (`syncMode`, cờ `MK`; có ly hoặc đang đóng gói thì là màn pha):
