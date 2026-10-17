@@ -15,7 +15,7 @@ h=open(sys.argv[1],encoding='utf8').read()
 b=re.findall(r'<script>(.*?)</script>',h,re.S);b.sort(key=len)
 open('boot.js','w',encoding='utf8').write(b[0]);open('game.js','w',encoding='utf8').write(b[-1])
 PY
-node --check game.js && node --check boot.js || { echo "❌ LỖI CÚ PHÁP"; exit 1; }
+node --check game.js && node --check boot.js && node --check "$(dirname "$T")/v2/game.js" || { echo "❌ LỖI CÚ PHÁP"; exit 1; }
 R=$(mktemp -d)
 # test logic: mỗi bài khoảng 0,1 giây, chạy cùng lúc
 for t in "$T"/logic/test*.js; do (node "$t" game.js 2>&1 | tail -1 > "$R/$(basename "$t")") & done; wait
@@ -23,7 +23,7 @@ nf=0; for f in "$R"/test*.js; do if ! grep -q "ALL PASSED" "$f"; then echo "❌ 
 echo "test logic: $(ls "$R" | wc -l | tr -d ' ') bài, $nf bài lỗi"
 # test giao diện: Chrome tắt tiếng (nhiều Chrome cùng phát âm thanh thì chậm nhau gấp 10 lần), 6 bài cùng lúc
 export NODE_OPTIONS="--require $T/pw/pwpatch.js" PW_ARGS="--mute-audio" R H T
-ALL="xe sub fun pause reply gridtest nick sleeve newchars lost qnames askset staff8 sumlate qscroll2 qpick walkin logexp gemshot stalegrab verify_ux exam kho coll insp rival fry"
+ALL="v2day xe sub fun pause reply gridtest nick sleeve newchars lost qnames askset staff8 sumlate qscroll2 qpick walkin logexp gemshot stalegrab verify_ux exam kho coll insp rival fry"
 if [ "$1" = full ]; then PW=$ALL; elif [ $# -gt 0 ]; then PW="$*"; else PW=$(python3 "$T/pick_pw.py"); fi
 if [ -n "$PW" ]; then
   echo "test giao diện: $PW"
