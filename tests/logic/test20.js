@@ -5,7 +5,7 @@ let fails=0;const ok=(c,m)=>{if(!c){fails++;console.log('FAIL',m)}else console.l
 const M=Object.create(Math);const store={};
 const ctx={console,Math:M,JSON,Date,Object,Array,Set,Map,Promise,String,Number,Symbol,Proxy,Error,setTimeout:(f)=>{f();return 0},clearTimeout:()=>{},requestAnimationFrame:()=>0,performance:{now:()=>0},devicePixelRatio:2,btoa:s=>s,atob:s=>s,unescape,escape,encodeURIComponent,decodeURIComponent,
 document:{querySelector:()=>stub,querySelectorAll:()=>[],createElement:()=>stub,body:stub,addEventListener:()=>{}},localStorage:{getItem:k=>store[k]??null,setItem:(k,v)=>{store[k]=String(v)}},Image:function(){return{}},navigator:stub,addEventListener:()=>{},ok,M};
-ctx.window=ctx;vm.createContext(ctx);vm.runInContext(src+`;toast=()=>{};
+ctx.window=ctx;vm.createContext(ctx);vm.runInContext(src+`;XE_LITE=false;toast=()=>{};
 (function(){
   // 1. hạng tự nhiên tối đa A, không ngẫu nhiên
   ok(gradeOf(2.79)==='C'&&gradeOf(2.8)==='B'&&gradeOf(3.3)==='A'&&gradeOf(3.9)==='A','hạng tự nhiên: 2,8 B · 3,3 A · cao hơn nữa vẫn A');

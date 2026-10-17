@@ -9,7 +9,7 @@ const ctx = { console, Math: M, JSON, Date, Object, Array, Set, Map, Promise, St
   document: { querySelector: sel => sel !== '#tbody' ? stub : new Proxy(function () {}, { get: (t, p) => p === 'addEventListener' ? (ev, f) => { if (ev === 'click') ctx.prepClick = f } : stub[p], apply: () => stub, set: () => true }), querySelectorAll: () => [], createElement: () => stub, body: stub, addEventListener: () => {} },
   localStorage: { getItem: k => store[k] ?? null, setItem: (k, v) => { store[k] = String(v) } }, Image: function () { return {} }, navigator: stub, addEventListener: () => {}, ok, M, toasts };
 ctx.window = ctx; vm.createContext(ctx);
-vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
+vm.runInContext(src + `XE_LITE=false;;toast=m=>toasts.push(m);renderPrep=()=>{};
 (function(){const R=Math.random;
   const stock=()=>['cavien','bovien','s_tuongot','dualeo','dochua'].forEach(k=>S.stock[k]=[{q:99,e:S.day+3}]);
   const open=(day=12)=>{S.day=day;S.evDay=day;S.ev='binhthuong';stock();syncLayout();startDay();D.next=1e9;D.evPlan=[];D.queue=[];D.walk=[]};

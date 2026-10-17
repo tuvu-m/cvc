@@ -9,7 +9,7 @@ const ctx = { console, Math: M, JSON, Date, Object, Array, Set, Map, Promise, St
   document: { querySelector: sel => sel !== '#tbody' ? stub : new Proxy(function () {}, { get: (t, p) => p === 'addEventListener' ? (ev, f) => { if (ev === 'click') ctx.prepClick = f } : stub[p], apply: () => stub, set: () => true }), querySelectorAll: () => [], createElement: () => stub, body: stub, addEventListener: () => {} },
   localStorage: { getItem: k => store[k] ?? null, setItem: (k, v) => { store[k] = String(v) } }, Image: function () { return {} }, navigator: stub, addEventListener: () => {}, ok, M, toasts };
 ctx.window = ctx; vm.createContext(ctx);
-vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
+vm.runInContext(src + `XE_LITE=false;;toast=m=>toasts.push(m);renderPrep=()=>{};
 (function(){S.recipes.forEach(r=>{});const R=Math.random;
   const sk=Object.keys(CUPSKIN).find(inSeason);
   const open=(own=true)=>{S.day=8;S.evDay=8;S.ev='binhthuong';S.trend={w:1,ids:['s_me','tomvien']};['cavien','bovien','s_tuongot'].forEach(k=>S.stock[k]=[{q:99,e:99}]);

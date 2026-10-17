@@ -1,0 +1,32 @@
+// Xe bán mới bằng cú chạm thật: một màn (cảnh + đơn + khung xe), chạm khay xiên viên vào que, chạm chảo nhúng que, que vàng thì chạm vớt, chạm sốt, chạm GIAO
+process.env.PW_NEWUI=1;
+const { chromium } = require('playwright-core');const { pathToFileURL } = require('url');
+let fails=0;const ok=(c,m)=>{console.log((c?'ok   ':'FAIL ')+m);if(!c)fails++};
+(async()=>{const b=await chromium.launch({channel:'chrome',headless:true});
+for(const [W,H] of [[390,780],[375,667]]){
+const ctx=await b.newContext({viewport:{width:W,height:H},deviceScaleFactor:2,isMobile:true,hasTouch:true});const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto(pathToFileURL(process.argv[2]).href);for(let i=0;i<60;i++){await p.waitForTimeout(150);if(await p.evaluate(()=>!document.getElementById('boot')))break}
+await p.evaluate(()=>{document.body.classList.remove('help');S.notice=[];S.day=4;['cavien','bovien','s_tuongot'].forEach(k=>S.stock[k]=[{q:60,e:20}]);renderPrep()});
+await p.click('#openBtn');await p.waitForTimeout(300);
+await p.evaluate(()=>{D.evPlan=[];D.insp=null;D.next=0});
+for(let i=0;i<40;i++){await p.waitForTimeout(250);if(await p.evaluate(()=>!!target()))break}
+await p.evaluate(()=>{const c=target(),it=c.items[c.cur];c.items=[it];Object.assign(it,{bs:['cavien','bovien'],n:{cavien:4,bovien:3},ss:['s_tuongot'],fam:null});c.p=c.max=1e4;c.type='thuong';c.pay='Tiền mặt';D.next=1e9});
+await p.waitForTimeout(300);
+ok(await p.evaluate(()=>!MK&&!$('#xeWrap').hidden&&$('#xeWrap').offsetHeight>200&&getComputedStyle($('#qrow')).display==='none'),`${W}×${H}: một màn bán, khung xe hiện, không còn hàng thẻ order`);
+ok(await p.evaluate(()=>/Cá viên/.test($('#xord').textContent)&&/×4/.test($('#xord').textContent)),'đơn khách hiện trên khung xe');
+const bb=await (await p.$('#xe')).boundingBox(),s=bb.width/160;const tap=async R=>{await p.touchscreen.tap(bb.x+(R.x+R.w/2)*s,bb.y+(R.y+R.h/2)*s);await p.waitForTimeout(90)};
+const R=async f=>p.evaluate(f=>XR.filter(r=>String(r.f).includes(f)).map(r=>({x:r.x,y:r.y,w:r.w,h:r.h})),f);
+const trays=await R('xeTray'),tk=await p.evaluate(()=>xeTrays());const fry=(await R('xeFry(null)'))[0];
+for(let i=0;i<4;i++)await tap(trays[tk.indexOf('cavien')]);await tap(trays[tk.indexOf('bovien')]);
+ok(await p.evaluate(()=>cup&&cup.hand.join()==='cavien,cavien,cavien,cavien,bovien'),'chạm khay: mỗi chạm xiên một viên vào que');
+await tap(fry);await tap(trays[tk.indexOf('bovien')]);await tap(trays[tk.indexOf('bovien')]);await tap(fry);
+ok(await p.evaluate(()=>cup.fq.length===2&&!cup.hand.length),'chạm chảo: nhúng 2 que');
+await p.screenshot({path:`out/xe_fry_${W}.png`});
+for(let i=0;i<60;i++){await p.waitForTimeout(150);if(await p.evaluate(()=>cup.fq.every(f=>f.c>=FRY_MIN)))break}
+await tap(fry);ok(await p.evaluate(()=>!cup.fq.length&&cpN(cup,'cavien')===4&&cpN(cup,'bovien')===3),'que vàng: chạm chảo vớt hết');
+await tap((await R('xeSauce'))[(await p.evaluate(()=>xeSauces())).indexOf('s_tuongot')]);ok(await p.evaluate(()=>cup.syrups.includes('s_tuongot')),'chạm sốt: rưới tương ớt');
+await p.screenshot({path:`out/xe_ready_${W}.png`});
+const m0=await p.evaluate(()=>S.money);await tap((await R('xeServe'))[0]);await p.waitForTimeout(400);
+ok(await p.evaluate(m0=>!cup&&D.served===1&&S.money>m0,m0),'chạm GIAO: khách nhận, trả tiền');
+ok(!errs.length,'không lỗi JS'+(errs.length?': '+errs.join(' | '):''));await ctx.close()}
+await b.close();console.log(fails?fails+' FAILED':'ALL PASSED')})();

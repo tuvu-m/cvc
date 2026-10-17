@@ -19,7 +19,7 @@ const ctx = {
   Image: function () { return {} }, navigator: stub, addEventListener: () => {}, ok, toasts, M,
 };
 ctx.window = ctx; vm.createContext(ctx);
-vm.runInContext(src + `
+vm.runInContext(src + `XE_LITE=false;
 ;toast=(m)=>toasts.push(m);
 (function(){
   const R=Math.random;

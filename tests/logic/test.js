@@ -20,7 +20,7 @@ function run(saveJson, test) {
   };
   ctx.window = ctx; ctx.ok = ok;
   vm.createContext(ctx);
-  vm.runInContext(src + '\n;' + test, ctx);
+  vm.runInContext(src + '\nXE_LITE=false;;' + test, ctx);
   return ctx;
 }
 

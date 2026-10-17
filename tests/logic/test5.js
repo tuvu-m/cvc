@@ -5,7 +5,7 @@ let fails=0;const ok=(c,m)=>{if(!c){fails++;console.log('FAIL',m)}else console.l
 const M=Object.create(Math);const store={};
 const ctx={console,Math:M,JSON,Date,Object,Array,Set,Map,Promise,String,Number,Symbol,Proxy,Error,setTimeout:(f)=>{f();return 0},clearTimeout:()=>{},requestAnimationFrame:()=>0,performance:{now:()=>0},devicePixelRatio:2,btoa:s=>s,atob:s=>s,unescape,escape,encodeURIComponent,decodeURIComponent,
 document:{querySelector:()=>stub,querySelectorAll:()=>[],createElement:()=>stub,body:stub,addEventListener:()=>{}},localStorage:{getItem:k=>store[k]??null,setItem:(k,v)=>{store[k]=String(v)}},Image:function(){return{}},navigator:stub,addEventListener:()=>{},ok,M};
-ctx.window=ctx;vm.createContext(ctx);vm.runInContext(src+`;toast=()=>{};
+ctx.window=ctx;vm.createContext(ctx);vm.runInContext(src+`;XE_LITE=false;toast=()=>{};
 (function(){const R=Math.random;
   // 1. topping: tối đa 2/ly (tiệm cấp 3 trở lên: 3); chỉ gọi topping đang bày và còn hàng
   S.day=10;const avgTop=()=>{startDay();let s=0,mx=0,bad=0;for(let i=0;i<2000;i++){const o=makeOrder();s+=o.ts.length;mx=Math.max(mx,o.ts.length);if(o.ts.some(k=>!onCounter(k)||!qty(k)))bad++}return{a:s/2000,mx,bad}};

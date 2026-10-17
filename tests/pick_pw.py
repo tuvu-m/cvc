@@ -36,6 +36,7 @@ MAP = {
   'coll': r'COLL|coll|drawTrophies|decoHTML',
   'insp': r'insp|INSP|thanhtra',
   'rival': r'rival|RV_|rivalHTML|rvc|hpbar',
+  'xe': r'xe[A-Z]|XE|drawXe|renderXord|QUE_MAX|fryQ|xord|xeWrap|target\(|spawn|orderTail|serveCup|playerServe|addSyrup',
   'fry': r'fry|Fry|FRY_|cookCol|drawPiece|drawCup|startPour|pourTick|drawFryer|chao|cupMiss|checks\(',
 }
 # vòng lặp chính của ngày bán: sửa ở đây thì chạy nhóm test chơi thật
