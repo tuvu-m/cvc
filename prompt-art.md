@@ -21,7 +21,7 @@ Bobơ vẽ kiểu chibi pastel, màu gouache. Cá Viên Chiên đổi hẳn sang
 
 ---
 
-## 1 · Đồ chiên sống (13 khay)
+## 1 · Đồ chiên sống (13 khay) ✅ đã có
 
 Khay đứng dọc (ô 1×2 trên quầy). Tên file, trái sang phải, trên xuống dưới:
 `cavien` · `bovien` · `tomvien` · `mucvien` · `xucxich` · `dauhu` · `chaca` · `khoailang` · `tomhum` · `kani` · `chabusan` · `xxduc` · `khoaimi`

@@ -21,7 +21,7 @@ Game được tách (fork) từ Tiệm Trà Bobơ (repo `tuvu-m/bobo`, file `tie
 - `'seal'`/`SEAL`/`trySeal`/`sealing`/`sealDur` = quầy gói (xấp túi giấy + hũ xiên que, vẽ bằng code; hình `maydonggoi` nếu sau này có); vai trò `barista` hiện là "Đứng chảo".
 - Ngày khẩn cấp (hết sạch hàng) bán khoai mì chiên nhà trồng 3.000đ (`BASES.khoaimi`, `free`, `EMERG`), thay cho trà đá.
 - Lưu ở localStorage `cvc1` (cài đặt `cv_*`, IndexedDB `cvc_music`) để không đè save của Bobơ (cùng tên miền GitHub Pages). `migrate()` còn giữ các bước chuyển save cũ của Bobơ, với save mới thì chỉ đặt cờ, vô hại.
-- Hình: dùng lại hình khách, mèo, nhân viên, đồng phục, đồ trang trí, cúp, cảnh tiệm 5 cấp của Bobơ; đã bỏ hình nguyên liệu trà sữa, ly, máy đóng gói, giấy bọc ly, neon TRÀ SỮA, ảnh nền màn loading. Prompt vẽ hình mới (phong cách mới, cả bộ khách, nhân viên, mèo, đồ trang trí, cảnh tiệm) ở `prompt-art.md`.
+- Hình: dùng lại hình khách, mèo, nhân viên, đồng phục, đồ trang trí, cúp, cảnh tiệm 5 cấp của Bobơ; đã bỏ hình nguyên liệu trà sữa, ly, máy đóng gói, giấy bọc ly, neon TRÀ SỮA, ảnh nền màn loading. Prompt vẽ hình mới (phong cách mới, cả bộ khách, nhân viên, mèo, đồ trang trí, cảnh tiệm) ở `prompt-art.md`. Hình mới đã có: 13 khay đồ chiên (prompt 1, key là mã đồ chiên, `drawJar` vẽ hình nếu có), cắt từ tấm nền xám bằng cách loang nền từ mép ảnh (viền xanh đen kín nên không ăn vào hình).
 
 ## Nguyên liệu
 - Đồ chiên: Cá viên, Bò viên (có sẵn), Tôm viên, Mực viên, Xúc xích, Đậu hũ phô mai, Chả cá, Khoai lang kén; hàng hiếm ✈️: Viên tôm hùm (Úc), Thanh cua Kani (Nhật), Chả cá Busan (Hàn), Xúc xích Đức (Đức).
