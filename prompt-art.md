@@ -80,22 +80,22 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Theme: a teal wooden night market kiosk selling fried skewers. Show 4 items, top to bottom: a wide low kiosk counter with teal painted planks, a mustard trim, a strip of round festoon bulbs and a blank empty rounded cream sign plate in the exact center; a very wide short teal and cream striped awning strip with a zigzag hem; then in the last row side by side, a square seamless tileable top-down texture of terracotta square tiles, and a small three-quarter view illustration of the night market kiosk with skewers in a glass case, steam rising from the fryer and paper lanterns.
 ```
 
-**Cấp 3 · Quán mặt tiền**
+**Cấp 3 · Quán mặt tiền** ✅ đã có
 ```
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Theme: a one-room street-food shopfront. Show 4 items, top to bottom: a wide low shop counter with mustard yellow tiled front, a stainless top and a blank empty rounded cream sign plate in the exact center; a very wide short red and mustard striped awning strip with a scalloped hem; then in the last row side by side, a square seamless tileable top-down texture of retro patterned cement tiles in red, cream and teal, and a small three-quarter view illustration of the shopfront with a roll-up metal door, a big fryer behind the counter, folding tables on the sidewalk and a hanging lantern.
 ```
 
-**Cấp 4 · Quán hai tầng**
+**Cấp 4 · Quán hai tầng** ✅ đã có
 ```
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Theme: a narrow two-story Saigon tube house turned into a snack shop. Show 4 items, top to bottom: a long low counter with a white marble top, red fluted front panels, a glass case of Korean fish cake skewers on one side and a blank empty rounded cream sign plate in the exact center; a very wide short red and cream striped awning strip with a mustard fringe; then in the last row side by side, a square seamless tileable top-down texture of wooden herringbone floor, and a small three-quarter view illustration of the two-story tube house shop with a balcony full of plants, an air conditioner unit, tangled power lines and a motorbike parked out front.
 ```
 
-**Cấp 5 · Chuỗi cửa hàng**
+**Cấp 5 · Chuỗi cửa hàng** ✅ đã có
 ```
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Theme: a flagship corner store of a famous fish ball chain. Show 4 items, top to bottom: a wide low premium counter with a red and mustard terrazzo front, a cream stone top, a teal neon line and a blank empty rounded cream sign plate in the exact center; a very wide short modern canopy strip in tomato red with round bulbs underneath; then in the last row side by side, a square seamless tileable top-down texture of terrazzo floor with red, mustard and teal chips, and a small three-quarter view illustration of a big corner store with a glass storefront, a giant fish ball skewer sign on the roof and a short queue of happy customers.
 ```
 
-## 11 · Đồ dùng chung trong cảnh
+## 11 · Đồ dùng chung trong cảnh ✅ đã có
 
 Tên file: `k_cuaso` (cửa sổ, **khung kính ở giữa để trống** vì game tự vẽ trời, mưa nắng) · `k_bangmenu` (bảng menu, **mặt bảng để trống** vì game tự viết món) · `k_den` (đèn treo) · `wp_kem` · `wp_hong` · `wp_bacha` · `wp_go` · `wp_gach` (5 mẫu giấy tường, ô vuông lặp liền)
 
@@ -111,7 +111,7 @@ Tên file: `w_ke` (kệ hũ gia vị) · `w_tranh` (tranh) · `w_dongho` (đồn
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one, arranged in a neat grid of 5 columns. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Items: a wall shelf with small spice jars; a framed poster of a Saigon street scene; a round wall clock with a completely blank face and no hands; a hanging pot with trailing vines; a glowing neon sign shaped like a fish ball skewer; a tall potted pothos plant; a small flowering cactus; a pair of low wooden stools; a chubby orange tabby cat curled up asleep; a small vase of flowers; a tiny succulent pot; a waving lucky cat figurine; a long red and cream checkered rug seen from above; a long teal rug with cream flowers seen from above.
 ```
 
-## 13–14 · Khách (2 tấm)
+## 13–14 · Khách (2 tấm) ✅ đã có
 
 Người đứng thẳng, cả người, nhìn về phía trước, cao khoảng 3 đầu, mỗi người tách riêng, hai tay để hở (không che mặt). Người Việt trừ khách Tây.
 
@@ -132,7 +132,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 Cùng một người mặc 7 bộ đồ, đứng sau quầy nên chỉ cần **nửa người trên tới đầu gối** cũng được, cùng tư thế. Mỗi tấm theo thứ tự đồ:
 `o_xanh` (tạp dề xanh) · `o_hong` (tạp dề đỏ, khăn trùm đầu) · `o_thuythu` (áo thủy thủ) · `o_beret` (đầu bếp mũ nồi) · `o_gau` (hoodie gấu) · `o_nonla` (áo bà ba, nón lá) · `o_kimono` (áo quán Nhật)
 
-- Tấm 15, chủ xe (bạn): `me_o_<đồ>`, cô gái tóc bob.
+- Tấm 15, chủ xe (bạn): `me_o_<đồ>`, cô gái tóc bob. ✅ đã có
 - Tấm 16, nhân viên 1: `nv1_o_<đồ>`, chàng trai tóc ngắn.
 - Tấm 17, nhân viên 2: `nv2_o_<đồ>`, cô gái tóc buộc đuôi ngựa.
 
@@ -142,7 +142,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 
 (Tấm 16, 17: đổi câu "The same young Vietnamese woman with a short bob haircut" thành "The same young Vietnamese man with short hair" và "The same young Vietnamese woman with a high ponytail".)
 
-## 18 · Bảo vệ, công an, cúp, màn loading
+## 18 · Bảo vệ, công an, cúp, màn loading ✅ đã có (trừ màn loading)
 
 Tên file: `baove` (bảo vệ đứng) · `congan` (anh công an đứng) · `xecongan` (xe công an nhìn ngang, đầu xe quay sang trái) · 9 cúp cao bằng nhau, mỗi cúp một màu và một hình nhỏ trên thân: `cup_bang` (cuộn giấy), `cup_gem` (viên kim cương), `cup_mon` (ngôi sao), `cup_quen` (trái tim), `cup_own` (vương miện), `cup_ly` (ly giấy cá viên), `cup_ach` (huy chương), `cup_rival` (hai thanh kiếm), `cup_famous` (quyển sách mở)
 
