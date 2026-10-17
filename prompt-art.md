@@ -103,7 +103,7 @@ Tên file: `k_cuaso` (cửa sổ, **khung kính ở giữa để trống** vì g
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one, arranged in a neat grid. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Top row: a wooden shop window with folded green louvered shutters on both sides and a completely empty plain pale blue glass pane in the middle; a standing blackboard menu sign with a wooden frame and a completely blank black surface; a hanging enamel pendant lamp with a warm glowing bulb. Bottom row, 5 square seamless tileable wall textures: cream with thin red stripes; tomato red with cream polka dots; teal with cream stripes; warm wood planks; red brick.
 ```
 
-## 12 · Đồ trang trí
+## 12 · Đồ trang trí ✅ đã có
 
 Tên file: `w_ke` (kệ hũ gia vị) · `w_tranh` (tranh) · `w_dongho` (đồng hồ, **mặt số để trống**, game tự vẽ kim) · `w_daylo` (chậu dây leo treo) · `w_neon` (bảng neon hình xiên cá viên) · `f_cay` (cây trầu bà) · `f_xuongrong` (xương rồng ra hoa) · `f_don` (ghế đôn) · `f_meo` (mèo cam nằm ngủ, đây cũng là bé Chub ở quầy; bé Bim trắng game tự tô lại) · `c_hoa` (bình hoa) · `c_senda` (sen đá) · `c_meothantai` (mèo thần tài) · `r_ke` (thảm caro) · `r_hoa` (thảm hoa)
 
@@ -157,7 +157,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 ```
 
 
-## 19 · Ly giấy và chảo chiên
+## 19 · Ly giấy và chảo chiên ✅ đã có
 
 Hai món này đổi theo từng lúc chơi (đồ chiên đổi màu theo độ chín, đống cá viên trên ly đổi theo đơn), nên chỉ vẽ **phần đứng yên**: ly rỗng và chảo rỗng. Game tự vẽ cá viên, sốt, rau, xiên que, vòng giờ chiên lên trên.
 
