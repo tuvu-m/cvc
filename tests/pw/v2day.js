@@ -15,11 +15,12 @@ const plan=await p.evaluate(()=>({t:trayUse(),c:buyCost(),m:S.money}));ok(plan.t
 await p.tap('#mGo');await p.waitForTimeout(300);
 ok(await p.evaluate(()=>!$('#sell').hidden&&$('#hud').hidden&&$('#xeWrap').offsetHeight>180),'lên đường: màn bán, khung xe hiện');
 for(let i=0;i<80;i++){await p.waitForTimeout(150);if(await p.evaluate(()=>!!xeOrd()))break}
-await p.evaluate(()=>{const t=xeOrd(),k=Object.keys(D.start)[0];t.c.o={bs:[k],n:{[k]:3},ss:[D.sauces[0]]};t.c.max=t.c.p=999});
+await p.evaluate(()=>{const t=xeOrd(),k=Object.keys(D.start)[0];t.c.o={bs:[k],q:{[k]:1},ss:[D.sauces[0]]};t.c.max=t.c.p=999});
 const bb=await (await p.$('#xe')).boundingBox(),s=bb.width/160;const R=async f=>p.evaluate(f=>XR.filter(r=>String(r.f).includes(f)).map(r=>({x:r.x,y:r.y,w:r.w,h:r.h})),f);
 const tap=async r=>{await p.touchscreen.tap(bb.x+(r.x+r.w/2)*s,bb.y+(r.y+r.h/2)*s);await p.waitForTimeout(60)};
-const tr=(await R('xeTray'))[0];for(let i=0;i<3;i++)await tap(tr);
-ok(await p.evaluate(()=>xs().fq.length===1&&xs().fq[0].v.length===3),'chạm khay 3 lần: que đủ và đúng tự vào chảo');
+const tr=(await R('xeTray'))[0];for(let i=0;i<4;i++)await tap(tr);
+ok(await p.evaluate(()=>xs().hand.length===4&&!xs().fq.length),'chạm khay: mỗi chạm xiên một viên');
+await tap(tr);ok(await p.evaluate(()=>xs().fq.length===1&&xs().fq[0].v.length===5&&!xs().hand.length),'đủ 5 viên: que tự vào chảo');
 for(let i=0;i<60;i++){await p.waitForTimeout(100);if(await p.evaluate(()=>xs().fq[0]&&xs().fq[0].c>=FRY_MIN))break}
 await tap((await R('xeFry(null)'))[0]);ok(await p.evaluate(()=>xs().tray.length===1),'que vàng: chạm chảo vớt ra khay');
 const sa=(await R('xeSauce'))[0],kh=await p.evaluate(()=>XG.k);const P=r=>[bb.x+(r.x+r.w/2)*s,bb.y+(r.y+r.h/2)*s];const [x0,y0]=P(sa),[x1,y1]=P(kh);
@@ -30,10 +31,10 @@ ok(await p.evaluate(m0=>D.served===1&&S.money>m0&&!xs().tray.length,m0),'GIAO: k
 await p.screenshot({path:`out/v2_sell_${W}.png`});
 // bot bán nốt
 let stops=0;for(let i=0;i<900;i++){const r=await p.evaluate(()=>{if(!D)return'end';if(!$('#stopOv').hidden){$('#goNext').click();return'stop'}
-  const t=xeOrd(),X=xs();if(t){const o=t.o;for(const k of o.bs){const need=xN(o,k)-xeHave(k)-xeIn(k);for(let j=0;j<need;j++){if(X.hand.length>=5)xeDip();xeTray(k)}}if(X.hand.length)xeDip();
+  const t=xeOrd(),X=xs();if(t){const o=t.o;for(const k of o.bs){const need=qN(o,k)-xeHave(k)-xeIn(k);for(let j=0;j<need*5;j++)xeTray(k)}
   if(X.fq.some(f=>f.c>=1))xeFry(X.fq.findIndex(f=>f.c>=1));for(const s of o.ss)if(!X.sauce.includes(s))xeSauce(s);xeServe()}return''});if(r==='stop')stops++;if(r==='end')break;await p.waitForTimeout(100)}
 ok(stops===3,'bán xong mỗi điểm: thẻ kết thúc điểm, đẩy xe sang điểm kế, điểm cuối về nhà');
-ok(await p.evaluate(()=>!$('#sum').hidden&&S.day===2&&S.hist.length===1&&S.hist[0].served>=3),'tổng kết ngày 1, sang ngày 2');
+ok(await p.evaluate(()=>!$('#sum').hidden&&S.day===2&&S.hist.length===1&&S.hist[0].served>=8),'tổng kết ngày 1, sang ngày 2');
 await p.screenshot({path:`out/v2_sum_${W}.png`});
 await p.tap('#nextBtn');await p.waitForTimeout(200);ok(await p.evaluate(()=>!$('#route').hidden&&S.mk.day===2),'ngày 2: chọn lộ trình mới, giá chợ mới');
 ok(!errs.length,'không lỗi JS'+(errs.length?': '+errs.join(' | '):''));await ctx.close()}
