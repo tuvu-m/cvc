@@ -1,130 +1,183 @@
-# Kế hoạch cách chơi mới · Cá Viên Chiên Bé Ba
+# Kế hoạch chi tiết · Cá Viên Chiên Bé Ba
 
-Bản này thay các kế hoạch trước (tủ kính chiên trước, vo viên buổi sáng, roguelite thẻ bài). Người dùng muốn game giải trí vui, cuốn, khác hẳn trà sữa, không phải nghĩ nhiều.
+Game giải trí vui, cuốn, khác hẳn trà sữa, không bắt nghĩ nhiều. Câu chuyện: **khởi nghiệp từ hai bàn tay trắng với chiếc xe đẩy, mỗi sáng chọn chỗ bán, giàu dần lên rồi mở quán, cuối cùng thành chuỗi**.
 
-Đã chốt:
-- Sáng **chọn lộ trình** (2 lựa chọn mỗi ngày) rồi **đi chợ**, giá mỗi ngày khác nhau.
-- Hàng **mua hôm nào bán hôm đấy**, không có kho nhiều ngày.
-- Khách xem hàng trên xe, **gọi theo từng viên** những gì mình có; không có món họ thèm thì bỏ đi.
-- **Xiên que rồi nhúng chảo**, vàng thì vớt, rưới sốt, đưa khách. Cháy thì mất que đó.
-- **Đông vui, có lúc cuống**: giờ tan học, tan ca hàng dài, khách sốt ruột bỏ về.
-- **Lời lỗ thật**: mua sai thì lỗ, hết vốn phải vay.
-- Khách thèm **đặt trước** cho hôm sau.
-- **Xe lớn dần** thì nhiều món hơn, đi được nhiều điểm hơn.
-- Mỗi địa điểm có **sự kiện và kiểu khách khác nhau theo giờ** (chiều ở trường thì học sinh tan, sáng vắng).
-- **Có nhân viên phụ**: làm khá chậm, mỗi lúc chỉ một xiên (xem mục 7b).
+Đã chốt với người dùng:
+- Sáng chọn lộ trình (2 lựa chọn), đi chợ giá mỗi ngày khác nhau, hàng mua hôm nào bán hôm đấy (lúc còn xe).
+- Khách xem hàng, gọi theo từng viên những gì mình có; không có món thèm thì bỏ đi.
+- Xiên que rồi nhúng chảo, vàng thì vớt, rưới sốt, giao. Cháy thì mất que.
+- Đông vui, có lúc cuống: giờ đông khách sốt ruột bỏ về.
+- Lời lỗ thật: mua sai thì lỗ, hết vốn phải vay.
+- Khách thèm đặt trước cho hôm sau.
+- Nhân viên phụ: làm khá chậm, mỗi lúc chỉ một xiên.
+- Vẫn có quán: từ xe đẩy lên quán; sự kiện theo từng cấp.
 
 ---
 
-## 1. Một ngày (khoảng 5–7 phút)
+## 1. Nguyên tắc khi lên cấp
 
+Lên cấp quán dễ biến game thành bảng tính. Bốn nguyên tắc để tránh:
+
+1. **Lõi không đổi.** Xiên que, nhúng chảo, vớt, rưới sốt, giao: ở cấp nào cũng là việc tay chính của người chơi. Lên cấp chỉ đổi cảnh, đổi khách và tăng quy mô.
+2. **Mỗi cấp thêm đúng một thứ mới để học**, và bớt đi một việc vặt cũ (giao cho nhân viên hoặc tự động).
+3. **Mỗi ngày vẫn có một lựa chọn "đi đâu".** Xe: chọn lộ trình. Quán: chọn chỗ cho xe vệ tinh đi bán. Chuỗi: chọn chi nhánh mình đứng bếp hôm nay. Lựa chọn đầu ngày luôn 1–2 chạm.
+4. **Cảm giác giàu lên phải nhìn thấy được**: xe to hơn, quán đẹp hơn, khách sang hơn, đơn to hơn, sự kiện "lớn" hơn (từ bị trật tự đô thị đuổi tới truyền hình tới quay).
+
+## 2. Năm cấp
+
+Khớp với 5 bộ hình cảnh đã có (`tiem_1`…`tiem_5`, `k_quay_N`, `k_maihien_N`, `k_san_N`).
+
+| Cấp | Tên | Cách bán | Thứ mới để học | Việc vặt được bớt | Khoảng ngày |
+|---|---|---|---|---|---|
+| 1 | Xe đẩy tay | Lộ trình 3 điểm/ngày, tự bán | Xiên chiên, đọc giờ đông của từng nơi, mua đủ không dư | — | 1–12 |
+| 2 | Ki-ốt lưu động (xe máy kéo) | Lộ trình 3–4 điểm, có khuya, 1–2 nhân viên phụ | Nhân viên phụ, đơn to (văn phòng, chợ đêm), đặt trước | Nút "Như hôm qua" ở chợ | 12–35 |
+| 3 | Quán nhỏ | Quán cố định + 1 xe vệ tinh | Khách ngồi ăn tại chỗ (bàn), tủ đông để hàng 3 ngày, tiền thuê | Xe vệ tinh tự bán (nhân viên lái), chỉ chọn lộ trình | 35–80 |
+| 4 | Quán hai tầng | Quán lớn + 2 xe vệ tinh | Món đĩa và combo, tiệc đặt trước (đơn 50–100 viên), nhập sỉ theo tuần | Phục vụ tự dọn bàn, thu ngân | 80–160 |
+| 5 | Chuỗi | Nhiều chi nhánh + xe | Mở chi nhánh ở khu đã nổi tiếng, chọn chi nhánh mình đứng bếp mỗi ngày | Chi nhánh khác tự chạy, kết quả cuối ngày | 160+ |
+
+Trong cấp 1–2 có nâng cấp nhỏ (ba gác giữa cấp 1 và 2, xe tải bán đồ ăn cuối cấp 2) để luôn có cái mua.
+
+### Điều kiện lên cấp (không thi)
+- **Tiền** để mua xe/đặt cọc mặt bằng (lời lỗ thật nên đây là mục tiêu chính).
+- **Danh tiếng** ❤️: tổng tim từ khách vui. Lên quán cần danh tiếng đủ ở **khu muốn mở quán** (mục 6).
+- Khi đủ thì có ngày **khai trương** (mục 8).
+
+## 3. Một ngày ở từng cấp
+
+### Cấp 1–2: Xe
 | Bước | Thời gian | Làm gì |
 |---|---|---|
-| Chọn lộ trình | ~10 giây | 2 thẻ lộ trình, mỗi thẻ 3 điểm (Trưa, Chiều, Tối; xe máy kéo trở lên thêm Khuya). Thẻ ghi gợi ý: kiểu khách và món họ thích, thời tiết, sự kiện, đơn đặt trước ở điểm nào. |
-| Đi chợ | ~30 giây | Sạp chợ: giá hôm nay kèm ↑↓ so với hôm qua, hàng lạ chỉ hôm nay. Chạm bỏ giỏ theo bịch. Nút "Như hôm qua", "Gợi ý theo lộ trình". Xe chỉ chở được số khay theo cấp xe. |
-| Bán | 3 × ~1,5 phút | Mỗi điểm: xe đậu, khách đi ngang, có món thì ghé gọi. Hết giờ thì "Đẩy xe đi" sang điểm kế, trên đường có thể gặp chuyện nhỏ. |
-| Tối về nhà | ~20 giây | Tổng kết: lời lỗ, khách vui, khách bỏ đi kèm lý do ("Hỏi xúc xích ×6"). Hàng dư bỏ (lỗ) hoặc cho mèo/hàng xóm (được chút tim, vẫn lỗ tiền). Xem đơn đặt trước cho mai. Nâng cấp xe. |
+| Chọn lộ trình | ~10 giây | 2 thẻ lộ trình, mỗi thẻ 3 điểm (Trưa, Chiều, Tối; cấp 2 thêm Khuya). Thẻ ghi: kiểu khách và món họ thích, thời tiết, sự kiện, đơn đặt trước 📝. |
+| Đi chợ | ~30 giây | Sạp chợ: giá hôm nay ↑↓, hàng lạ chỉ hôm nay. Chạm bỏ giỏ theo bịch. "Gợi ý theo lộ trình". Xe chở có hạn số khay. |
+| Bán | 3–4 × ~1,5 phút | Mỗi điểm: khách đi ngang, có món thì ghé gọi. Hết giờ "Đẩy xe đi", dọc đường có chuyện nhỏ. |
+| Tối về | ~20 giây | Lời lỗ, khách bỏ đi kèm lý do ("Hỏi xúc xích ×6"), hàng dư mất vốn (cho mèo/hàng xóm được tim), đặt trước cho mai, nâng cấp. |
 
-Sáng không bán (ít khách); đi chợ là phần buổi sáng.
+### Cấp 3–4: Quán
+| Bước | Làm gì |
+|---|---|
+| Sáng | Nhận hàng từ tủ đông và chợ (tủ đông giữ 3 ngày, hàng tươi trong ngày, cấp 4 nhập sỉ giao mỗi tuần rẻ hơn). Chọn lộ trình cho xe vệ tinh (1 chạm). Chọn **món của ngày** (giảm giá, khách dễ ghé). |
+| Bán | Một màn quán: khách vào cửa, đứng gọi mang về hoặc ngồi bàn. Mình đứng chảo. Nhân viên phụ xiên chậm, phục vụ bưng ra bàn, dọn bàn. Khung giờ trong ngày đổi khách theo khu của quán (gần trường thì chiều tan học đông). |
+| Tối | Quán: lời lỗ. Xe vệ tinh: kết quả gọn một dòng ("🛺 Chợ đêm: bán 84 viên, +620k, 3 khách bỏ đi vì thiếu tôm viên"). Tiền thuê cuối tháng. |
 
-## 2. Màn bán
+Ngồi bàn khác mang về: khách ngồi gọi nhiều hơn, chờ lâu hơn, nhưng chiếm bàn; hết bàn thì khách muốn ngồi bỏ đi. Mua thêm bàn là nâng cấp quán.
+
+### Cấp 5: Chuỗi
+- Sáng: bản đồ thành phố có các chi nhánh và xe. **Chọn chi nhánh mình đứng bếp hôm nay** (chi nhánh có sự kiện, chi nhánh đang ế, chi nhánh mới khai trương). Chi nhánh mình đứng thì bán đông hơn, khách vui hơn.
+- Các chi nhánh khác tự chạy theo quản lý (chỉ số quản lý), kết quả cuối ngày.
+- Mục tiêu cuối: phủ đủ 8 khu, sưu tầm đủ, khách quen 50 người.
+
+## 4. Màn bán (lõi)
 
 ```
 ┌────────────────────────────────────┐
-│ Cảnh địa điểm (trường, chợ đêm…)    │  khách đi ngang, bong bóng món thèm
-│ 👦 [🐟3 🐮2 🌶]  👧 [🌭1]  😕[🦐]     │  có món → ghé gọi; không → 😕 đi
+│ Cảnh (địa điểm hoặc quán)           │  khách, bong bóng món thèm
+│ 👦 [🐟3 🐮2 🌶]  👧 [🌭1]  😕[🦐]     │  có món → ghé; không → 😕 đi
 ├────────────────────────────────────┤
-│ Đơn đang làm: 🐟 3 · 🐮 2 · Tương ớt │
-│ Que: ●●○○○                          │  viên xâu lên que theo thứ tự chạm
-│ [🍳 Chảo: que1 ▓▓▓░  que2 ▓░░░]      │  vàng thì chạm que để vớt
-│ [Khay cá viên][Khay bò viên][…]     │  số khay theo cấp xe, ghi số viên còn
-│ [Tương ớt][Tương cà]   [Giao ✓]     │
+│ Đơn: 🐟 3 · 🐮 2 · Tương ớt          │
+│ Que đang cầm: ●●○○○                 │
+│ Chảo: [que1 ▓▓▓░] [que2 ▓░░░] [NV ▓░]│  vàng thì chạm que để vớt
+│ [Cá viên 24][Bò viên 18][Xúc xích 6]│  khay ghi số viên còn
+│ [Tương ớt][Tương cà][Bột phô mai]   │
 └────────────────────────────────────┘
 ```
+- **Xiên**: chạm khay thì một viên xâu lên que (thấy viên chồng lên). Que tối đa 5 viên; đơn dài thì que đầy đặt sang bên, xiên que mới.
+- **Chiên**: chạm chảo để nhúng que. Vàng đều thì que sáng lên, chạm để vớt. Quá lâu thì cháy, mất cả que.
+- **Sốt rồi giao**: chạm hũ sốt, chạm khách. Sai số viên thì khách chê.
+- **Kiên nhẫn**: thanh trên đầu khách; giờ đông hàng dài, khách bỏ về.
+- **Hết hàng**: khay mờ; khách thèm món đó không ghé.
+- Ở quán thêm: khách ngồi bàn (giao tới bàn qua phục vụ), món đĩa (cấp 4: viên đổ ra đĩa, không xiên, rưới sốt và rau), combo.
 
-- **Khách**: tới theo nhịp của địa điểm và giờ. Bong bóng hiện món thèm. Có ít nhất một món họ thèm trên xe thì họ xếp hàng gọi; không có thì hiện món gạch chéo rồi đi (ghi vào tổng kết).
-- **Gọi theo viên**: "3 cá viên, 2 bò viên, 1 xúc xích", có thể kèm sốt, độ cay, không rau.
-- **Xiên**: chạm khay thì một viên xâu vào que đang cầm (thấy viên chồng lên que). Mỗi que tối đa 5 viên; đơn dài thì que đầy tự đặt sang bên, xiên que mới.
-- **Chiên**: chạm chảo để nhúng que (chảo chứa 3–6 que theo cấp xe). Viên vàng dần; vàng đều thì que sáng lên, chạm để vớt. Quá lâu thì cháy, mất que và số viên trên que.
-- **Sốt rồi giao**: chạm hũ sốt để rưới, chạm Giao (hoặc chạm khách). Sai số viên thì khách chê (sao thấp, ít tiền).
-- **Kiên nhẫn**: thanh kiên nhẫn trên đầu mỗi khách. Giờ đông hàng dài, khách sốt ruột bỏ về. Ngoài giờ đông thì thong thả.
-- **Hết hàng**: khay trống mờ đi; khách thèm món đó sẽ không ghé.
-- **Nhân viên** đứng cạnh, tự nhận khách kế tiếp trong hàng chưa ai làm và làm từng que một (mục 7b). Mình và nhân viên dùng chung khay và chảo.
+## 5. Địa điểm (khu)
 
-## 3. Địa điểm
-
-| Địa điểm | Giờ đông | Khách | Kiểu gọi | Mở ở xe |
+| Khu | Giờ đông | Khách | Kiểu gọi | Mở |
 |---|---|---|---|---|
-| 🏫 Cổng trường | trưa và chiều tan học | học sinh | đi đàn 3–5 đứa, mỗi đứa 2–4 viên rẻ, nhiều tương ớt, bột phô mai; tối vắng | xe đẩy |
-| 🧺 Chợ | sáng, đầu chiều | các bà, các cô | đơn vừa, mặc cả, thích đồ chua | xe đẩy |
-| 🌳 Công viên | chiều tối, cuối tuần | gia đình, trẻ nhỏ | đơn chia nhiều phần, bé "không cay" | xe đẩy |
+| 🏫 Cổng trường | trưa và chiều tan học | học sinh | đi đàn 3–5 đứa, 2–4 viên rẻ, nhiều tương ớt, bột phô mai; tối vắng | cấp 1 |
+| 🧺 Chợ | sáng, đầu chiều | các bà, các cô | đơn vừa, mặc cả, đồ chua | cấp 1 |
+| 🌳 Công viên | chiều tối, cuối tuần | gia đình, trẻ nhỏ | đơn chia phần, bé "không cay" | cấp 1 |
 | 🏢 Khu văn phòng | trưa, 17h tan ca | dân văn phòng | đơn to "20 viên mang lên phòng", phô mai, đồ lạ, tip | ba gác |
 | 🚌 Bến xe | tối, khuya | tài xế, xe ôm | cay, rẻ, ăn tại chỗ, hay kể chuyện | ba gác |
-| 🏮 Chợ đêm | tối | giới trẻ, khách Tây, hot girl | hàng hiếm, lớp phủ, chịu chi | xe máy kéo |
-| 🏠 Ký túc xá | khuya | sinh viên | rẻ, nhiều, xin thêm sốt | xe máy kéo |
-| ⚽ Sân vận động | chỉ ngày có trận | đám đông | đông nghẹt trước và sau trận | xe tải |
+| 🏮 Chợ đêm | tối | giới trẻ, khách Tây, hot girl | hàng hiếm, lớp phủ, chịu chi | cấp 2 |
+| 🏠 Ký túc xá | khuya | sinh viên | rẻ, nhiều, xin thêm sốt | cấp 2 |
+| ⚽ Sân vận động | chỉ ngày có trận | đám đông | đông nghẹt trước và sau trận | xe tải (cuối cấp 2) |
 
-Mỗi địa điểm có đường cong khách theo giờ (`đông`/`vắng`). Lộ trình ghép đúng giờ đông là cái khéo của người chơi. Hai lộ trình mỗi sáng được tạo từ các địa điểm đã mở, ít nhất một lộ trình hợp lý.
+- Mỗi khu có đường cong khách theo giờ. Hai lộ trình mỗi sáng tạo từ các khu đã mở, ít nhất một lộ trình hợp lý.
+- Mỗi khu có **danh tiếng riêng** ❤️ (tăng khi khách khu đó vui). Danh tiếng cao thì khách đi ngang dễ ghé, hay đặt trước, và là điều kiện mở quán ở khu đó.
+- Khách đặc biệt gắn với khu hợp: Bet thủ ở bến xe, Tây ba lô và streamer ở chợ đêm, bà tám ở chợ, đại gia ở văn phòng, thầy bói ở công viên.
 
-Khách đặc biệt giữ từ bản cũ (Bet thủ, thầy bói, bà tám, Tây ba lô, streamer, đại gia, xe ôm, hot girl…), mỗi loại gắn vào địa điểm hợp.
+## 6. Mở quán: chọn khu
+- Đủ tiền thì chọn khu để thuê mặt bằng, **chỉ những khu danh tiếng đủ**. Mỗi khu cho quán một kiểu khác:
+  - Cạnh trường: rẻ thuê, đông chiều, đơn nhỏ.
+  - Khu văn phòng: thuê đắt, đông trưa và tan ca, đơn to.
+  - Chợ đêm: thuê đắt nhất, chỉ đông tối, khách chịu chi.
+  - Chợ, công viên, bến xe: ở giữa.
+- Khách quen và đơn đặt trước từ thời xe đẩy theo về quán.
+- Chuyển quán (cấp 4) hoặc mở chi nhánh (cấp 5) cũng theo danh tiếng khu.
 
-## 4. Sự kiện theo nơi và giờ
-- Ngày thi ở trường: học sinh ra sớm, đông gấp đôi.
-- Ngày lương ở văn phòng: đơn to, tip.
-- Mưa: công viên vắng, bến xe đông người trú mưa (có dù thì bán được).
-- Trận bóng, Trung thu, Noel: một điểm đông bất thường, báo trước trên thẻ lộ trình.
-- Trật tự đô thị: chạm nhanh "Đẩy xe chạy", mất vài giây bán; chậm thì bị phạt.
-- Giữa đường: bà cụ xin xiên miễn phí, mèo hoang chạy theo, xe xẹp lốp…
-- Chợ: bão thì tôm, mực lên giá; mùa cá thì cá viên rẻ.
+## 7. Sự kiện theo cấp
 
-## 5. Giá chợ và lời lỗ
-- Mỗi món có giá gốc; giá hôm nay dao động ±10–30% theo ngày, sự kiện chợ có thể đẩy mạnh hơn.
-- Giá bán mỗi viên đặt ở nhà (bảng giá giữ từ bản cũ). Khách mỗi nơi chịu giá khác nhau (học sinh chê đắt, văn phòng không để ý).
-- Hàng dư cuối ngày mất trắng tiền vốn; cho mèo/hàng xóm chỉ được tim, không lấy lại tiền.
-- Hết vốn thì vay (giữ hệ thống vay cũ), có tiền thì trả.
-- Chi phí cố định nhẹ: xăng/sửa xe theo cấp xe mỗi ngày.
+Sự kiện "lớn" dần theo cấp để thấy mình đi lên.
 
-## 6. Đặt trước
+| Cấp | Sự kiện |
+|---|---|
+| 1 Xe đẩy | Trật tự đô thị đi qua (chạm "Đẩy xe chạy", chậm thì bị phạt), mưa bất chợt, xẹp lốp giữa đường, bà cụ xin xiên, mèo hoang chạy theo, xe khác giành chỗ, mua nhầm bịch viên hư. |
+| 2 Ki-ốt | Lớp học đặt tiệc sinh nhật (đặt trước 40 viên), công ty đặt giao tận nơi, hội chợ cuối tuần, công an hỏi giấy tờ xe, ngày thi ở trường, ngày lương ở văn phòng, trận bóng. |
+| 3 Quán nhỏ | Khai trương, mất điện (chảo nguội), mưa ngập hẻm, hàng xóm phàn nàn mùi dầu, food reviewer ghé, chủ nhà tăng giá thuê, nhân viên xin nghỉ đột xuất, khách bao trọn quán. |
+| 4 Quán hai tầng | Kiểm tra vệ sinh an toàn thực phẩm (một lần đột xuất, nhẹ), KOL quay clip, đối thủ mở đối diện, tiệc công ty 100 viên, thuế, truyền hình đến quay "quán ăn vặt nổi tiếng". |
+| 5 Chuỗi | Báo chí phỏng vấn, đối tác hỏi nhượng quyền, scandal một chi nhánh, lễ hội ẩm thực thành phố, chi nhánh có quản lý nghỉ việc. |
+
+Sự kiện theo giờ và nơi (mọi cấp có xe): mưa thì công viên vắng, bến xe đông; Trung thu, Noel thì một khu đông bất thường, báo trước trên thẻ lộ trình. Chợ: bão thì tôm, mực lên giá, mùa cá thì cá viên rẻ.
+
+## 8. Ngày khai trương
+Một ngày đặc biệt khi lên cấp 3, 4 và mỗi chi nhánh: bong bóng, pháo giấy, khách quen thời xe đẩy tới chúc, khách đông gấp đôi, có quà. Là phần thưởng cảm xúc thay cho bài thi thanh tra.
+
+## 9. Giá chợ, lời lỗ, chi phí
+- Giá mỗi món dao động ±10–30% theo ngày; sự kiện chợ đẩy mạnh hơn.
+- Giá bán mỗi viên đặt trong tab Bảng giá. Học sinh chê đắt, văn phòng không để ý.
+- Xe: hàng dư cuối ngày mất vốn. Quán: tủ đông giữ 3 ngày, quá hạn mất.
+- Chi phí: xăng/sửa xe mỗi ngày (cấp 1–2); tiền thuê tháng, điện nước (cấp 3+); lương nhân viên mỗi ngày đi làm.
+- Hết vốn thì vay, có tiền thì trả.
+
+## 10. Đặt trước
 - Khách 5★ có lúc đặt: "Mai chiều cô ghé công viên, chừa cô 8 bò viên với phô mai nha!".
-- Giấy ghim trên xe; thẻ lộ trình có điểm đó thì hiện dấu 📝; giỏ chợ nhắc mua đủ.
-- Đúng lộ trình, đủ đồ: trả gấp rưỡi, tim, dễ thành khách quen. Không giữ được: khách buồn, review thấp, không phạt tiền.
+- Giấy ghim trên xe; thẻ lộ trình có điểm đó thì hiện 📝; giỏ chợ nhắc mua đủ.
+- Đủ đồ đúng chỗ: trả gấp rưỡi, tim, dễ thành khách quen. Không giữ được: khách buồn, review thấp.
+- Cấp 4: đặt tiệc lớn (lớp học, công ty), báo trước 2–3 ngày.
 
-## 7. Xe lớn dần
+## 11. Nhân viên
+- Số người: cấp 1 có 0 (tự bán, từ ngày 3 thuê được 1), cấp 2 có 2, cấp 3 có 4 (2 phụ chảo, 1 phục vụ, 1 lái xe vệ tinh), cấp 4 có 7, cấp 5 mỗi chi nhánh có quản lý.
+- **Phụ chảo: chậm và chỉ một xiên một lúc**: nhận khách kế tiếp chưa ai làm, xiên từng viên (~1 giây/viên, gấp đôi mình), nhúng, chờ vàng, vớt, rưới sốt, rồi mới que tiếp. Đơn 5 viên ~12–15 giây. Que của họ chiếm một chỗ trong chảo chung.
+- Phục vụ (quán): bưng ra bàn, dọn bàn. Lái xe (quán): chạy xe vệ tinh, chỉ số quyết định bán được bao nhiêu. Quản lý (chuỗi): chi nhánh tự chạy tốt hay dở.
+- Chỉ số: ⚡ nhanh, 🍳 khéo (ít cháy, ít đếm sai), 😊 duyên (khách chờ lâu hơn, hay đặt trước). Tính cách, tinh thần giữ từ bản cũ, chỉ tính cuối ngày.
+- Lương trả mỗi ngày đi làm. Chạm nhân viên: "Để đó mình làm" khi hàng dài.
 
-| Xe | Khay món | Chảo | Điểm/ngày | Mở thêm |
-|---|---|---|---|---|
-| Xe đẩy tay | 3 | 3 que | 3 | trường, chợ, công viên |
-| Xe đạp ba gác | 5 | 4 que | 3 | văn phòng, bến xe, sốt thứ 2 |
-| Xe máy kéo | 7 | 5 que | 4 (thêm Khuya) | chợ đêm, ký túc xá |
-| Xe tải bán đồ ăn | 9 | 2 chảo × 3 que | 4 | sân vận động, lễ hội, hàng hiếm nhập |
+## 12. Nâng cấp
+- Xe (cấp 1–2): ba gác (5 khay, mở văn phòng và bến xe), xe máy kéo (7 khay, thêm khuya), xe tải (9 khay, 2 chảo, sân vận động). Phụ kiện: dù che mưa, loa kéo khách, đèn bán khuya, thùng giữ nóng.
+- Quán (cấp 3–4): thêm bàn, chảo thứ hai, tủ đông lớn, máy lạnh (khách ngồi lâu, gọi thêm), bảng hiệu đèn, trang trí (giữ hệ thống trang trí cũ).
+- Xe vệ tinh: thêm xe, xe to hơn.
+- Giấy gói theo mùa, đồ cho mèo, đồ siêu hiếm (rắc lên que cho khách chợ đêm).
 
-Phụ kiện: dù che mưa, loa kéo khách (khách đi ngang dễ ghé hơn), đèn bán khuya, thùng giữ nóng (que vớt rồi không nguội), giấy gói theo mùa, bảng hiệu, mèo thần tài.
+## 13. Sưu tập và mục tiêu dài
+- Sổ sưu tập: 🗺️ khu đã mở (8), 🛺 xe (4), 🏪 chi nhánh, 🧑 khách đặc biệt đã gặp, 💛 khách quen (50), 🍢 đồ chiên (12), 💎 đồ siêu hiếm (6), 📜 combo nổi tiếng (12), 🏅 huy hiệu.
+- Album khách: gặp lại khách đặc biệt nhiều lần thì mở thêm chuyện nhỏ của họ.
+- Khách quen có biệt danh, bênh tiệm, review, trả lời review, vé số: giữ từ bản cũ.
 
-## 7b. Nhân viên phụ
-- Số người theo xe: xe đẩy 1, ba gác 1, máy kéo 2, xe tải 3. Thuê được từ ngày 3 (vài ngày đầu tự bán cho quen tay).
-- **Chậm và chỉ một xiên một lúc**: nhận khách kế tiếp chưa ai làm, xiên từng viên (khoảng 1 giây/viên, gấp đôi mình), nhúng que vào chảo, đứng chờ vàng, vớt, rưới sốt, rồi mới xiên que tiếp. Đơn 2 que thì làm lần lượt. Một đơn 5 viên mất khoảng 12–15 giây; mình làm nhanh gấp 2–3 lần.
-- Que của nhân viên chiếm một chỗ trong chảo chung, nên chảo đầy thì họ chờ.
-- Đơn họ đang làm hiện tiến độ trên đầu họ; khách đang được họ làm thì kiên nhẫn giảm chậm hơn.
-- Chỉ số đơn giản: ⚡ nhanh (bớt thời gian mỗi viên), 🍳 khéo (ít vớt sớm/cháy, ít làm rơi viên), 😊 duyên (khách chờ lâu hơn, hay đặt trước). Lâu lâu họ làm cháy một que hoặc đếm sai một viên.
-- Lương trả mỗi ngày đi bán (lời lỗ thật, ngày ế vẫn phải trả). Tinh thần giữ từ bản cũ, chỉ tính cuối ngày.
-- Mình có thể chạm nhân viên để "Để đó mình làm" (lấy đơn về làm cho nhanh) khi hàng dài.
+## 14. Giữ, đổi, bỏ so với code hiện tại
+- **Giữ**: hình, `SHOP` 5 cấp (đổi ý nghĩa), khách đặc biệt, khách quen, review, vé số, sự kiện (`EVS`, chia lại theo cấp), nhạc, âm thanh, mèo, trang trí, giấy gói, đồ siêu hiếm, combo, bảng giá mỗi viên, vay tiền.
+- **Đổi**: đơn theo viên (đã có `o.n`), chảo theo que thay chảo theo mẻ, nhân viên thành phụ chảo chậm, `EVENTS` thời tiết thành sự kiện theo khu và giờ, tiền thuê chỉ từ cấp 3.
+- **Bỏ**: thanh tra và bằng cấp, giấy phép, đối thủ ở cấp 1–3 (cấp 4 thành sự kiện), quầy lưới bày đồ (thay bằng khay cố định theo xe/quán), hai màn quán/pha, quầy gói, phiếu order, tab Kho nhiều ngày ở cấp 1–2.
 
-## 8. Giữ và bỏ
+## 15. Hình cần vẽ thêm
+- Cảnh 8 khu (ngang 160×62 như cảnh tiệm cũ), có bản tối nếu được.
+- Xe ba gác, xe máy kéo, xe tải nhìn ngang (xe đẩy và ki-ốt đã có).
+- Que xiên, sạp chợ, bàn ghế quán, thẻ lộ trình, bản đồ thành phố (cấp 5), nhân viên mới `nv1_`/`nv2_`.
 
-Giữ: hình đã vẽ, thuê nhân viên, tính cách và tinh thần nhân viên, khách đặc biệt, khách quen có biệt danh, bênh tiệm, review và trả lời review, vé số, Sổ sưu tập (đổi bộ cho hợp: địa điểm đã mở, xe, khách đặc biệt), hai bé mèo, nhạc, âm thanh, đồ siêu hiếm (rắc lên que cho khách chợ đêm), combo nổi tiếng.
-
-Bỏ: kho nhiều ngày, quầy lưới bày đồ, thanh tra và bằng cấp, cấp tiệm, đối thủ, thuế, tiền thuê mặt bằng, hệ thống nhân viên pha theo bước của trà sữa (thay bằng nhân viên phụ mục 7b), vai trò Phục vụ/Bảo vệ, hai màn quán/pha, quầy gói, phiếu order.
-
-## 9. Hình cần vẽ thêm
-- Cảnh từng địa điểm (nền đường phố, ngang 160×62 như cảnh tiệm cũ): cổng trường, chợ, công viên, khu văn phòng, bến xe, chợ đêm, ký túc xá, sân vận động; mỗi cảnh có bản ngày và tối nếu được.
-- 4 xe (đẩy tay, ba gác, máy kéo, xe tải) nhìn ngang.
-- Que xiên trống, que đầy, sạp chợ, bản đồ/thẻ lộ trình.
-
-## 10. Thứ tự làm
-1. Màn bán mới (một điểm dừng): khách đi ngang + bong bóng, xiên que, chảo theo que, sốt, giao, kiên nhẫn. Dùng cảnh tiệm cũ tạm.
-2. Vòng ngày: chọn lộ trình → đi chợ (giá dao động) → 3 điểm → tổng kết, hàng dư mất.
-3. Địa điểm và đường cong khách theo giờ, kiểu khách mỗi nơi.
-4. Đặt trước, sự kiện theo nơi/giờ.
-5. Nhân viên phụ (chậm, một xiên một lúc).
-6. Xe lớn dần, phụ kiện, khách đặc biệt gắn địa điểm.
-7. Dọn hệ thống bỏ đi, sửa test, mô phỏng cân bằng lời lỗ.
+## 16. Thứ tự làm
+1. Màn bán mới ở một điểm: khách đi ngang + bong bóng, xiên que, chảo theo que, sốt, giao, kiên nhẫn (dùng cảnh cũ tạm).
+2. Vòng ngày cấp 1: chọn lộ trình → đi chợ (giá dao động) → 3 điểm → tổng kết, hàng dư mất.
+3. Khu và đường cong khách theo giờ, danh tiếng khu.
+4. Đặt trước, sự kiện cấp 1–2.
+5. Nhân viên phụ chảo.
+6. Nâng cấp xe, cấp 2.
+7. Mở quán (cấp 3): chọn khu, bàn, tủ đông, xe vệ tinh tự bán, khai trương.
+8. Cấp 4 (món đĩa, tiệc, nhập sỉ), cấp 5 (chi nhánh).
+9. Dọn hệ thống bỏ đi, sửa test, mô phỏng cân bằng tiền và nhịp lên cấp.
