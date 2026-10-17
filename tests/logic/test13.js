@@ -52,8 +52,8 @@ vm.runInContext(src + `;toast=m=>toasts.push(m);renderPrep=()=>{};
   for(let d=0;d<13;d++){open(S.day);for(let i=0;i<4;i++)settle(cust(),2,null,[]);close()}
   ok(!S.rival&&S.rvPen>=S.day,'hết 14 ngày mà họ còn máu: đối thủ ở lại, khách giảm 10% thêm 7 ngày');
   // máu: thắng sát nút mất ít máu, thắng đậm mất nhiều
-  S.rival={name:'X',t:.87,start:S.day,w:0,l:0,n:0,hp:100,pull:0};open(S.day);for(let i=0;i<20;i++)settle(cust(),i<19?5:2,null,[]);close();const hp1=S.rival.hp;
-  S.rival.hp=100;open(S.day);for(let i=0;i<20;i++)settle(cust(),5,null,[]);close();const hp2=S.rival.hp;ok(hp1<100&&hp2<hp1,'thắng đậm mất nhiều máu hơn (95% hài lòng: ❤️'+hp1+', 100%: ❤️'+hp2+')');
+  S.rival={name:'X',t:.85,start:S.day,w:0,l:0,n:0,hp:100,pull:0};open(S.day);for(let i=0;i<20;i++)settle(cust(),i<18?5:2,null,[]);close();const hp1=S.rival.hp;
+  S.rival.hp=100;open(S.day);for(let i=0;i<20;i++)settle(cust(),5,null,[]);close();const hp2=S.rival.hp;ok(hp1<100&&hp2<hp1,'thắng đậm mất nhiều máu hơn (90% hài lòng: ❤️'+hp1+', 100%: ❤️'+hp2+')');
   // chiêu của bạn: cộng thẳng % hài lòng hôm đó, chiêu đắt cộng nhiều hơn; giá theo cấp tiệm
   {const run=my=>{S.rival={name:'X',t:.87,start:S.day,w:0,l:0,n:0,hp:100,pull:0,tac:null,tacDay:S.day};if(my)S.rival.my={d:S.day,k:my};open(S.day);S.rival.tac=null;S.rival.tacDay=S.day;for(let i=0;i<20;i++)settle(cust(),i<18?5:2,null,[]);const rr=M.random;M.random=()=>.5;close();M.random=rr;return S.rival?S.rival.hp:0};
    const a=run(null),b=run('km'),c=run('kol');ok(c<b&&b<a,'mua chiêu: không chiêu còn ❤️'+a+', Khuyến mãi +3% ❤️'+b+', Thuê KOL +10% ❤️'+c);}
