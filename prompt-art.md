@@ -142,7 +142,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 
 (Tấm 16, 17: đổi câu "The same young Vietnamese woman with a short bob haircut" thành "The same young Vietnamese man with short hair" và "The same young Vietnamese woman with a high ponytail".)
 
-## 18 · Bảo vệ, công an, cúp, màn loading ✅ đã có (trừ màn loading)
+## 18 · Bảo vệ, công an, cúp, màn loading ✅ đã có
 
 Tên file: `baove` (bảo vệ đứng) · `congan` (anh công an đứng) · `xecongan` (xe công an nhìn ngang, đầu xe quay sang trái) · 9 cúp cao bằng nhau, mỗi cúp một màu và một hình nhỏ trên thân: `cup_bang` (cuộn giấy), `cup_gem` (viên kim cương), `cup_mon` (ngôi sao), `cup_quen` (trái tim), `cup_own` (vương miện), `cup_ly` (ly giấy cá viên), `cup_ach` (huy chương), `cup_rival` (hai thanh kiếm), `cup_famous` (quyển sách mở)
 
