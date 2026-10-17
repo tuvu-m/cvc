@@ -3059,7 +3059,15 @@ const RV={
 
 const NOTE_T={'chờ lâu':'Chờ mãi không thấy ai làm.','hết món':'Gọi món nào cũng hết.','sai size':'Gọi size này ra size khác.','sai món':'Gọi một đằng ra một nẻo.','hơi cháy':'Viên chiên hơi khét, đắng miệng.','cháy khét':'Viên cháy đen thui.','chiên quá lửa':'Viên chiên quá lửa, khét lẹt.','rơi mất viên':'Ly thiếu mất mấy viên.','sai rau':'Rau ăn kèm không đúng như mình gọi.','thiếu rau':'Quên rau ăn kèm cho mình.','thiếu sốt':'Quên rưới sốt cho mình.','sai sốt':'Rưới nhầm sốt rồi.','thiếu lớp phủ':'Quên phủ sốt cho mình.','sai lớp phủ':'Gọi phủ này ra phủ khác.','thiếu kem':'Quên phủ sốt cho mình.','sai kem':'Gọi phủ này ra phủ khác.','thiếu món':'Gọi thập cẩm mà thiếu mất một món.','thừa đồ':'Bỏ thêm mấy thứ mình không gọi.','sai độ cay':'Cay không đúng mức mình dặn.','sai chanh':'Chanh không đúng như mình dặn.','quên chanh':'Dặn vắt chanh mà quên mất.','nhân viên cáu':'Nhân viên thái độ.','chê đắt':'Giá hơi chát so với chất lượng.','chậm':'Làm chậm, trễ giờ làm của mình.','không cho nợ':'Khách quen mà không cho ghi nợ.','từ chối':'Bị từ chối phục vụ vô lý!','thấy chuột':'Thấy chuột chạy trong tiệm, ghê quá.','trễ đơn':'Trễ đơn, khách hủy luôn rồi!','mất mặt':'Làm anh mất mặt trước bạn gái!','từ chối công an':'Từ chối phục vụ cả công an?!'};
 const GEM_RV=['Gọi món có {g} mà không thấy {g} đâu, buồn ghê.','Trả tiền món có {g} mà ly trơn trụi, hụt hẫng.','Đợi mãi để được ăn món có {g}, ai dè quên mất. Tiếc!'];
-function review(c,s,notes=[]){let t=pick(RV[s]);if(notes.length&&s<=3)t=NOTE_T[notes[0]]||t;{const gn=notes.find(n=>/^quên /.test(n));if(gn)t=pick(GEM_RV).replace(/\{g\}/g,gn.slice(5))}
+/* câu thêm cuối review tốt (tối đa một câu): khen đồ chiên, rau ăn kèm, sốt đang hot hoặc giá hời; tên đồ chiên không kèm số xiên */
+function rvTail(c){const o=c.o||{},L=[],fr=(o.bs||[]).filter(k=>BASES[k]).map(k=>BASES[k].name.toLowerCase()),tp=(o.ts||[])[0],hk=recIds(o).filter(isHot)[0];
+  if(fr.length){const f=pick(fr);L.push(`${f.charAt(0).toUpperCase()+f.slice(1)} giòn ngon.`,`Mê ${f} ở đây.`,`${f.charAt(0).toUpperCase()+f.slice(1)} chiên vừa tới.`,`Lần sau gọi thêm ${f}.`);if(o.fam)L.push(`Combo ${o.name} đúng chất!`)}
+  if(tp&&TOPS[tp])L.push(`${TOPS[tp].name} ăn kèm đã ghê.`,`Thêm ${TOPS[tp].name.toLowerCase()} là chuẩn bài.`);
+  if(hk)L.push(`${ITEM(hk).name} đang hot, chấm là ghiền.`,`Có ${ITEM(hk).name.toLowerCase()} đúng trend luôn!`);
+  if((o.ss||[]).length&&!hk)L.push(`${ITEM(o.ss[0]).name} chấm vừa miệng.`);
+  if(c.ratio<.85)L.push('Giá quá hời.','Rẻ mà ngon thật sự.');return L.length?pick(L):''}
+/* chữ review: tránh trùng nguyên văn với 20 review gần nhất (bốc lại tối đa 6 lần) */
+function rvText(c,s,notes){let t=pick(RV[s]);if(notes.length&&s<=3)t=NOTE_T[notes[0]]||t;{const gn=notes.find(n=>/^quên /.test(n));if(gn)t=pick(GEM_RV).replace(/\{g\}/g,gn.slice(5))}
   if(c.type==='khotinh')t=s>=5?'Hiếm khi tôi cho 5 sao. Được.':s>=4?'Tạm chấp nhận.':'Không đạt tiêu chuẩn. '+t;
   if(c.type==='sop'&&s>=4)t='Ngon, bo cho em thêm nè. '+t;if(c.type==='hocsinh'&&s>=4)t='Giá học sinh, ăn đã! '+t;if(c.type==='voi'&&s>=4)t='Nhanh gọn, hợp dân văn phòng.';if(c.type==='quen'&&s>=4)t=pick(['Ghé hoài mà vẫn ngon như lần đầu!','Như mọi khi, chuẩn vị.','Tiệm ruột của mình đó!']);
   if(c.type==='xeom')t=s>=4?pick(['Cá viên ngon, giá mềm, chú ghé hoài.','Ăn xong chạy cuốc khỏe re!']):s<=2?pick(['Đắt quá trời, chú chạy mấy cuốc mới đủ.','Chiên gì lâu dữ, lỡ cuốc của chú.']):t;
@@ -3069,9 +3077,10 @@ function review(c,s,notes=[]){let t=pick(RV[s]);if(notes.length&&s<=3)t=NOTE_T[n
   if(c.type==='songao')t=s===5?pick(['Ly đẹp xỉu, lên hình sống ảo cực đỉnh!','Góc này chụp hình xinh lắm nha mọi người.']):s<=2?pick(['Ly xấu quá không dám đăng.','Chụp hình không lên nổi, buồn.']):t;
   if(s>=4&&c.items&&c.items.some(it=>it.sub)&&Math.random()<.5)t=pick(['Hết món nhưng tiệm gợi ý món khác cũng ngon!','Đổi món mà được giảm giá, quá hời.']);
   if(c.type==='nhom'&&s>=4)t=pick(['Cả nhóm ai cũng khen!','Đi đông mà làm nhanh, ly nào cũng chuẩn.']);if(c.type==='vanphong'&&s>=4)t=pick(['Đặt cho cả văn phòng, ai cũng hài lòng.','Sếp khen cá viên ngon, mai đặt tiếp.']);
-  if(s>=4&&c.o&&c.o.r>0&&Math.random()<.4){const tp=(c.o.ts||[])[0];t+=' '+(tp&&Math.random()<.5?pick([`${TOPS[tp].name} ăn kèm đã ghê.`,`Thêm ${TOPS[tp].name.toLowerCase()} là chuẩn bài.`]):pick([`Món ${c.o.name} đúng bài.`,`${c.o.name} ăn là ghiền.`]))}
-  {const hk=recIds(c.o).filter(isHot);if(hk.length&&s>=4)t+=` Có ${ITEM(hk[0]).name.toLowerCase()} đúng trend luôn!`;if(c.ratio<.85&&s>=4)t+=' Giá quá hời.'}
+  if(s>=4&&Math.random()<.45){const x=rvTail(c);if(x)t+=' '+x}
   if(c.type==='reviewer')t=`[Video review] ${s>=4?`Tiệm nhỏ mà có võ, món ${c.o.name||BASES[c.o.b].sh} rất đáng thử!`:s===3?'Tiệm ổn, nhưng chưa đủ để quay lại.':'Không recommend nha mọi người. '+t}`;
+  return t}
+function review(c,s,notes=[]){const recent=new Set((S.reviews||[]).slice(-20).map(r=>r.t));let t=rvText(c,s,notes);for(let i=0;i<6&&recent.has(t);i++)t=rvText(c,s,notes);
   if(s===5)S.five++;
   const rid=S.rvId=(S.rvId||0)+1;S.reviews.push({id:rid,d:S.day,name:c.name,type:c.type,s,t,by:c.byName||null,n:c.items?c.items.length:1});if(S.reviews.length>120)S.reviews.shift();
   S.ratings.push({id:rid,s,w:c.type==='reviewer'?3:c.type==='shipper'||(c.type==='songao'&&(s===5||s<=2))?2:1});if(S.ratings.length>80)S.ratings.shift();
