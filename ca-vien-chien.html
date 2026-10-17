@@ -2374,7 +2374,7 @@ let suppressClick=false;
 /* ======================= DAY ======================= */
 let D=null,cup=null,pouring=null;
 /* đang có đồ trong chảo (ly của người chơi): quầy vẽ liên tục, tiếng xèo xèo */
-const frying=()=>!!(cup&&!cup.broken&&((cup.fry&&cup.fry.length)||(cup.fq&&cup.fq.length)));
+const frying=()=>!!(cup&&!cup.broken&&cup.fry&&cup.fry.length)||!!(XE_LITE&&D&&XS&&XS.d===D&&XS.fq.length);
 const working=()=>D&&D.exam?[]:S.staff.filter(s=>!s.rest);
 const hasRole=r=>working().filter(s=>s.role===r);
 /* số xiên mỗi loại của một đơn (o.n); đơn cũ chưa có o.n thì mỗi loại 1 */
@@ -3256,109 +3256,101 @@ stC.addEventListener('pointerdown',e=>{if(!D||sealing)return;e.preventDefault();
 stC.addEventListener('contextmenu',e=>e.preventDefault());
 function takeCup(sz,skin){if(cup&&(cup.pours.length||cup.fry.length||cup.tops.length||cup.foams.length||cup.syrups.length))return toast('Ly đang có đồ. Chạm Bỏ ly nếu muốn đổi size');cup=newCup(sz,skin);bindCup();sfx('pop');renderTicket()}
 /* chạm khay đồ chiên: thả một phần vào chảo (trừ kho ngay, mỗi ly một phần mỗi loại); chảo tối đa 3 phần. Nhân viên đang chiên ly này thì chờ */
-/* ===== Xe bán (bước 1 của ke-hoach.md): chạm khay xiên từng viên vào que, chạm chảo nhúng que, que vàng thì chạm để vớt, rưới sốt, Giao.
-   Phần ăn vẫn là `cup` (gắn khách qua cid/ix) để dùng lại serveCup: que đang cầm `cup.hand`, que trong chảo `cup.fq=[{v,c}]`, que đã vớt `cup.ques` (và cup.pours cho serveCup) */
-const QUE_MAX=5,XEC=mk($('#xe'),160,200);let XR=[],XEW=0,XEH=0,XSM=[],XCRAVE=null;
-const fryQ=()=>3+Math.min(3,S.shop||0),xeCk=v=>1.5*Math.max(...v.map(k=>(BASES[k]&&BASES[k].ck)||3));
-const xeIn=(cp,k)=>cp?(cp.fq||[]).reduce((a,f)=>a+f.v.filter(x=>x===k).length,0)+(cp.hand||[]).filter(x=>x===k).length:0;
+/* ===== Xe bán (ke-hoach.md): chảo chung chiên nhiều que cùng lúc. Chạm khay xiên viên vào que (đủ 5 viên tự nhúng), chạm chảo nhúng que đang cầm,
+   chạm que vàng thì vớt mọi que vàng ra khay vớt (viên dùng chung cho mọi khách), chạm sốt chọn sốt cho khách đang phục vụ, GIAO lấy đủ viên từ khay vớt.
+   Trạng thái trong ngày ở XS (xs()): hand que đang cầm, fq que trong chảo [{v,c}], tray viên đã vớt [{k,q}], sauce sốt đã chọn, cid khách đang chọn sốt. */
+const QUE_MAX=5,XEC=mk($('#xe'),160,200);let XR=[],XEW=0,XEH=0,XSM=[],XCRAVE=null,XS=null;
+const xs=()=>XS&&XS.d===D?XS:(XS={d:D,hand:[],fq:[],tray:[],sauce:[],cid:null});
+const fryQ=()=>6+Math.min(4,S.shop||0),xeCk=v=>1.5*Math.max(...v.map(k=>(BASES[k]&&BASES[k].ck)||3));
+const xeHave=k=>xs().tray.filter(p=>p.k===k).length,xeIn=k=>{const X=xs();return X.fq.reduce((a,f)=>a+f.v.filter(x=>x===k).length,0)+X.hand.filter(x=>x===k).length};
 const xeTrays=()=>[...new Set(LAYG().filter(g=>BASES[g.id]).map(g=>g.id))],xeSauces=()=>[...new Set(LAYG().filter(g=>SYRUPS[g.id]).map(g=>g.id))];
-function xeCup(){if(cup){cup.hand=cup.hand||[];cup.ques=cup.ques||[];cup.fq=cup.fq||[];return cup}
-  if(D.away>now){toast(D.awayWhy||'Bạn đang ra ngoài, chờ chút');return null}
-  const c=target();if(!c){toast(D.queue.length?'Nhân viên đang lo hết khách rồi':'Chưa có khách');return null}
-  const it=c.items[c.cur];if(!D.emerg&&missingOf(it).length){D.sug=c.id;D.sugIx=c.cur;tkKey='';renderTicket();return null}
-  cup=newCup('M');cup.cid=c.id;cup.ix=c.cur;cup.hand=[];cup.ques=[];cup.fq=[];tkKey='';renderTicket();return cup}
+const xeOrd=()=>{const c=D&&target();return c?{c,o:c.items[c.cur]}:null};
 function unuse(k){if(BASES[k]&&BASES[k].free)return;const L=stk(k),b=L.slice().sort((a,b)=>b.e-a.e)[0];if(b)b.q++;else L.push({q:1,e:S.day})}
-function xeTray(k){if(!D)return;const cp=xeCup();if(!cp||cp.broken)return;
-  if(cp.hand.length>=QUE_MAX)return toast('Que đầy 5 viên, chạm chảo để nhúng',1500);
-  if(!use(k))return toast(`Hết ${BASES[k].sh.toLowerCase()}`);cp.used[k]=(cp.used[k]||0)+1;cp.hand.push(k);sfx('pop')}
-function xeUndo(){if(!cup||!cup.hand||!cup.hand.length)return toast('Chạm khay để xiên viên vào que',1300);const k=cup.hand.pop();unuse(k);cup.used[k]=Math.max(0,(cup.used[k]||1)-1);sfx('tick')}
-function xeFry(i){const cp=cup;if(!cp||!cp.fq)return toast('Chạm khay để xiên viên vào que trước',1400);
-  if(i!=null&&cp.fq[i]){const f=cp.fq[i];if(f.c>=FRY_MIN)return xeLift(cp.fq.filter(g=>g.c>=FRY_MIN));if(!cp.hand.length)return toast('Chưa vàng, chờ chút',1100)}
-  if(cp.hand.length){if(cp.fq.length>=fryQ())return toast('Chảo đầy, vớt bớt ra đã',1400);cp.fq.push({v:cp.hand,c:0});cp.hand=[];sfx('pop');return}
-  const rd=cp.fq.filter(f=>f.c>=FRY_MIN);if(rd.length)return xeLift(rd);toast(cp.fq.length?'Chưa vàng, chờ chút':'Chạm khay để xiên viên vào que trước',1300)}
-function xeLift(rd){const cp=cup;cp.fq=cp.fq.filter(f=>!rd.includes(f));
-  rd.forEach(f=>{cp.ques.push({v:f.v,q:f.c});const m={};f.v.forEach(k=>m[k]=(m[k]||0)+1);Object.entries(m).forEach(([k,n])=>cp.pours.push({k,n,amt:1,q:f.c}))});
-  sfx('tick');if(rd.some(f=>f.c>FRY_OK))toast('Hơi cháy rồi…',1300)}
-function xeSauce(k){if(!cup||!cup.ques||!cup.ques.length)return toast('Vớt que ra rồi mới rưới sốt',1400);
-  if(cup.syrups.includes(k)){cup.syrups=cup.syrups.filter(x=>x!==k);unuse(k);sfx('tick');return}addSyrup(k)}
-function xeServe(){const c=target();if(!cup||!c)return toast('Chạm khay để bắt đầu xiên cho khách',1400);const o=c.items[cup.ix!=null?cup.ix:c.cur],nm=k=>ITEM(k).sh.toLowerCase();
-  const short=o.bs.map(k=>[k,xN(o,k)-cpN(cup,k)]).filter(([,n])=>n>0);
-  if(short.length){const inp=short.some(([k])=>xeIn(cup,k));return sfx('fail'),toast(inp?'Còn que chưa vớt, chờ vàng rồi vớt ra':'Còn thiếu '+short.map(([k,n])=>n+' '+nm(k)).join(', '),1800)}
-  if(cup.fq.length)return sfx('fail'),toast('Còn que trong chảo, vớt ra đã',1500);
-  if(cup.hand.length)return sfx('fail'),toast('Que đang cầm chưa chiên (chạm que để gỡ bớt)',1800);
-  const sm=o.ss.filter(k=>!cup.syrups.includes(k));if(sm.length)return sfx('fail'),toast('Chưa rưới '+sm.map(nm).join(', '),1500);
-  sfx('seal');playerServe(c.id)}
+function xeTray(k){if(!D)return;if(D.away>now)return toast(D.awayWhy||'🚶 Đang ra ngoài');const X=xs();
+  if(X.hand.length>=QUE_MAX)return toast('🍳 Chảo đầy',1100);if(!use(k))return toast('Hết '+BASES[k].sh.toLowerCase(),1200);
+  X.hand.push(k);sfx('pop');if(X.hand.length>=QUE_MAX&&X.fq.length<fryQ())xeDip()}
+function xeDip(){const X=xs();if(!X.hand.length)return;if(X.fq.length>=fryQ())return toast('🍳 Chảo đầy',1100);X.fq.push({v:X.hand,c:0});X.hand=[];sfx('pop')}
+function xeUndo(){const X=xs();if(!X.hand.length)return;unuse(X.hand.pop());sfx('tick')}
+function xeFry(i){const X=xs(),f=i!=null&&X.fq[i],rd=X.fq.filter(g=>g.c>=FRY_MIN);
+  if(f&&f.c>=FRY_MIN)return xeLift(rd);if(X.hand.length)return xeDip();if(rd.length)return xeLift(rd);if(X.fq.length)toast('⏳',700)}
+function xeLift(rd){const X=xs();X.fq=X.fq.filter(f=>!rd.includes(f));rd.forEach(f=>f.v.forEach(k=>X.tray.push({k,q:f.c})));sfx('tick');if(rd.some(f=>f.c>FRY_OK))toast('Hơi cháy…',1100)}
+function xeSauce(k){const t=xeOrd();if(!t)return;const X=xs();X.cid=t.c.id;if(X.sauce.includes(k))X.sauce=X.sauce.filter(x=>x!==k);else{if(!(qty(k)>0))return toast('Hết '+SYRUPS[k].sh.toLowerCase(),1200);X.sauce.push(k)}sfx('pop')}
+function xeServe(){const t=xeOrd();if(!t)return;const {c,o}=t,X=xs(),nm=k=>ITEM(k).sh.toLowerCase();
+  const short=o.bs.map(k=>[k,xN(o,k)-xeHave(k)]).filter(([,n])=>n>0);
+  if(short.length){if(short.some(([k,n])=>!D.emerg&&qty(k)+xeIn(k)<n)){D.sug=c.id;D.sugIx=c.cur;tkKey='';renderTicket();return}
+    return sfx('fail'),toast(short.map(([k,n])=>`${n} ${nm(k)}`).join(' · ')+(short.some(([k])=>xeIn(k))?' ⏳':''),1500)}
+  const sm=o.ss.filter(k=>!X.sauce.includes(k));if(sm.length)return sfx('fail'),toast('🥫 '+sm.map(nm).join(', '),1400);
+  const cp=newCup('M');cp.cid=c.id;cp.ix=c.cur;cp.hand=[];cp.fq=[];cp.ques=[];
+  o.bs.forEach(k=>{for(let i=0;i<xN(o,k);i++){const j=X.tray.findIndex(p=>p.k===k),p=X.tray.splice(j,1)[0];cp.pours.push({k,n:1,amt:1,q:p.q})}});
+  X.sauce.forEach(k=>{if(use(k))cp.syrups.push(k)});X.sauce=[];X.cid=null;cup=cp;sfx('seal');playerServe(c.id)}
 function xeTick(dt){if(!D)return;
   D.walk.forEach(c=>{if(c.peek&&now>c.peek){c.peek=0;leave(c,'leave',0)}});
-  const cp=cup;if(!cp||!cp.fq||!cp.fq.length)return;const sp=D.slowT>now?.6:1;cp.fq.forEach(f=>{f.c+=dt*sp/xeCk(f.v)});
-  if(upLv('auto')){const rd=cp.fq.filter(f=>f.c>=1);if(rd.length)xeLift(rd)}
-  const b=cp.fq.filter(f=>f.c>FRY_BURN);if(b.length){cp.fq=cp.fq.filter(f=>f.c<=FRY_BURN);sfx('fail');b.forEach(f=>XSM.push({t:now,i:f.slot}));toast(`Cháy khét ${b.reduce((a,f)=>a+f.v.length,0)} viên!`,1800)}}
+  const X=xs(),t=xeOrd();if(X.cid!=null&&(!t||t.c.id!==X.cid)){X.sauce=[];X.cid=null}
+  if(!X.fq.length)return;const sp=D.slowT>now?.6:1;X.fq.forEach(f=>{f.c+=dt*sp/xeCk(f.v)});
+  if(upLv('auto')){const rd=X.fq.filter(f=>f.c>=1);if(rd.length)xeLift(rd)}
+  const b=X.fq.filter(f=>f.c>FRY_BURN);if(b.length){X.fq=X.fq.filter(f=>f.c<=FRY_BURN);sfx('fail');b.forEach(f=>XSM.push({t:now,i:f.slot}));toast(`🔥 −${b.reduce((a,f)=>a+f.v.length,0)} viên`,1400)}}
 /* khách thèm món xe không có: ghé nhìn rồi bỏ đi */
 function xeWalk(c,k){c.x=168;c.tx=146;c.peek=now+1.7;c.mood=0;D.walk.push(c);D.miss=D.miss||{};D.miss[k]=(D.miss[k]||0)+1;
   say(c,pick([`Không có ${BASES[k].sh.toLowerCase()} à…`,`Hết ${BASES[k].sh.toLowerCase()} rồi hả?`,`Thèm ${BASES[k].sh.toLowerCase()} quá mà…`]),1900);D.log.push(`😕 ${c.name} muốn ${BASES[k].sh.toLowerCase()} nhưng xe không có.`)}
 function xeCrave(){const pool=S.drinks.filter(k=>BASES[k]&&!BASES[k].free&&(!BASES[k].rare||qty(k)>0));if(!pool.length)return null;
   const has=k=>activeMenu().some(r=>r.id>0&&r.bs[0]===k&&r.bs.length===1)&&onCounter(k)&&qty(k)>=2;return{k:pickW(pool,k=>has(k)?4:1),has}}
 /* ----- vẽ ----- */
-function xeQue(v,x,y,s,c,vert){/* que tre và viên xâu trên que */const n=v.length,g=s*2.15;
-  if(vert){LN(x,y+s*1.2,x,y-g*QUE_MAX-s*.5,'#c99a5e',.9);LN(x,y+s*1.2,x,y-g*QUE_MAX-s*.5,'#f2d8a0',.3);v.forEach((k,j)=>drawPiece(k,x,y-j*g,s,cookCol(k,c),j*1.3+.4))}
-  else{LN(x-s*1.4,y,x+g*QUE_MAX+s*.4,y,'#c99a5e',.9);LN(x-s*1.4,y,x+g*QUE_MAX+s*.4,y,'#f2d8a0',.3);v.forEach((k,j)=>drawPiece(k,x+j*g+s,y,s,cookCol(k,c),j*1.3))}}
+function xeQue(v,x,y,s,c){const g=s*2.15;LN(x-s*1.4,y,x+g*QUE_MAX+s*.4,y,'#c99a5e',.9);LN(x-s*1.4,y,x+g*QUE_MAX+s*.4,y,'#f2d8a0',.3);v.forEach((k,j)=>drawPiece(k,x+j*g+s,y,s,cookCol(k,c),j*1.3))}
 function xeBox(R,f){XR.push({...R,f})}
-function drawXe(){if(!XEW||!XEH||!D)return;XEC.LH=160*XEH/XEW;fit(XEC,XEW,XEH);const c=begin(XEC),W=160,H=XEC.LH,t=now;XR=[];
-  const cp=cup&&cup.fq?cup:null,tg=target(),o=tg&&tg.items[cp&&cp.ix!=null?cp.ix:tg.cur];
-  const need={};if(o)o.bs.forEach(k=>need[k]=Math.max(0,xN(o,k)-(cp?cpN(cp,k)+xeIn(cp,k):0)));
+function drawXe(){if(!XEW||!XEH||!D)return;XEC.LH=160*XEH/XEW;fit(XEC,XEW,XEH);const c=begin(XEC),W=160,H=XEC.LH,t=now,X=xs();XR=[];
+  const T0=xeOrd(),o=T0&&T0.o,need={};if(o)o.bs.forEach(k=>need[k]=Math.max(0,xN(o,k)-xeHave(k)-xeIn(k)));
   RR(0,0,W,H,0,'#f4e6cc',null);for(let y=6;y<H;y+=9)LN(0,y,W,y,'rgba(122,86,70,.05)',.4);
-  const fh=clamp(H*.3,50,70),hy=fh+2,hh=clamp(H*.2,34,46),sy=hy+hh+3;
-  /* chảo */
-  const F=cp?cp.fq:[],N=fryQ(),cx=W/2,oy=fh*.5,rx=70,ry=fh*.25;
-  RR(14,oy+ry*.6,W-28,fh-oy-ry*.6-1,3,'#2f8f8a',LINE,.6);for(let i=0;i<4;i++)EL(30+i*33,fh-3.4,3.2,1,'#1f2d4d',null);
+  const fh=clamp(H*.36,58,88),hy=fh+2,hh=clamp(H*.19,32,44),sy=hy+hh+3;
+  /* chảo chung */
+  const F=X.fq,N=fryQ(),cx=W/2,oy=fh*.48,rx=72,ry=fh*.31;
+  RR(14,oy+ry*.55,W-28,fh-oy-ry*.55-1,3,'#2f8f8a',LINE,.6);for(let i=0;i<4;i++)EL(30+i*33,fh-3.4,3.2,1,'#1f2d4d',null);
   if(F.length)for(let i=0;i<9;i++){const fx=22+i*14.5,fl=1.6+Math.sin(t*14+i*1.7)*.6;PT([[fx-1.3,oy+ry+2.5],[fx,oy+ry+2.5-fl],[fx+1.3,oy+ry+2.5]],i%2?'#ffb03a':'#ff7a3c',null)}
   EL(cx,oy,rx+2.4,ry+2.2,'#6b7178',LINE,.7);RR(2,oy-2,7,4,1.6,'#3d4048',LINE,.4);RR(W-9,oy-2,7,4,1.6,'#3d4048',LINE,.4);
   EL(cx,oy+.4,rx,ry,LG(0,oy-ry,0,oy+ry,[[0,'#f6cf66'],[1,'#d8902a']]),null);
-  if(F.length)for(let i=0;i<16;i++){const a=i*2.39+t*1.3,rr=.2+.75*((i*.37+t*.6)%1),z=(i*.61+t*2.2)%1;EL(cx+Math.cos(a)*rx*.9*rr,oy+Math.sin(a)*ry*.8*rr,.5+.7*z,.35+.45*z,'rgba(255,250,225,.85)',null)}
+  if(F.length)for(let i=0;i<18;i++){const a=i*2.39+t*1.3,rr=.2+.75*((i*.37+t*.6)%1),z=(i*.61+t*2.2)%1;EL(cx+Math.cos(a)*rx*.9*rr,oy+Math.sin(a)*ry*.8*rr,.5+.7*z,.35+.45*z,'rgba(255,250,225,.85)',null)}
   else EL(cx-rx*.4,oy-ry*.35,rx*.22,ry*.2,'rgba(255,255,255,.35)',null);
   xeBox({x:0,y:0,w:W,h:fh},()=>xeFry(null));
   /* que nằm ngang trong dầu, lưới 2 cột; vòng giờ chiên ở đầu cán que */
-  const rows=Math.ceil(N/2),rh=Math.min(13,(2*ry-2)/rows),qs=3.4,ql=QUE_MAX*qs*2.15+qs*2,slot=i=>({x:cx+(i%2?5:-5-ql),y:oy-(rows-1)*rh/2+Math.floor(i/2)*rh});
+  const rows=Math.ceil(N/2),rh=(2*ry-3)/rows,qs=Math.min(3.4,rh*.3),ql=QUE_MAX*qs*2.15+qs*2,slot=i=>({x:cx+(i%2?6:-6-ql),y:oy-(rows-1)*rh/2+Math.floor(i/2)*rh});
   for(let i=0;i<N;i++){const P=slot(i),f=F[i];if(f)f.slot=i;
-    if(!f){RR(P.x,P.y-1,ql,2,1,'rgba(150,90,30,.16)',null);continue}
-    const rd=f.c>=FRY_MIN&&f.c<=FRY_OK;if(rd){const p=.5+.5*Math.sin(t*9);AL(.3+.3*p,()=>RR(P.x-2,P.y-rh/2+.6,ql+4,rh-1.2,3,'#fff6c8',null))}
-    xeQue(f.v,P.x+2,P.y,qs,f.c,false);for(let j=0;j<3;j++){const z=(t*1.7+j*.37+i*.21)%1;EL(P.x+6+j*11+z*3,P.y+qs*.6,.6+z*.5,.4+z*.3,'rgba(255,250,225,.8)',null)}
-    const tx=i%2?P.x+ql+4:P.x-3.4,fr=Math.min(1,f.c/FRY_BURN);EL(tx,P.y,3,3,'#fffaf5',LINE,.4);c.beginPath();c.moveTo(tx,P.y);c.arc(tx,P.y,2.6,-Math.PI/2,-Math.PI/2+fr*Math.PI*2);c.closePath();
+    if(!f){RR(P.x,P.y-.8,ql,1.6,.8,'rgba(150,90,30,.15)',null);continue}
+    const rd=f.c>=FRY_MIN&&f.c<=FRY_OK;if(rd){const p=.5+.5*Math.sin(t*9);AL(.3+.3*p,()=>RR(P.x-2,P.y-rh/2+.5,ql+4,rh-1,3,'#fff6c8',null))}
+    xeQue(f.v,P.x+2,P.y,qs,f.c);for(let j=0;j<3;j++){const z=(t*1.7+j*.37+i*.21)%1;EL(P.x+6+j*11+z*3,P.y+qs*.6,.6+z*.5,.4+z*.3,'rgba(255,250,225,.8)',null)}
+    const tx=i%2?P.x+ql+4:P.x-3.4,fr=Math.min(1,f.c/FRY_BURN),tr=Math.min(2.6,rh*.32);EL(tx,P.y,tr+.4,tr+.4,'#fffaf5',LINE,.4);c.beginPath();c.moveTo(tx,P.y);c.arc(tx,P.y,tr,-Math.PI/2,-Math.PI/2+fr*Math.PI*2);c.closePath();
     c.fillStyle=f.c>FRY_OK?'#d9534f':f.c>=FRY_MIN?'#4f9a72':'#f0a83a';c.fill();
     if(f.c>FRY_OK)for(let j=0;j<3;j++){const k=(t*.8+j/3)%1;AL(.5*(1-k),()=>EL(P.x+ql/2+Math.sin(j*2+t*2)*4,P.y-4-k*10,1.6+k*2,1.2+k*1.5,'#a4aab0',null))}
     xeBox({x:i%2?cx:cx-rx,y:P.y-rh/2,w:rx,h:rh},()=>xeFry(i))}
   XSM=XSM.filter(s=>now-s.t<1.4);XSM.forEach(s=>{const k=(now-s.t)/1.4,P=slot(s.i||0);AL(.6*(1-k),()=>EL(P.x+ql/2,P.y-2-k*16,4+k*5,2.4+k*4,'#5a5a60',null))});
   if(F.some(f=>f.c>=FRY_MIN&&f.c<=FRY_OK)){RR(W-27,2,24,7,3.5,'#4f9a72','#fff',.5);T('VỚT!',W-15,5.7,4,'#fff','center',800)}
-  /* que đang cầm */
-  const hw=58;RR(2,hy,hw,hh,4,'#fffaf0',LINE,.5);T('Que đang cầm',5,hy+4.6,3.3,'#9a7d6c','left',800);
-  const hand=cp?cp.hand:[];xeQue(hand,8,hy+hh*.58,3.6,null,false);
-  if(!hand.length)T(o?'chạm khay để xiên':'chờ khách…',hw/2+2,hy+hh-5,3.1,'#b39a88','center',700);
-  else{T(`${hand.length}/${QUE_MAX} · chạm chảo để nhúng`,hw/2+2,hy+hh-4.6,2.9,'#c0702a','center',800);RR(hw-9,hy+2,8,7,3,'#fde3e0',LINE,.35);T('↩',hw-5,hy+5.7,4,'#d9534f','center',800)}
-  xeBox({x:2,y:hy,w:hw,h:hh},xeUndo);
-  /* phần đã vớt + Giao */
-  const px=hw+5,pw=W-px-2-32;RR(px,hy,pw,hh,4,'#fffaf0',LINE,.5);
-  if(cp&&cp.ques.length){c.save();rrPath(px,hy,pw,hh,4);c.clip();drawCup(px+pw/2,hy+hh-2,Math.min(1.25,(hh-4)/33),cp);c.restore()}
-  else T('Phần ăn',px+pw/2,hy+hh/2,3.4,'#b39a88','center',800);
-  const ok=!!(o&&cp&&o.bs.every(k=>cpN(cp,k)>=xN(o,k))&&!cp.fq.length&&!cp.hand.length&&o.ss.every(k=>cp.syrups.includes(k)));
-  const gx=W-33;RR(gx,hy,31,hh,5,ok?'#4f9a72':'#e8ddd0',ok?'#2f6a4c':LINE,.6);T('GIAO',gx+15.5,hy+hh/2-2.5,5.4,ok?'#fff':'#a8968a','center',800);T(ok?'✓':'',gx+15.5,hy+hh/2+5,5,'#fff','center',800);
-  xeBox({x:gx,y:hy,w:31,h:hh},xeServe);
+  /* que đang cầm (chạm để gỡ viên cuối) */
+  const hw=50;RR(2,hy,hw,hh,4,'#fffaf0',LINE,.5);xeQue(X.hand,7,hy+hh/2,3.4,null);
+  if(X.hand.length){RR(hw-9,hy+2,8,7,3,'#fde3e0',LINE,.35);T('↩',hw-5,hy+5.7,4,'#d9534f','center',800)}
+  xeBox({x:2,y:hy,w:hw,h:hh},()=>X.hand.length?xeUndo():xeDip());
+  /* khay vớt: viên đã chiên, dùng chung cho mọi khách */
+  const px=hw+5,pw=W-px-2-30;RR(px,hy,pw,hh,4,'#e9c48c',LINE,.5);RR(px+2,hy+2,pw-4,hh-4,3,'#f2d7a6',null);
+  const G={};X.tray.forEach(p=>(G[p.k]=G[p.k]||[]).push(p));const ks=Object.keys(G),lh=Math.min(12,(hh-4)/Math.max(1,ks.length));
+  ks.forEach((k,r)=>{const L=G[k],y=hy+2+lh*(r+.5),s=Math.min(2.8,lh*.36),nd=o&&o.bs.includes(k);for(let j=0;j<Math.min(9,L.length);j++)drawPiece(k,px+6+j*s*2.1,y,s,cookCol(k,L[j].q),j*1.1);
+    RR(px+pw-15,y-3.2,13,6.4,3.2,nd?'#ee7a1f':'#fffaf5',nd?'#fff':LINE,.4);T('×'+L.length,px+pw-8.5,y+.1,3.8,nd?'#fff':INK,'center',800)});
+  /* GIAO */
+  const ok=!!(o&&o.bs.every(k=>xeHave(k)>=xN(o,k))&&o.ss.every(k=>X.sauce.includes(k)));
+  const gx=W-31;RR(gx,hy,29,hh,5,ok?'#4f9a72':'#e8ddd0',ok?'#2f6a4c':LINE,.6);T('GIAO',gx+14.5,hy+hh/2,5.2,ok?'#fff':'#a8968a','center',800);
+  xeBox({x:gx,y:hy,w:29,h:hh},xeServe);
   /* sốt + khay đồ chiên */
   const SS=xeSauces(),TR=xeTrays(),avail=H-sy-2,sh=SS.length?clamp(avail*.3,28,38):0,ty0=sy+sh+(SS.length?3:0);
-  if(SS.length){const cw=Math.min(28,(W-4)/SS.length);SS.forEach((k,i)=>{const r={x:2+i*cw+(W-4-cw*SS.length)/2,y:sy,w:cw-1.5,h:sh},nd=o&&o.ss.includes(k)&&!(cp&&cp.syrups.includes(k)),on=cp&&cp.syrups.includes(k);
+  if(SS.length){const cw=Math.min(28,(W-4)/SS.length);SS.forEach((k,i)=>{const r={x:2+i*cw+(W-4-cw*SS.length)/2,y:sy,w:cw-1.5,h:sh},on=X.sauce.includes(k),nd=o&&o.ss.includes(k)&&!on;
     RR(r.x,r.y,r.w,r.h,3,nd?'#ffe8d2':on?'#e4f4ea':'rgba(255,255,255,.5)',nd?'#ee7a1f':on?'#4f9a72':'#c9bdb5',nd||on?1.2:.5);drawSyrup({x:r.x+.5,y:r.y+.3,w:r.w-1,h:r.h-.6},k);if(on)T('✓',r.x+r.w-3.6,r.y+4,4.2,'#2f6a4c','center',800);xeBox(r,()=>xeSauce(k))})}
   if(TR.length){const n=TR.length,cols=n<=3?3:n<=8?4:5,rows=Math.ceil(n/cols),cw=(W-4)/cols,ch=Math.min(cw*1.25,(H-ty0-2)/rows);
     const ox=n<cols?(cols-n)*cw/2:0;TR.forEach((k,i)=>{const r={x:2+ox+(i%cols)*cw,y:ty0+Math.floor(i/cols)*ch,w:cw-1.5,h:ch-1.5},nd=need[k]>0;
       RR(r.x,r.y,r.w,r.h,3.4,nd?'#ffe8d2':'rgba(255,255,255,.55)',nd?'#ee7a1f':'#c9bdb5',nd?1.3:.5);drawJar({x:r.x+.5,y:r.y+.5,w:r.w-1,h:r.h-1},k);
       if(nd){RR(r.x+1.5,r.y+1.5,10,6.4,3.2,'#ee7a1f','#fff',.4);T('+'+need[k],r.x+6.5,r.y+4.8,3.8,'#fff','center',800)}xeBox(r,()=>xeTray(k))})}}
-/* đơn của khách đang làm (HTML, trên khung xe) */
-function renderXord(){const el=$('#xord');if(!el||!D)return;const c=target(),cp=cup&&cup.fq?cup:null,o=c&&c.items[cp&&cp.ix!=null?cp.ix:c.cur];let h;
-  if(!c)h=`<div class="xn">${D.away>now?(D.awayWhy||'Bạn đang ra ngoài'):D.queue.length?'👩‍🍳 Nhân viên đang lo hết khách':D.closing?'🌙 Đã đóng cửa':'⏳ Chờ khách ghé…'}</div>`;
-  else{const nm=k=>o.en&&EN[k]?EN[k]:ITEM(k).sh,chips=o.bs.map(k=>{const g=cp?cpN(cp,k):0,q=xN(o,k),w=xeIn(cp,k);return`<span class="xc${g>q?' bad':g>=q?' ok':w?' wip':''}">${thumb(k)?`<img src="${thumb(k)}" alt="">`:''}${nm(k)} <b>${cp?Math.min(g+w,99)+'/':'×'}${q}</b></span>`}).join('')
-      +(o.ss.length?o.ss.map(k=>`<span class="xc s${cp&&cp.syrups.includes(k)?' ok':''}">🥫 ${nm(k)}</span>`).join(''):'<span class="xc s off">Không sốt</span>')
-      +(cp?cp.syrups.filter(k=>!o.ss.includes(k)).map(k=>`<span class="xc s bad">${nm(k)}</span>`).join(''):'');
-    h=`<div class="xh"><b>${c.name}</b>${c.items.length>1?`<small>phần ${(cp&&cp.ix!=null?cp.ix:c.cur)+1}/${c.items.length}</small>`:''}${c.insp?'<small>📋</small>':''}<i class="xp"><i></i></i></div><div class="xcs">${chips}</div>`}
+/* đơn của khách đang phục vụ (HTML, trên khung xe): mỗi loại "đã vớt/cần" */
+function renderXord(){const el=$('#xord');if(!el||!D)return;const t=xeOrd(),X=xs();let h;
+  if(!t)h=`<div class="xn">${D.away>now?'🚶':D.queue.length?'👩‍🍳':D.closing?'🌙':'⏳'}</div>`;
+  else{const {c,o}=t,nm=k=>o.en&&EN[k]?EN[k]:ITEM(k).sh,chips=o.bs.map(k=>{const q=xN(o,k),g=Math.min(xeHave(k),q),w=xeIn(k);return`<span class="xc${g>=q?' ok':w?' wip':''}">${thumb(k)?`<img src="${thumb(k)}" alt="">`:''}${nm(k)} <b>${g}/${q}</b></span>`}).join('')
+      +o.ss.map(k=>`<span class="xc s${X.sauce.includes(k)?' ok':''}">🥫 ${nm(k)}</span>`).join('')+X.sauce.filter(k=>!o.ss.includes(k)).map(k=>`<span class="xc s bad">🥫 ${nm(k)}</span>`).join('');
+    h=`<div class="xh"><b>${c.name}</b>${c.items.length>1?`<small>${c.cur+1}/${c.items.length}</small>`:''}${c.insp?'<small>📋</small>':''}<i class="xp"><i></i></i><small>👥${D.queue.length}</small></div><div class="xcs">${chips}</div>`}
   if(el.dataset.h!==h){el.dataset.h=h;el.innerHTML=h}
-  const bar=el.querySelector('.xp>i');if(bar&&c){const f=clamp(c.p/c.max,0,1);bar.style.width=(f*100).toFixed(0)+'%';bar.style.background=f>.55?'#4f9a72':f>.25?'#e0962a':'#d9534f'}}
+  const bar=el.querySelector('.xp>i');if(bar&&t){const f=clamp(t.c.p/t.c.max,0,1);bar.style.width=(f*100).toFixed(0)+'%';bar.style.background=f>.55?'#4f9a72':f>.25?'#e0962a':'#d9534f'}}
 $('#xe').addEventListener('pointerdown',e=>{if(!D||PAUSED||$('#shop').hidden)return;const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)*160/r.width,y=(e.clientY-r.top)*XEC.LH/r.height;
   for(let i=XR.length-1;i>=0;i--){const R=XR[i];if(x>=R.x&&x<=R.x+R.w&&y>=R.y&&y<=R.y+R.h){e.preventDefault();R.f();return}}});
 if(!XE_LITE)document.body.classList.add('oldui');
