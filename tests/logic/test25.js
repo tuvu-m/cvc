@@ -30,7 +30,7 @@ ctx.window=ctx;vm.createContext(ctx);vm.runInContext(src+`;let TO='';toast=m=>{T
   const s0=qty('s_tuongot');xeServe();ok(!cup&&D.served===1&&xeHave('cavien')===0&&xeHave('bovien')===12&&qty('s_tuongot')===s0-1&&!X.spray.length,'giao: lấy đúng 7 cá viên từ khay, bò viên còn lại cho khách sau');
   ok(!X.sauce.length,'giao xong thì bỏ sốt');
   spawn('thuong');const c3=D.queue[D.queue.length-1];c3.items=[c3.items[0]];c3.p=c3.max=999;Object.assign(c3.items[0],{bs:['bovien'],n:{bovien:4},ss:[],fam:null});D.queue=[c3];
-  xeServe();ok(D.served===2&&xeHave('bovien')===8,'khách sau lấy viên đã chiên sẵn trong khay');
+  xeServe();ok(D.served===2&&xeHave('bovien')===5,'khách sau lấy que đã chiên sẵn trong khay (nguyên que, que 2 viên trước rồi một que 5 viên)');
   xeDip();const q1=qty('bovien');for(let i=0;i<300;i++)xeTick(.05);ok(!X.fq.length&&qty('bovien')===q1&&/🔥/.test(TO),'để quá lâu: que cháy khét, mất viên');
   // khách thèm món xe không có
   D.queue=[];D.walk=[];S.drinks.includes('xucxich')||S.drinks.push('xucxich');D.miss={};let w=0;for(let i=0;i<300;i++){D.queue=[];spawn();if(!D.queue.length)w++}
