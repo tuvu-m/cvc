@@ -117,11 +117,36 @@ Hình đã có vẫn dùng: khay đồ chiên, sốt, rau, chảo, khách, chủ
 
 ## 9. Thứ tự làm
 
+0. **Bếp nhà buổi sáng:** mini game quết, vo viên; hàng nhà làm trong Kho, tủ kính, giá, sao. Làm trước vì độc lập với phần bán.
 1. **Lõi bán:** chảo chung, tủ kính nguội dần, một màn, chạm khách để giao, nhân viên mới. Đây là phần lớn nhất.
 2. **Chỗ bán, danh tiếng, nâng cấp xe;** bỏ thanh tra và cấp tiệm.
 3. **Sự kiện đường phố:** trật tự, mưa, dù.
 4. **Cân bằng** bằng bot mô phỏng 300 ngày, sửa test.
 5. **Ghép hình mới** khi bạn vẽ xong (prompt sẽ thêm vào `prompt-art.md`).
+
+## 9b. Buổi sáng tự vo viên (giống Dave the Diver: hai nửa ngày nuôi nhau)
+
+Học từ Dave the Diver (ban ngày lặn bắt cá, tối bán sushi bằng cá đó): buổi sáng tự làm hàng, buổi chiều bán chính hàng đó.
+
+**Mini game "Bếp nhà" (30–45 giây, trước khi đẩy xe đi)**
+1. **Quết chả:** chạm theo nhịp vào cối (hoặc vuốt vòng tròn). Nhịp đều thì chả dai, thanh nhịp hiện mức dai.
+2. **Vo viên:** giữ ngón tay để bóp chả ra khỏi nắm tay, viên to dần. Thả đúng vạch xanh thì viên đều. Lệch nhỏ thì viên méo (vẫn bán được), lệch nhiều thì hỏng.
+3. Hết giờ thì đếm số viên, mỗi viên có hạng ★1–3.
+
+**Viên nhà làm khác viên mua sẵn thế nào**
+- Bán đắt hơn khoảng 50%, khách cho thêm sao, hay bo.
+- Vốn rẻ hơn: mua cá xay, thịt bò xay ở chợ thay vì viên đóng gói.
+- Làm được ít, bị giới hạn bởi thời gian mini game và số cối. Chỉ để 1–2 ngày.
+- Trên quầy là khay riêng "Cá viên nhà làm", trong tủ kính có nhãn ✋.
+- Có khách hỏi riêng: "Có viên nhà làm không cô?". Khách quen ghiền viên nhà làm, hết thì buồn.
+
+**Lên tay nghề**
+- **Tay nghề vo:** càng vo nhiều vạch xanh càng rộng, vo càng nhanh.
+- **Dụng cụ:** cối đá, máy xay, máy quết. Làm được nhiều viên hơn mỗi sáng, hoặc thêm một mẻ.
+- **Công thức gia đình:** mở dần các loại viên (thêm thì là, thêm tôm, nhân phô mai). Mỗi loại là một món riêng chỉ xe bạn có, khách nổi tiếng tới tìm.
+- **Nhân viên khéo tay** vo giúp, chất lượng thấp hơn bạn tự làm.
+
+**Không bắt buộc:** ngày bận có thể bỏ qua, chỉ bán viên mua sẵn như bây giờ.
 
 ## 10. Câu hỏi còn mở
 
