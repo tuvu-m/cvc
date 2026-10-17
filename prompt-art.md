@@ -156,6 +156,17 @@ Màn loading (dọc 9:16, gửi mình nhúng vào nền `#boot`, chừa trống 
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors, chunky deep navy outlines, halftone dot shading, slight color misregistration, paper grain. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Vertical 9:16 poster illustration, no text. An orange tabby cat and a white fluffy cat with a pink bow sitting on a stainless steel push cart counter beside a paper cup of fried fish balls with bamboo skewers, a bubbling oil pot steaming behind them, a striped street umbrella above, Saigon street at dusk with string lights in the background. Keep the top third mostly empty sky and the bottom eighth plain counter for game text.
 ```
 
+
+## 19 · Ly giấy và chảo chiên
+
+Hai món này đổi theo từng lúc chơi (đồ chiên đổi màu theo độ chín, đống cá viên trên ly đổi theo đơn), nên chỉ vẽ **phần đứng yên**: ly rỗng và chảo rỗng. Game tự vẽ cá viên, sốt, rau, xiên que, vòng giờ chiên lên trên.
+
+Tên file: `ly_giay` (ly giấy rỗng, miệng ly là hình elip mở ở mép trên của hình, không có gì bên trong, không nắp, không xiên) · `chao_dau` (chảo dầu trên bếp ga, nhìn từ trước hơi chếch trên, **mặt dầu là một hình elip vàng trơn, phẳng, chiếm khoảng giữa hình**, không có đồ chiên, không có vá, không có khói)
+
+```
+Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet. Every item drawn straight from the front, same style and same line weight, fully separated with generous empty space around each one, arranged in a neat grid. Plain flat solid light grey background with no texture. No text, no letters, no numbers, no logo, no drop shadow. Show 2 items side by side: a tall empty paper street-food cup for fried fish balls, tapered, cream paper with a tomato red band and a thin mustard stripe, the open top rim is a clean oval at the very top of the image, nothing inside, no lid, no skewers; a round deep frying pan full of plain golden oil sitting on a small teal gas stove with two small side handles, seen from the front and slightly above, the oil surface is one large smooth flat golden oval in the middle with nothing floating in it, no food, no utensils, no smoke, no steam.
+```
+
 ---
 
 ## Phong cách dự phòng
