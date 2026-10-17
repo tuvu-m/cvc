@@ -12,6 +12,7 @@ Bản này thay các kế hoạch trước (tủ kính chiên trước, vo viên
 - Khách thèm **đặt trước** cho hôm sau.
 - **Xe lớn dần** thì nhiều món hơn, đi được nhiều điểm hơn.
 - Mỗi địa điểm có **sự kiện và kiểu khách khác nhau theo giờ** (chiều ở trường thì học sinh tan, sáng vắng).
+- **Có nhân viên phụ**: làm khá chậm, mỗi lúc chỉ một xiên (xem mục 7b).
 
 ---
 
@@ -48,6 +49,7 @@ Sáng không bán (ít khách); đi chợ là phần buổi sáng.
 - **Sốt rồi giao**: chạm hũ sốt để rưới, chạm Giao (hoặc chạm khách). Sai số viên thì khách chê (sao thấp, ít tiền).
 - **Kiên nhẫn**: thanh kiên nhẫn trên đầu mỗi khách. Giờ đông hàng dài, khách sốt ruột bỏ về. Ngoài giờ đông thì thong thả.
 - **Hết hàng**: khay trống mờ đi; khách thèm món đó sẽ không ghé.
+- **Nhân viên** đứng cạnh, tự nhận khách kế tiếp trong hàng chưa ai làm và làm từng que một (mục 7b). Mình và nhân viên dùng chung khay và chảo.
 
 ## 3. Địa điểm
 
@@ -96,13 +98,22 @@ Khách đặc biệt giữ từ bản cũ (Bet thủ, thầy bói, bà tám, Tâ
 | Xe máy kéo | 7 | 5 que | 4 (thêm Khuya) | chợ đêm, ký túc xá |
 | Xe tải bán đồ ăn | 9 | 2 chảo × 3 que | 4 | sân vận động, lễ hội, hàng hiếm nhập |
 
-Phụ kiện: dù che mưa, loa kéo khách (khách đi ngang dễ ghé hơn), đèn bán khuya, thùng giữ nóng (que vớt rồi không nguội), giấy gói theo mùa, bảng hiệu, mèo thần tài. Từ xe tải có thể thuê một người phụ xiên que.
+Phụ kiện: dù che mưa, loa kéo khách (khách đi ngang dễ ghé hơn), đèn bán khuya, thùng giữ nóng (que vớt rồi không nguội), giấy gói theo mùa, bảng hiệu, mèo thần tài.
+
+## 7b. Nhân viên phụ
+- Số người theo xe: xe đẩy 1, ba gác 1, máy kéo 2, xe tải 3. Thuê được từ ngày 3 (vài ngày đầu tự bán cho quen tay).
+- **Chậm và chỉ một xiên một lúc**: nhận khách kế tiếp chưa ai làm, xiên từng viên (khoảng 1 giây/viên, gấp đôi mình), nhúng que vào chảo, đứng chờ vàng, vớt, rưới sốt, rồi mới xiên que tiếp. Đơn 2 que thì làm lần lượt. Một đơn 5 viên mất khoảng 12–15 giây; mình làm nhanh gấp 2–3 lần.
+- Que của nhân viên chiếm một chỗ trong chảo chung, nên chảo đầy thì họ chờ.
+- Đơn họ đang làm hiện tiến độ trên đầu họ; khách đang được họ làm thì kiên nhẫn giảm chậm hơn.
+- Chỉ số đơn giản: ⚡ nhanh (bớt thời gian mỗi viên), 🍳 khéo (ít vớt sớm/cháy, ít làm rơi viên), 😊 duyên (khách chờ lâu hơn, hay đặt trước). Lâu lâu họ làm cháy một que hoặc đếm sai một viên.
+- Lương trả mỗi ngày đi bán (lời lỗ thật, ngày ế vẫn phải trả). Tinh thần giữ từ bản cũ, chỉ tính cuối ngày.
+- Mình có thể chạm nhân viên để "Để đó mình làm" (lấy đơn về làm cho nhanh) khi hàng dài.
 
 ## 8. Giữ và bỏ
 
-Giữ: hình đã vẽ, khách đặc biệt, khách quen có biệt danh, bênh tiệm, review và trả lời review, vé số, Sổ sưu tập (đổi bộ cho hợp: địa điểm đã mở, xe, khách đặc biệt), hai bé mèo, nhạc, âm thanh, đồ siêu hiếm (rắc lên que cho khách chợ đêm), combo nổi tiếng.
+Giữ: hình đã vẽ, thuê nhân viên, tính cách và tinh thần nhân viên, khách đặc biệt, khách quen có biệt danh, bênh tiệm, review và trả lời review, vé số, Sổ sưu tập (đổi bộ cho hợp: địa điểm đã mở, xe, khách đặc biệt), hai bé mèo, nhạc, âm thanh, đồ siêu hiếm (rắc lên que cho khách chợ đêm), combo nổi tiếng.
 
-Bỏ: kho nhiều ngày, quầy lưới bày đồ, thanh tra và bằng cấp, cấp tiệm, đối thủ, thuế, tiền thuê mặt bằng, nhân viên pha chế (ngoài người phụ ở xe tải), hai màn quán/pha, quầy gói, phiếu order.
+Bỏ: kho nhiều ngày, quầy lưới bày đồ, thanh tra và bằng cấp, cấp tiệm, đối thủ, thuế, tiền thuê mặt bằng, hệ thống nhân viên pha theo bước của trà sữa (thay bằng nhân viên phụ mục 7b), vai trò Phục vụ/Bảo vệ, hai màn quán/pha, quầy gói, phiếu order.
 
 ## 9. Hình cần vẽ thêm
 - Cảnh từng địa điểm (nền đường phố, ngang 160×62 như cảnh tiệm cũ): cổng trường, chợ, công viên, khu văn phòng, bến xe, chợ đêm, ký túc xá, sân vận động; mỗi cảnh có bản ngày và tối nếu được.
@@ -114,5 +125,6 @@ Bỏ: kho nhiều ngày, quầy lưới bày đồ, thanh tra và bằng cấp, 
 2. Vòng ngày: chọn lộ trình → đi chợ (giá dao động) → 3 điểm → tổng kết, hàng dư mất.
 3. Địa điểm và đường cong khách theo giờ, kiểu khách mỗi nơi.
 4. Đặt trước, sự kiện theo nơi/giờ.
-5. Xe lớn dần, phụ kiện, khách đặc biệt gắn địa điểm.
-6. Dọn hệ thống bỏ đi, sửa test, mô phỏng cân bằng lời lỗ.
+5. Nhân viên phụ (chậm, một xiên một lúc).
+6. Xe lớn dần, phụ kiện, khách đặc biệt gắn địa điểm.
+7. Dọn hệ thống bỏ đi, sửa test, mô phỏng cân bằng lời lỗ.
