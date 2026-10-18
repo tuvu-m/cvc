@@ -56,6 +56,16 @@ await p.evaluate(()=>{S.staff=[genStaff(),genStaff()];S.staff.forEach(s=>s.spd=5
 await p.tap('[data-route="q"]');await p.waitForTimeout(100);await p.tap('#toMarket');await p.waitForTimeout(100);await p.tap('#mAuto');await p.waitForTimeout(100);await p.tap('#mGo');await p.waitForTimeout(300);
 let sawStaff=false;for(let i=0;i<120;i++){await p.waitForTimeout(100);if(await p.evaluate(()=>xs().fq.some(f=>f.by)||xs().tray.length>0)){sawStaff=true;break}}
 ok(sawStaff,'nhân viên tự lấy que nhúng chảo cho khách đang chờ');
+{const r=await p.evaluate(()=>{stopLoop();const sv=D.served,seen=new Set();let early=0;
+  for(let i=0;i<900;i++){now+=.1;tick(.1);D.staff.forEach(w=>{seen.add(w.st);if(w.c&&xs().fq.some(f=>f.by===w.s.id&&!w.c.o.bs.includes(f.m)))early++})}
+  /* đủ que trong khay thì giao ngay, không chiên */
+  D.cust=[];XS=null;const c=spawn();c.st='q';c.x=c.tx=70;c.o={bs:[0],q:{0:2},ss:[]};c.max=c.p=99;const c2=spawn();c2.st='q';c2.x=c2.tx=82;c2.o={bs:[0],q:{0:1},ss:[]};c2.max=c2.p=99;
+  const X=xs();for(let j=0;j<3;j++)X.tray.push({m:0,v:[...S.menu[0].v],q:1,t:now});X.act=now;D.staff.forEach(w=>{w.st='idle';w.t=0;w.c=null});const sv2=D.served;
+  for(let i=0;i<30;i++){now+=.1;tick(.1)}
+  return{served:D.served-sv,states:[...seen],early,quick:D.served-sv2,fried:X.fq.length,left:X.tray.length}});
+  ok(r.served>=2&&r.states.includes('sauce')&&r.states.includes('serve')&&!r.early,'nhân viên tự chiên, xịt sốt, giao trọn đơn '+JSON.stringify(r));
+  ok(r.quick===1&&r.fried===0,'có sẵn que trong khay thì nhân viên giao luôn (que của khách mình không bị lấy) '+JSON.stringify(r));
+  await p.evaluate(()=>loop())}
 {const r=await p.evaluate(()=>{const X=xs();X.fq.push({m:0,v:[...S.menu[0].v],c:1.01});const n=X.tray.length;xeTick(.01);const lift=X.tray.length===n+1;
   const c=spawn();c.st='q';c.x=c.tx=70;c.o={bs:[0],q:{0:1},ss:[D.sauces[0]]};c.max=c.p=99;D.cust=[c,...D.cust.filter(x=>x!==c)];X.ac=null;xeTick(.01);now+=.6;xeTick(.01);return{lift,sauce:X.sauce.includes(D.sauces[0])}});
   ok(r.lift&&r.sauce,'chảo hẹn giờ tự vớt, chai tự xịt sốt khách gọi '+JSON.stringify(r))}
