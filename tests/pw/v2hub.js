@@ -12,7 +12,7 @@ await p.evaluate(()=>{S.day=5;S.money=30e6;S.mk=null;const mkR=(i,t)=>({id:'r'+i
   S.reviews=[{id:'v1',day:4,name:'Chị Lan',spr:'kt3',type:'vanphong',s:1,t:'Chờ lâu quá trời.',w:1,loc:'truong'},{id:'v2',day:4,name:'Bé Na',spr:'kt1',type:'hocsinh',s:5,t:'Ngon xỉu!',w:1,loc:'truong'},{id:'v3',day:4,name:'Chú Ba',spr:'kt7',type:'taixe',s:2,t:'Cháy khét.',w:1,loc:'truong'}];
   save();renderRoute()});
 await p.waitForTimeout(200);
-ok(await p.evaluate(()=>document.querySelectorAll('#routeBody [data-hub]').length===5),`${W}×${H}: màn sáng có 5 nút hub`);
+ok(await p.evaluate(()=>document.querySelectorAll('#routeBody [data-hub]').length===6),`${W}×${H}: màn sáng có 6 nút hub`);
 const small=await p.evaluate(()=>[...document.querySelectorAll('#routeBody button')].filter(b=>b.offsetParent&&(b.offsetHeight<34||b.offsetWidth<34)).map(b=>b.textContent));ok(!small.length,'nút đủ to để chạm (≥34px)'+(small.length?': '+small.join(','):''));
 const over=await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth||[...document.querySelectorAll('.scr:not([hidden]) .body')].some(e=>e.scrollWidth>e.clientWidth+1));ok(!over,'không tràn ngang');
 await p.screenshot({path:`out/v2h_route_${W}.png`});
@@ -35,6 +35,11 @@ await p.tap('[data-hubt="reg"]');await p.waitForTimeout(100);ok(await p.evaluate
 await p.tap('[data-hubt="coll"]');await p.waitForTimeout(100);ok(await p.evaluate(()=>document.querySelectorAll('.cset').length===7),'sưu tập: 7 bộ');
 await p.tap('[data-cs="recipe"]');await p.waitForTimeout(100);ok(await p.evaluate(()=>document.querySelectorAll('.cl span').length===12),'mở bộ que bí truyền: 12 món (gợi ý ❔)');
 await p.screenshot({path:`out/v2h_coll_${W}.png`});
+await p.evaluate(()=>{S.money=Math.max(S.money,600000);renderHub()});await p.tap('[data-hubt="gear"]');await p.waitForTimeout(100);
+ok(await p.evaluate(()=>document.querySelectorAll('[data-buyg]').length===4&&/🔒/.test($('#hubBody').textContent)),'đồ nghề: 5 món, chảo rộng khoá tới ki-ốt');
+await p.tap('[data-buyg="vot"]');await p.waitForTimeout(100);await p.tap('[data-buyg="xit"]');await p.waitForTimeout(100);
+ok(await p.evaluate(()=>gear('vot')&&gear('xit')&&document.querySelectorAll('.mrow.on').length===2),'mua chảo hẹn giờ, chai xịt tự động');
+await p.screenshot({path:`out/v2h_gear_${W}.png`});
 await p.tap('[data-hubt="decor"]');await p.waitForTimeout(100);await p.tap('[data-buyd="c_senda"]');await p.waitForTimeout(100);
 ok(await p.evaluate(()=>S.decor.includes('c_senda')&&perk('❤️')>0),'mua trang trí: có lợi ích');
 await p.screenshot({path:`out/v2h_decor_${W}.png`});
@@ -51,6 +56,9 @@ await p.evaluate(()=>{S.staff=[genStaff(),genStaff()];S.staff.forEach(s=>s.spd=5
 await p.tap('[data-route="q"]');await p.waitForTimeout(100);await p.tap('#toMarket');await p.waitForTimeout(100);await p.tap('#mAuto');await p.waitForTimeout(100);await p.tap('#mGo');await p.waitForTimeout(300);
 let sawStaff=false;for(let i=0;i<120;i++){await p.waitForTimeout(100);if(await p.evaluate(()=>xs().fq.some(f=>f.by)||xs().tray.length>0)){sawStaff=true;break}}
 ok(sawStaff,'nhân viên tự lấy que nhúng chảo cho khách đang chờ');
+{const r=await p.evaluate(()=>{const X=xs();X.fq.push({m:0,v:[...S.menu[0].v],c:1.01});const n=X.tray.length;xeTick(.01);const lift=X.tray.length===n+1;
+  const c=spawn();c.st='q';c.x=c.tx=70;c.o={bs:[0],q:{0:1},ss:[D.sauces[0]]};c.max=c.p=99;D.cust=[c,...D.cust.filter(x=>x!==c)];X.ac=null;xeTick(.01);now+=.6;xeTick(.01);return{lift,sauce:X.sauce.includes(D.sauces[0])}});
+  ok(r.lift&&r.sauce,'chảo hẹn giờ tự vớt, chai tự xịt sốt khách gọi '+JSON.stringify(r))}
 await p.screenshot({path:`out/v2h_sellquan_${W}.png`});
 const xeOk=await p.evaluate(()=>{const b=$('#xe').getBoundingClientRect();return XR.every(r=>r.x>=0&&r.x+r.w<=160.5&&r.y>=0&&r.y+r.h<=XEC.LH+.5)&&b.bottom<=innerHeight+1});ok(xeOk,'mọi vùng chạm trên xe nằm trong khung'+(xeOk?'':' '+JSON.stringify(await p.evaluate(()=>({H:XEC.LH,bad:XR.filter(r=>!(r.x>=0&&r.x+r.w<=160.5&&r.y>=0&&r.y+r.h<=XEC.LH+.5)).map(r=>[r.x,r.y,r.w,r.h].map(v=>+v.toFixed(1))),bot:$('#xe').getBoundingClientRect().bottom,ih:innerHeight})))));
 const tr=await p.evaluate(()=>{const s=$('#xe').getBoundingClientRect().width/160;return Math.min(...XR.filter(r=>r.hold).map(r=>Math.min(r.w,r.h)*s))});ok(tr>=36,`khay món ≥36px (${tr.toFixed(0)}px) với ${await p.evaluate(()=>S.menu.length)} món`);

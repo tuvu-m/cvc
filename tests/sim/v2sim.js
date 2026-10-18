@@ -12,6 +12,7 @@ for(let d=0;d<DAYS;d++){const r=await p.evaluate((ACT)=>{
   morning();
   if(S.cands.length&&S.staff.length<L0().staff){const c=S.cands.sort((a,b)=>(b.spd+b.kheo+b.duyen)-(a.spd+a.kheo+a.duyen))[0];if(S.money>c.wage*8){S.staff.push(c);S.cands=S.cands.filter(x=>x!==c)}}
   const nx=LV[S.lv+1];if(nx&&S.money>=nx.price*1.15){if(nx.quan&&!S.quan)S.quan=locsOpen().sort((a,b)=>rep(b)-rep(a))[0];S.money-=nx.price;S.lv++;S.mk.day=-1;morning()}
+  for(const g of GEAR)if(!S.gear.includes(g.k)&&!(g.lv>S.lv)&&S.money>g.p*3){S.money-=g.p;S.gear.push(g.k)}
   for(const x of DECOR)if(!S.decor.includes(x.k)&&S.money>x.p*4){S.money-=x.p;S.decor.push(x.k)}
   if(L0().chain)for(const l of Object.keys(LOCS))if(l!==S.quan&&!S.branches.includes(l)&&S.money>BRANCH_PRICE*1.5){S.money-=BRANCH_PRICE;S.branches.push(l)}
   if(!L0().quan){const sc=r=>r.reduce((a,l,i)=>a+expect(l,SLOTS[i].id),0);S.route=S.routes.sort((a,b)=>sc(b)-sc(a))[0]}

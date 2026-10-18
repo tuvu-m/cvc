@@ -190,6 +190,13 @@ const BACK={
     bad:['Ừ thì… 🙄','Cãi hoài, không nói nữa 😒','Thôi kệ, ai ăn người nấy biết.','Ủa bán hàng mà cãi khách à 😑','Ừ, giỏi lắm 🙃','Nói chung là vẫn chê nha!'],
     good:['Ủa mình khen mà?? 😳','Khen cũng bị cà khịa là sao 🥲','Chủ xe mặn ghê 🧂😆','Haha chảnh ghê, mà thích 😆','Lần sau khen ít lại 😤']}};
 
+/* đồ nghề: mua một lần, rẻ hơn vài ngày lương nhân viên đầu tiên (~80–220k/ngày); chảo rộng cần ki-ốt */
+const GEAR=[
+  {k:'vot',i:'⏲️',n:'Chảo hẹn giờ',d:'Que vàng tự vớt ra khay',p:250000},
+  {k:'xit',i:'🥫',n:'Chai xịt tự động',d:'Tự xịt đúng sốt khách gọi',p:200000},
+  {k:'nong',i:'♨️',n:'Khay giữ nóng',d:'Que lâu nguội gấp đôi',p:400000},
+  {k:'lua',i:'🔥',n:'Bếp lửa to',d:'Chiên nhanh hơn 25%',p:900000},
+  {k:'chao',i:'🍳',n:'Chảo rộng',d:'+1 que trong chảo',p:2500000,lv:2}];
 /* ===================== sưu tập ===================== */
 /* que bí truyền: ghép đúng 5 viên (thứ tự nào cũng được) và bán ít nhất một que thì mở; món đó bán đắt hơn 15% */
 const RECIPES=[
