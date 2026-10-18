@@ -169,7 +169,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 
 ---
 
-## 20 · Bản mới v2: nền 7 địa điểm (chưa có)
+## 20 · Bản mới v2: nền 7 địa điểm (đã có trường, công viên, chợ; còn bến xe, văn phòng, chợ đêm, ký túc xá)
 
 Game v2 (`v2/`) bán ở 7 nơi, mỗi nơi một nền đường phố. Hiện game vẽ tạm bằng code. Mỗi nền là **một ảnh riêng, khổ ngang 8:3 (ví dụ 1600×600)**, nhìn thẳng từ vỉa hè bên kia đường: trời ở 1/3 trên, nhà/cảnh ở giữa, **dải vỉa hè trống màu kem ở 1/5 dưới cùng** (xe và khách đứng ở đó, đừng vẽ người, xe, chữ lớn). Không vẽ mặt đường nhựa (game tự vẽ). Trời để màu trơn sáng ban ngày; game tự phủ màu chiều/tối.
 
