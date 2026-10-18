@@ -250,15 +250,17 @@ function demandMenu(route){const d={};route.forEach((l,i)=>{const N=expect(l,SLO
   for(const t in mx){const T0=TYPES[t],ap=S.menu.map(m=>appeal(m,t)),ok=ap.map(a=>a>=.2?a*a:0),sw=ok.reduce((a,b)=>a+b,0);if(!sw)continue;
     const ques=((T0.q[0]+T0.q[1])/2+(L0().quan?.3:0))*Math.min((T0.k[0]+T0.k[1])/2,ok.filter(Boolean).length);
     S.menu.forEach((m,j)=>{if(!ok[j])return;const c=mCount(m);for(const k in c)d[k]=(d[k]||0)+N*mx[t]/tw*ques*ok[j]/sw*c[k]})}});return d}
+const buyQues=()=>S.menu.map(m=>{const c=mCount(m);return Math.min(...Object.keys(c).map(k=>Math.floor((S.buy[k]||0)*BAG/c[k])))});
 function renderMarket(){show('market');const cost=buyCost(),C=L0(),mk=S.mk,arrow=k=>{const p=mk.prevF[k];if(!p)return'';const d=mk.f[k]/p-1;return Math.abs(d)<.04?'':d>0?`<span class="up">↑</span>`:`<span class="dn">↓</span>`};
   const dm=demandMenu(S.route),ks=mItems().sort((a,b)=>inMenu(b)-inMenu(a));
   let h=`<div class="mtop"><span class="chip">${S.route.map(l=>LOCS[l].i).join(' → ')}</span><span class="chip ${bagUse()>C.bags?'warn':''}">🧺 ${bagUse()}/${C.bags}</span><span class="chip ${cost>S.money?'warn':''}">🛒 ${fk(cost)}</span>${mk.ev?`<span class="chip">${mk.ev.t}</span>`:''}</div>`;
+  const bq=buyQues();h+=`<div class="mq">${S.menu.map((m,j)=>`<span class="${bq[j]?'':'no'}"><img class="qi" src="${queImg(m.v)}" alt="">×${bq[j]}</span>`).join('')}</div>`;
   h+=ks.map(k=>{const n=S.buy[k]||0,need=Math.round(dm[k]||0);return`<div class="mrow ${n?'on':''}"><img src="${img(k)}" alt=""><div><div class="nm">${ITEMS[k].n} ${ITEMS[k].rare?'<span class="tag">✈️</span>':''}${inMenu(k)?'<span class="tag m">📋</span>':''}</div><div class="pr">${fk(bagPrice(k))}/${BAG} ${arrow(k)}${need?` · 🎯${need}`:''}</div></div>
     <div class="step"><button data-b="${k}" data-d="-1" aria-label="Bớt">−</button><b>${n}</b><button data-b="${k}" data-d="1" aria-label="Thêm">+</button></div></div>`}).join('');
   h+=`<div class="sec">🥫 ${S.bring.length}/${C.sauces}</div>`+mSauces().map(k=>{const on=S.bring.includes(k),left=S.sauce[k]||0,n=S.buy[k]||0;return`<div class="mrow ${on?'on':''}"><img src="${img(k)}" alt=""><div><div class="nm">${SAUCES[k].n} ${SAUCES[k].rare?'<span class="tag">✈️</span>':''}</div><div class="pr">${left+n*CHAI} lần · +${fk(chaiPrice(k))}</div></div>
     <div class="step"><button data-b="${k}" data-d="1" aria-label="Mua chai">+</button><button class="tog ${on?'on':''}" data-tog="${k}" aria-label="Mang theo">${on?'✓':''}</button></div></div>`}).join('');
   if(S.money<80000&&!S.debt)h+=`<div style="margin-top:10px"><button class="btn sm ghost" id="loanBtn">🏦 Vay 300k</button></div>`;
-  $('#mBody').innerHTML=h;$('#mGo').disabled=!bagUse()||cost>S.money||bagUse()>C.bags}
+  $('#mBody').innerHTML=h;$('#mGo').disabled=!bagUse()||cost>S.money||bagUse()>C.bags||!bq.some(Boolean)}
 $('#mBody').addEventListener('click',e=>{const b=e.target.closest('[data-b],[data-tog],#loanBtn');if(!b)return;sfx('tick');const C=L0();
   if(b.id==='loanBtn'){S.money+=300000;S.debt=330000;toast('🏦 +300k');save();return renderMarket()}
   if(b.dataset.tog){const k=b.dataset.tog;if(S.bring.includes(k))S.bring=S.bring.filter(x=>x!==k);else{if((S.sauce[k]||0)+(S.buy[k]||0)*CHAI<=0)S.buy[k]=1;S.bring.push(k);if(S.bring.length>C.sauces)S.bring.shift()}return renderMarket()}
@@ -267,10 +269,25 @@ $('#mBody').addEventListener('click',e=>{const b=e.target.closest('[data-b],[dat
   if(SAUCES[k]&&d>0&&!S.bring.includes(k)){S.bring.push(k);if(S.bring.length>C.sauces)S.bring.shift()}
   if(n<=0)delete S.buy[k];else S.buy[k]=n;renderMarket()});
 /* gợi ý: đủ viên cho thực đơn trên lộ trình, trong số bịch chở được và số tiền đang có; sốt hợp khách */
-function autoBuy(){const C=L0(),dm=demandMenu(S.route);S.buy={};let budget=S.money*.85;
-  for(const k in dm)if(dm[k]>2)S.buy[k]=Math.max(1,Math.ceil(dm[k]*1.1/BAG));
-  const tc=()=>Object.keys(S.buy).reduce((a,k)=>a+bagPrice(k)*S.buy[k],0);
-  while(bagUse()>C.bags||tc()>budget){const k=Object.keys(S.buy).sort((a,b)=>S.buy[b]-S.buy[a])[0];if(!k)break;if(S.buy[k]>1)S.buy[k]--;else delete S.buy[k]}budget-=tc();
+/* số que mỗi món khách dự kiến gọi trên lộ trình (cùng cách tính với demandMenu) */
+function demandQues(route){const q=S.menu.map(()=>0);route.forEach((l,i)=>{const N=expect(l,SLOTS[i].id),mx=mixAt(l),tw=Object.values(mx).reduce((a,b)=>a+b,0);
+  for(const t in mx){const T0=TYPES[t],ok=S.menu.map(m=>{const a=appeal(m,t);return a>=.2?a*a:0}),sw=ok.reduce((a,b)=>a+b,0);if(!sw)continue;
+    const ques=((T0.q[0]+T0.q[1])/2+(L0().quan?.3:0))*Math.min((T0.k[0]+T0.k[1])/2,ok.filter(Boolean).length);
+    S.menu.forEach((m,j)=>{if(ok[j])q[j]+=N*mx[t]/tw*ques*ok[j]/sw})}});return q}
+/* ✨ Gợi ý: mua theo từng món (đủ que cho món), không mua lẻ. Thiếu tiền/sức chở thì giảm đều số que mọi món (tối thiểu 30%);
+   vẫn không đủ thì bỏ bớt món tốn nhất (trước đây bớt bịch nhiều nhất trước, đó lại là cá viên món nào cũng cần, nên mua về không xiên được món nào) */
+function buyPlan(qs,on,f){const d={};S.menu.forEach((m,j)=>{if(!on[j]||qs[j]<.5)return;const c=mCount(m);for(const k in c)d[k]=(d[k]||0)+Math.max(1,qs[j]*f)*c[k]});
+  const b={};for(const k in d)b[k]=Math.max(1,Math.ceil(d[k]*1.1/BAG));return b}
+const planCost=b=>Object.keys(b).reduce((a,k)=>a+bagPrice(k)*b[k],0),planBags=b=>Object.values(b).reduce((a,x)=>a+x,0);
+function autoBuy(){const C=L0(),qs=demandQues(S.route),av=new Set(mItems());S.buy={};let budget=S.money*.85;
+  const on=S.menu.map((m,j)=>m.v.every(k=>av.has(k))&&qs[j]>=.5),fits=b=>planBags(b)<=C.bags&&planCost(b)<=budget;let plan=null;
+  for(;;){for(let f=1;f>=.3-1e-9;f-=.05){const b=buyPlan(qs,on,f);if(fits(b)){plan=b;break}}if(plan)break;
+    const live=on.map((x,j)=>x?j:-1).filter(j=>j>=0);if(live.length<=1)break;
+    /* bỏ món mà bỏ đi thì tiết kiệm nhiều nhất trên mỗi que khách gọi */
+    let best=-1,bv=-1;for(const j of live){const o2=on.slice();o2[j]=false;const v=(planCost(buyPlan(qs,on,.3))-planCost(buyPlan(qs,o2,.3)))/(qs[j]+1);if(v>bv){bv=v;best=j}}on[best]=false}
+  if(!plan){/* rất ít tiền: một bịch của món một loại rẻ nhất trên thực đơn */const j=S.menu.map((m,j)=>j).filter(j=>new Set(S.menu[j].v).size===1&&av.has(S.menu[j].v[0])).sort((a,b)=>bagPrice(S.menu[a].v[0])-bagPrice(S.menu[b].v[0]))[0];
+    if(j!=null&&bagPrice(S.menu[j].v[0])<=S.money)plan={[S.menu[j].v[0]]:1};else plan={}}
+  Object.assign(S.buy,plan);budget-=planCost(plan);
   const sw={};S.route.forEach(l=>{const mx=mixAt(l);for(const t in mx)for(const s in TYPES[t].sa)if(mSauces().includes(s))sw[s]=(sw[s]||0)+mx[t]*TYPES[t].sa[s]});
   S.bring=Object.keys(sw).sort((a,b)=>sw[b]-sw[a]).slice(0,C.sauces);S.bring.forEach(k=>{if((S.sauce[k]||0)<15&&chaiPrice(k)<=budget){S.buy[k]=1;budget-=chaiPrice(k)}});
   sfx('pop');renderMarket()}
@@ -581,7 +598,9 @@ function drawXe(){if(!XEW||!XEH||!D)return;XEC.LH=160*XEH/XEW;fit(XEC,XEW,XEH);c
   RR(0,0,W,H,0,'#f4e6cc',null);for(let y=6;y<H;y+=9)LN(0,y,W,y,'rgba(31,45,77,.05)',.4);
   /* chảo: hình vẽ tay chao_dau, giữ đúng tỉ lệ (trước đây vẽ elip kéo dài hết bề ngang nên méo), chỉ lấy phần chảo + mép bếp (62% trên của hình);
      que dựng đứng trong dầu nhô lên trên; khay giao thấp gọn để chảo và khay món có chỗ */
-  const fh=tight?clamp(H*.33,56,92):clamp(H*.38,62,104),hh=tight?clamp(H*.14,30,38):clamp(H*.15,32,42),hy=fh+2,sy=hy+hh+3;
+  /* chia chiều cao: khay món mỗi hàng 40–62 (thực đơn nhiều món không bị ép nhỏ), hàng sốt, khay giao, phần còn lại cho chảo (48–110) */
+  const nSS=D.sauces.length,sh=nSS?clamp(H*.1,24,34):0,hh=clamp(H*.13,30,40);let tileH=clamp(H*.4/rows,40,62),fh=H-rows*tileH-sh-hh-(nSS?10:7);
+  if(fh<58){tileH=Math.max(34,(H-58-sh-hh-(nSS?10:7))/rows);fh=H-rows*tileH-sh-hh-(nSS?10:7)}fh=clamp(fh,48,110);const hy=fh+2,sy=hy+hh+3;
   const F=X.fq,N=L0().fry,im=SPR.chao_dau,CROP=.6,AR=im&&im.width?im.width/(im.height*CROP):2.19;
   const ihc=Math.min(156/AR,fh*.74),iw=ihc*AR,ix=(W-iw)/2,iy=fh-ihc,cx=W/2,oy=iy+ihc*(.257/CROP),rx=iw*.368,ry=ihc*(.128/CROP);
   if(F.length)for(let i=0;i<7;i++){const fx=cx-rx*.6+i*rx*.2,fl=1.8+Math.sin(t*14+i*1.7)*.6,fy=fh-1;PT([[fx-1.2,fy],[fx,fy-fl],[fx+1.2,fy]],i%2?'#ffb03a':'#ff7a3c',null)}
@@ -615,7 +634,7 @@ function drawXe(){if(!XEW||!XEH||!D)return;XEC.LH=160*XEH/XEW;fit(XEC,XEW,XEH);c
   const gx=W-31;if(ok){const p=.5+.5*Math.sin(t*6);AL(.25+.25*p,()=>RR(gx-1.5,hy-1.5,32,hh+3,6,'#9fd4b8',null))}RR(gx,hy,29,hh,5,ok?'#3f8f66':'#e8ddd0',ok?'#1f2d4d':LINE,.6);T('GIAO',gx+14.5,hy+hh/2,5.2,ok?'#fff':'#a8968a','center',800);
   xeBox({x:gx,y:hy,w:29,h:hh},xeServe);
   /* sốt + khay món (số que còn làm được; chạm thả một que vào chảo, giữ ngón thả liên tục) */
-  const SS=D.sauces,avail=H-sy-2,sh=SS.length?(tight?clamp(avail*.25,22,30):clamp(avail*.3,26,38)):0,ty0=sy+sh+(SS.length?3:0);
+  const SS=D.sauces,ty0=sy+sh+(SS.length?3:0);
   if(SS.length){const cw=Math.min(30,(W-4)/SS.length);SS.forEach((k,i)=>{const r={x:2+i*cw+(W-4-cw*SS.length)/2,y:sy,w:cw-1.5,h:sh},on=X.sauce.includes(k),nd=o&&o.ss.includes(k)&&!on,q=S.sauce[k]||0;
     RR(r.x,r.y,r.w,r.h,3,nd?'#ffe8d2':on?'#e4f4ea':'rgba(255,255,255,.5)',nd?'#ee7a1f':on?'#3f8f66':'#c9bdb5',nd||on?1.2:.5);
     if(!drawSprite(SPR[k],r.x+1,r.y+1,r.w-2,r.h-10.5,!q))RR(r.x+r.w/2-3,r.y+3,6,r.h-14,2,SAUCES[k].col,LINE,.4);

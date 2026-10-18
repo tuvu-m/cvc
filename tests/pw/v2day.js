@@ -30,6 +30,10 @@ ok(await p.evaluate(()=>!$('#market').hidden&&$('#mGo').disabled),'chợ: chưa 
 await p.tap('#mAuto');await p.waitForTimeout(200);
 const plan=await p.evaluate(()=>({u:bagUse(),c:buyCost(),m:S.money,cap:L0().bags,ks:Object.keys(S.buy).filter(k=>ITEMS[k])}));
 ok(plan.u>=3&&plan.u<=plan.cap&&plan.c<=plan.m,'gợi ý: mua nguyên liệu cho thực đơn trong sức chở và số tiền');
+ok(await p.evaluate(()=>{const keep={buy:{...S.buy},menu:S.menu,money:S.money,bring:[...S.bring]};let ok=true;
+  S.menu=[{v:Array(5).fill('cavien')},{v:Array(5).fill('bovien')},{v:['dauhu','dauhu','cavien','xucxich','tomvien']},{v:['cavien','cavien','tomvien','mucvien','xucxich']}];
+  for(const m of [60000,150000,300000,600000]){S.money=m;autoBuy();if(!buyQues().some(Boolean)||buyCost()>m)ok=false}
+  Object.assign(S,keep);renderMarket();return ok}),'gợi ý lúc ít tiền vẫn mua đủ cho ít nhất một món (không mua lẻ viên không xiên được)');
 await p.tap('#mGo');await p.waitForTimeout(300);
 ok(await p.evaluate(()=>!$('#sell').hidden&&$('#hud').hidden&&$('#xeWrap').offsetHeight>180),'lên đường: màn bán, khung xe hiện');
 for(let i=0;i<80;i++){await p.waitForTimeout(150);if(await p.evaluate(()=>!!xeOrd()))break}
