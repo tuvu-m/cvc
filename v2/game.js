@@ -26,7 +26,7 @@ let S;try{S=JSON.parse(localStorage.getItem(SAVE))}catch(e){}if(!S||S.v!==1)S=NE
 /* bổ sung trường mới cho save cũ */
 (function fix(){if(S.menu){const seen=new Set();S.menu=S.menu.filter(m=>{const k=[...m.v].sort().join();if(seen.has(k))return false;seen.add(k);return true})}if(S.cart&&!S.lv)S.lv=S.cart;delete S.cart;S.lv=S.lv||1;
   if(!S.menu)S.menu=[{v:Array(5).fill('cavien')},{v:Array(5).fill('bovien')},{v:['cavien','cavien','bovien','bovien','cavien']}];
-  S.staff=S.staff||[];S.cands=S.cands||[];S.regs=S.regs||[];S.reviews=S.reviews||[];S.decor=S.decor||[];S.branches=S.branches||[];
+  S.staff=(S.staff||[]).map((x,i)=>/^nv[12]_/.test(x.spr)?{...x,spr:'nv_'+'abcd'[i%4]}:x);S.cands=S.cands||[];S.regs=S.regs||[];S.reviews=S.reviews||[];S.decor=S.decor||[];S.branches=S.branches||[];
   S.coll=Object.assign({recipe:{},album:{},loc:{},ach:{}},S.coll||{});S.stat=Object.assign({served:0,five:0,maxCombo:0,bestDay:0,regWins:0,catch:0},S.stat||{});S.rid=S.rid||0})();
 const save=()=>{try{localStorage.setItem(SAVE,JSON.stringify(S))}catch(e){}};
 const L0=()=>LV[S.lv];
@@ -299,7 +299,7 @@ $('#mGo').onclick=()=>{const cost=buyCost();if(cost>S.money||!bagUse()||bagUse()
 /* ===================== nhân viên ===================== */
 const SNAMES=['Tí','Tèo','Mít','Bông','Na','Bin','Su','Cốm','Mận','Bưởi','Tôm','Ốc','Gạo','Khoai','Đậu','Sữa','Kem','Mơ'];
 /* spd nhanh tay, kheo khéo (ít cháy), duyen duyên (khách đỡ sốt ruột); lương theo tổng chỉ số */
-function genStaff(){const a=ri(1,5),b=ri(1,5),c=ri(1,5),used=S.staff.map(s=>s.name);return{id:'s'+(++S.rid),name:pick(SNAMES.filter(n=>!used.includes(n))),spr:pick(['nv1_o_hong','nv2_o_hong','nv1_o_xanh','nv2_o_xanh']),spd:a,kheo:b,duyen:c,wage:r1k(40000+12000*(a+b+c)*(1+.25*(S.lv-1))),days:0}}
+function genStaff(){const a=ri(1,5),b=ri(1,5),c=ri(1,5),used=S.staff.map(s=>s.name);return{id:'s'+(++S.rid),name:pick(SNAMES.filter(n=>!used.includes(n))),spr:pick(['nv_a','nv_b','nv_c','nv_d']),spd:a,kheo:b,duyen:c,wage:r1k(40000+12000*(a+b+c)*(1+.25*(S.lv-1))),days:0}}
 const stars=n=>'★'.repeat(n)+'☆'.repeat(5-n);
 
 /* ===================== khách quen ===================== */

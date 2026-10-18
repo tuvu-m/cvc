@@ -169,7 +169,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 
 ---
 
-## 20 · Bản mới v2: nền 7 địa điểm (đã có trường, công viên, chợ; còn bến xe, văn phòng, chợ đêm, ký túc xá)
+## 20 · Bản mới v2: nền 7 địa điểm ✅ đã có
 
 Game v2 (`v2/`) bán ở 7 nơi, mỗi nơi một nền đường phố. Hiện game vẽ tạm bằng code. Mỗi nền là **một ảnh riêng, khổ ngang 8:3 (ví dụ 1600×600)**, nhìn thẳng từ vỉa hè bên kia đường: trời ở 1/3 trên, nhà/cảnh ở giữa, **dải vỉa hè trống màu kem ở 1/5 dưới cùng** (xe và khách đứng ở đó, đừng vẽ người, xe, chữ lớn). Không vẽ mặt đường nhựa (game tự vẽ). Trời để màu trơn sáng ban ngày; game tự phủ màu chiều/tối.
 
@@ -187,7 +187,7 @@ Cấp 3 là xe máy kéo thùng cá viên (giữa ki-ốt `tiem_2` và quán `ti
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset, single item centered on a plain flat grey background: an old Vietnamese scooter pulling a small two-wheel street food trailer selling fried fish balls, glass display case with skewers, small gas fryer with a wok of oil, red and white striped awning, little plastic stools hanging on the side, blank sign board with no text, three-quarter front view.
 ```
 
-## 22 · Bản mới v2: nhân viên mới (tuỳ chọn)
+## 22 · Bản mới v2: nhân viên mới ✅ đã có
 
 v2 đang dùng `nv1_o_hong`, `nv2_o_hong`, `nv1_o_xanh`, `nv2_o_xanh` của tiệm trà. Muốn hình riêng thì vẽ 4 nhân viên phụ chảo (2 nam, 2 nữ, tạp dề đỏ cà chua, khăn trùm đầu, cầm vá vớt hoặc chai sốt), tên file `nv_a`…`nv_d`, đứng thẳng nhìn trước, cùng khổ với khách.
 
