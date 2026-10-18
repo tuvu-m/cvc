@@ -197,7 +197,7 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 
 ---
 
-## 23 · Bản mới v2: từng viên đồ chiên (chưa có)
+## 23 · Bản mới v2: từng viên đồ chiên ✅ đã có
 
 Que trên chảo, khay giao và thực đơn đang vẽ bằng code. Có hình từng viên thì game xiên hình đó lên que và tự phủ màu vàng → nâu → cháy theo độ chín, nên chỉ vẽ **viên sống**, nhìn thẳng, không que, không bóng đổ. Mỗi viên vuông vức trong ô, nền trong suốt hoặc xám trơn để cắt, khoảng 200px.
 

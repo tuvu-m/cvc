@@ -121,7 +121,7 @@ const PG=(x,y,r,col)=>{const g=K.ctx.createRadialGradient(x-r*.35,y-r*.4,r*.1,x,
 const PIM={};function pieceImg(k,c){const im=SPR['p_'+k];if(!(im&&im.width))return null;const lv=c==null?0:Math.min(7,Math.round(c*4));const key=k+lv;if(PIM[key])return PIM[key];
   const cv=document.createElement('canvas');cv.width=im.width;cv.height=im.height;const x=cv.getContext('2d');x.drawImage(im,0,0);
   if(lv){x.globalCompositeOperation='source-atop';x.globalAlpha=lv<=4?.12*lv:.5+.08*(lv-4);x.fillStyle=lv<=4?GOLD:lv<=6?BROWN:BURNT;x.fillRect(0,0,cv.width,cv.height)}return PIM[key]=cv}
-function drawPiece(k,x,y,s,col,rot=0,c0){const pi=pieceImg(k,c0);if(pi){const c=K.ctx,h=s*2.3,w=h*pi.width/pi.height;c.save();c.translate(x,y);c.rotate(rot*.15);c.drawImage(pi,-w/2,-h/2,w,h);c.restore();return}
+function drawPiece(k,x,y,s,col,rot=0,c0){const pi=pieceImg(k,c0);if(pi){const c=K.ctx,sc=Math.min(s*3.1/pi.width,s*2.35/pi.height),w=pi.width*sc,h=pi.height*sc;c.save();c.translate(x,y);c.rotate(rot*.15);c.drawImage(pi,-w/2,-h/2,w,h);c.restore();return}
   const sc=LINE,c=K.ctx,lw=Math.max(.22,s*.13);
   if(k==='xucxich'||k==='xxduc'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.5*s,-.62*s,3*s,1.24*s,.62*s,PG(0,0,1.2*s,col),sc,lw);LN(-1.1*s,-.15*s,1.1*s,-.15*s,'rgba(255,255,255,.35)',s*.14);LN(-.9*s,.25*s,-.6*s,.25*s,shade(col,-.3),s*.1);LN(.2*s,.25*s,.5*s,.25*s,shade(col,-.3),s*.1);c.restore()}
   else if(k==='kani'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.4*s,-.55*s,2.8*s,1.1*s,.3*s,'#fff4ea',sc,lw);RR(-1.4*s,-.55*s,2.8*s,.55*s,.3*s,col,null);c.restore()}
