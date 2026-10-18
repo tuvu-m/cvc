@@ -51,7 +51,7 @@ await p.tap('[data-route="q"]');await p.waitForTimeout(100);await p.tap('#toMark
 let sawStaff=false;for(let i=0;i<120;i++){await p.waitForTimeout(100);if(await p.evaluate(()=>xs().fq.some(f=>f.by)||xs().tray.length>0)){sawStaff=true;break}}
 ok(sawStaff,'nhân viên tự lấy que nhúng chảo cho khách đang chờ');
 await p.screenshot({path:`out/v2h_sellquan_${W}.png`});
-const xeOk=await p.evaluate(()=>{const b=$('#xe').getBoundingClientRect();return XR.every(r=>r.x>=0&&r.x+r.w<=160.5&&r.y>=0&&r.y+r.h<=XEC.LH+.5)&&b.bottom<=innerHeight+1});ok(xeOk,'mọi vùng chạm trên xe nằm trong khung');
+const xeOk=await p.evaluate(()=>{const b=$('#xe').getBoundingClientRect();return XR.every(r=>r.x>=0&&r.x+r.w<=160.5&&r.y>=0&&r.y+r.h<=XEC.LH+.5)&&b.bottom<=innerHeight+1});ok(xeOk,'mọi vùng chạm trên xe nằm trong khung'+(xeOk?'':' '+JSON.stringify(await p.evaluate(()=>({H:XEC.LH,bad:XR.filter(r=>!(r.x>=0&&r.x+r.w<=160.5&&r.y>=0&&r.y+r.h<=XEC.LH+.5)).map(r=>[r.x,r.y,r.w,r.h].map(v=>+v.toFixed(1))),bot:$('#xe').getBoundingClientRect().bottom,ih:innerHeight})))));
 const tr=await p.evaluate(()=>{const s=$('#xe').getBoundingClientRect().width/160;return Math.min(...XR.filter(r=>r.hold).map(r=>Math.min(r.w,r.h)*s))});ok(tr>=36,`khay món ≥36px (${tr.toFixed(0)}px) với ${await p.evaluate(()=>S.menu.length)} món`);
 ok(!errs.length,'không lỗi JS'+(errs.length?': '+errs.join(' | '):''));await ctx.close()}
 await b.close();console.log(fails?fails+' FAILED':'ALL PASSED')})();
