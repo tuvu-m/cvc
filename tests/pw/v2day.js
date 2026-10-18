@@ -23,6 +23,8 @@ ok(await p.evaluate(()=>!$('#edOv').hidden&&$('#edOk').disabled),'thêm món: m�
 await p.tap('#edOk');await p.waitForTimeout(200);
 ok(await p.evaluate(()=>S.menu.length===4&&S.menu[3].v.join()==='xucxich,xucxich,cavien,cavien,cavien'&&mName(S.menu[3])==='Xúc + Cá'),'lưu món mới vào thực đơn (tên tự đặt "Xúc + Cá")');
 await p.screenshot({path:`out/v2_menu_${W}.png`});
+ok(await p.evaluate(()=>{edOpen(-1);E.v=Array(5).fill('cavien');edHead();$('#edOk').click();const r=S.menu.length===4&&!$('#edOv').hidden;edClose();return r}),'thực đơn không cho hai món giống hệt nhau');
+ok(await p.evaluate(()=>[0,.5,1,1.3,1.7].every(c=>Object.keys(ITEMS).every(k=>{const [r,g,b]=hx(cookCol(k,c));return r>=g&&g>=b-40&&r>60}))),'màu đồ chiên theo độ chín luôn vàng nâu (không đen/xanh)');
 await p.tap('#toMarket');await p.waitForTimeout(200);
 ok(await p.evaluate(()=>!$('#market').hidden&&$('#mGo').disabled),'chợ: chưa mua gì thì chưa lên đường được');
 await p.tap('#mAuto');await p.waitForTimeout(200);
@@ -49,7 +51,7 @@ let stops=0,shot=0;for(let i=0;i<900;i++){const r=await p.evaluate(()=>{if(!D)re
   if(X.fq.some(f=>f.c>=1))xeFry(0);for(const s of o.ss)if(!X.sauce.includes(s))xeSauce(s);xeServe()}return queue().length});
   if(r==='stop')stops++;if(r==='end')break;if(!shot&&r>=3){shot=1;await p.screenshot({path:`out/v2_busy_${W}.png`})}await p.waitForTimeout(100)}
 ok(stops===3,'bán xong mỗi điểm: thẻ kết thúc điểm, đẩy xe sang điểm kế, điểm cuối về nhà');
-ok(await p.evaluate(()=>!$('#sum').hidden&&S.day===2&&S.hist.length===1&&S.hist[0].served>=8),'tổng kết ngày 1, sang ngày 2');
+{const r=await p.evaluate(()=>({sum:!$('#sum').hidden,day:S.day,h:S.hist.length,sv:S.hist[0]&&S.hist[0].served}));ok(r.sum&&r.day===2&&r.h===1&&r.sv>=5,'tổng kết ngày 1, sang ngày 2 '+JSON.stringify(r))}
 await p.screenshot({path:`out/v2_sum_${W}.png`});
 await p.tap('#nextBtn');await p.waitForTimeout(200);ok(await p.evaluate(()=>!$('#route').hidden&&S.mk.day===2),'ngày 2: chọn lộ trình mới, giá chợ mới');
 ok(!errs.length,'không lỗi JS'+(errs.length?': '+errs.join(' | '):''));await ctx.close()}

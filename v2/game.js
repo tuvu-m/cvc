@@ -24,7 +24,7 @@ const SAVE='cvc2';
 const NEW=()=>({v:1,day:1,money:300000,lv:1,rep:{},sauce:{s_tuongot:CHAI},stat:{},hist:[],mk:null,routes:null,buy:{},bring:['s_tuongot'],debt:0});
 let S;try{S=JSON.parse(localStorage.getItem(SAVE))}catch(e){}if(!S||S.v!==1)S=NEW();
 /* bổ sung trường mới cho save cũ */
-(function fix(){if(S.cart&&!S.lv)S.lv=S.cart;delete S.cart;S.lv=S.lv||1;
+(function fix(){if(S.menu){const seen=new Set();S.menu=S.menu.filter(m=>{const k=[...m.v].sort().join();if(seen.has(k))return false;seen.add(k);return true})}if(S.cart&&!S.lv)S.lv=S.cart;delete S.cart;S.lv=S.lv||1;
   if(!S.menu)S.menu=[{v:Array(5).fill('cavien')},{v:Array(5).fill('bovien')},{v:['cavien','cavien','bovien','bovien','cavien']}];
   S.staff=S.staff||[];S.cands=S.cands||[];S.regs=S.regs||[];S.reviews=S.reviews||[];S.decor=S.decor||[];S.branches=S.branches||[];
   S.coll=Object.assign({recipe:{},album:{},loc:{},ach:{}},S.coll||{});S.stat=Object.assign({served:0,five:0,maxCombo:0,bestDay:0,regWins:0,catch:0},S.stat||{});S.rid=S.rid||0})();
@@ -105,16 +105,17 @@ function T(t,x,y,size,col,align='left',wt=800){const c=K.ctx;c.font=`${wt} ${siz
 function TF(t,x,y,size,col,maxW,align='center'){const c=K.ctx;let s=size;c.font=`800 ${s}px "Baloo 2",system-ui,sans-serif`;while(s>2.2&&c.measureText(t).width>maxW){s-=.2;c.font=`800 ${s}px "Baloo 2",system-ui,sans-serif`}T(t,x,y,s,col,align)}
 function AL(a,f){const c=K.ctx,o=c.globalAlpha;c.globalAlpha=o*a;f();c.globalAlpha=o}
 function LG(x0,y0,x1,y1,st){const g=K.ctx.createLinearGradient(x0,y0,x1,y1);st.forEach(([o,c])=>g.addColorStop(o,c));return g}
-const hx=c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16));
+/* màu dạng #rrggbb hoặc rgb(r,g,b) (mixCol trả về rgb(), cookCol trộn tiếp kết quả đó) */
+const hx=c=>c[0]==='#'?[1,3,5].map(i=>parseInt(c.slice(i,i+2),16)):(c.match(/\d+/g)||[0,0,0]).slice(0,3).map(Number);
 function mixCol(L){let r=0,g=0,b=0,t=0;L.forEach(([c,w])=>{const [R,G,B]=hx(c);r+=R*w;g+=G*w;b+=B*w;t+=w});return`rgb(${r/t|0},${g/t|0},${b/t|0})`}
-function shade(c,f){if(c[0]!=='#')return c;const [r,g,b]=hx(c),m=v=>clamp(Math.round(f<0?v*(1+f):v+(255-v)*f),0,255);return`rgb(${m(r)},${m(g)},${m(b)})`}
+function shade(c,f){if(c[0]!=='#'&&!c.startsWith('rgb('))return c;const [r,g,b]=hx(c),m=v=>clamp(Math.round(f<0?v*(1+f):v+(255-v)*f),0,255);return`rgb(${m(r)},${m(g)},${m(b)})`}
 function drawSprite(im,x,y,w,h,dim,flip){if(!im||!im.complete||!im.width)return false;const c=K.ctx,sc=Math.min(w/im.width,h/im.height),dw=im.width*sc,dh=im.height*sc,dx=x+(w-dw)/2;c.save();if(dim)c.globalAlpha*=.4;
   if(flip){c.translate(dx+dw,0);c.scale(-1,1);c.drawImage(im,0,y+h-dh,dw,dh)}else c.drawImage(im,dx,y+h-dh,dw,dh);c.restore();return true}
 const FRY_MIN=.85,FRY_OK=1.35,FRY_BURN=1.85;
 function cookCol(k,c){const raw=ITEMS[k]?ITEMS[k].col:'#f0d9a0';if(c==null)return raw;const g=mixCol([[raw,.3],[GOLD,.7]]);
   if(c<1)return mixCol([[raw,1-c*.7+.001],[GOLD,c*.7+.001]]);if(c<FRY_BURN){const f=(c-1)/(FRY_BURN-1);return mixCol([[g,1-f+.001],[BROWN,f+.001]])}
   const f=Math.min(1,(c-FRY_BURN)/.4);return mixCol([[BROWN,1-f+.001],[BURNT,f+.001]])}
-function drawPiece(k,x,y,s,col,rot=0){const sc=col[0]==='#'?shade(col,-.38):'rgba(0,0,0,.45)',c=K.ctx;
+function drawPiece(k,x,y,s,col,rot=0){const sc=shade(col,-.38),c=K.ctx;
   if(k==='xucxich'||k==='xxduc'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.5*s,-.62*s,3*s,1.24*s,.62*s,col,sc,.3);c.restore()}
   else if(k==='kani'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.4*s,-.55*s,2.8*s,1.1*s,.3*s,col,sc,.3);c.restore()}
   else if(k==='dauhu'){c.save();c.translate(x,y);c.rotate(rot*.3);RR(-.95*s,-.95*s,1.9*s,1.9*s,.45*s,col,sc,.3);EL(0,0,.42*s,.36*s,'#fff3b8',null);c.restore()}
@@ -130,7 +131,10 @@ const QI={};function queImg(v){const key=v.join(',');if(QI[key])return QI[key];c
 const mCount=m=>{const c={};m.v.forEach(k=>c[k]=(c[k]||0)+1);return c};
 const mKey=v=>[...v].sort().join(',');
 const recipeOf=m=>RECIPES.find(r=>mKey(r.v)===mKey(m.v));
-const mName=m=>{const r=recipeOf(m);if(r&&S.coll.recipe[r.id])return r.n.replace('Que ','');const ks=Object.keys(mCount(m));return ks.length===1?ITEMS[ks[0]].n:ks.length===2?ks.map(k=>ITEMS[k].n.split(' ')[0]).join(' + '):'Thập cẩm'};
+const mBase=m=>{const r=recipeOf(m);if(r&&S.coll.recipe[r.id])return r.n.replace('Que ','');const ks=Object.keys(mCount(m));return ks.length===1?ITEMS[ks[0]].n:ks.length===2?ks.map(k=>ITEMS[k].n.split(' ')[0]).join(' + '):'Thập cẩm'};
+/* hai món khác nhau mà trùng tên (3 cá + 2 bò và 2 cá + 3 bò) thì ghi rõ số viên để khỏi nhầm khi khách gọi */
+const mName=m=>{const b=mBase(m);if(!S.menu.some(x=>mKey(x.v)!==mKey(m.v)&&mBase(x)===b))return b;const c=mCount(m),ks=Object.keys(c).sort((a,z)=>c[z]-c[a]);
+  return ks.length===2?ks.map(k=>c[k]+' '+ITEMS[k].n.split(' ')[0]).join(' + '):b+' '+ITEMS[ks[0]].n.split(' ')[0]};
 /* giá một que: MARK lần vốn 5 viên × hệ số cấp; que bí truyền đã mở đắt hơn 15% */
 const priceM=m=>{const r=recipeOf(m);return r1k(m.v.reduce((a,k)=>a+ITEMS[k].c,0)*MARK*L0().pm*(r&&S.coll.recipe[r.id]?1.15:1))};
 /* khách thích món: trung bình độ thích các viên (0..1); gia đình, giới trẻ thích que thập cẩm hơn */
@@ -203,7 +207,9 @@ function edHead(){const m={v:E.v},r=E.v.length===5&&recipeOf(m);$('#edHead').inn
 function edAdd(k){if(E.v.length>=5)return false;E.v.push(k);sfx('pop');edHead();return E.v.length<5}
 function edUndo(){if(!E.v.length)return;E.v.pop();sfx('tick');edHead()}
 function edClose(){E=null;$('#edOv').hidden=true;if(PRAF>0)cancelAnimationFrame(PRAF);clearTimeout(EFT);PRAF=0;PD=null;renderMenu()}
-$('#edOk').onclick=()=>{if(E.v.length<5)return;const m={v:E.v};if(E.i>=0)S.menu[E.i]=m;else S.menu.push(m);save();sfx('win');edClose()};
+$('#edOk').onclick=()=>{if(E.v.length<5)return;const m={v:E.v};
+  /* thực đơn không có hai món giống hệt nhau (trước đây trùng thì khách gọi "Cá viên" hai dòng, que món này không giao được cho món kia) */
+  if(S.menu.some((x,j)=>j!==E.i&&mKey(x.v)===mKey(m.v))){sfx('err');return toast('📋 Đã có món này',1400)}if(E.i>=0)S.menu[E.i]=m;else S.menu.push(m);save();sfx('win');edClose()};
 $('#edDel').onclick=()=>{if(E.i>=0)S.menu.splice(E.i,1);save();edClose()};
 $('#edX').onclick=()=>edClose();
 /* khung xiên chỉ đứng yên: vẽ lại liền khi đang giữ ngón, còn lại 4 lần/giây (để bắt kịp đổi cỡ); chạm thì edKick vẽ ngay */
