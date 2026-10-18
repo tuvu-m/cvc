@@ -438,6 +438,8 @@ function spawn(force){const st=D.st,mx=mixAt(st.l);let type=force||pickW(Object.
 /* số que món i còn làm được: nguyên liệu đủ ghép bao nhiêu que + que đã vớt + que trong chảo */
 const mMake=i=>{const c=mCount(S.menu[i]);return Math.min(...Object.keys(c).map(k=>Math.floor((D.stock[k]||0)/c[k])))};
 const qAv=i=>mMake(i)+xeHave(i)+xeIn(i);
+/* hết sạch: không món nào còn làm được, không que nào trong chảo/khay */
+const soldOut=()=>S.menu.every((m,i)=>qAv(i)<=0);
 const say=(c,L,ms=2200,k)=>{if(!L||!L.length)return;c.say=pick(L).replace('{k}',k?ITEMS[k].n.toLowerCase():'');c.sayT=now+ms/1000};
 const orderTxt=o=>o.bs.map(i=>`${qN(o,i)} que ${mName(S.menu[i]).toLowerCase()}`).join(', ')+(o.ss.length?' thêm '+o.ss.map(s=>SAUCES[s].n.toLowerCase()).join(', '):'');
 /* khách đói tới gần xe xem thực đơn: có món hợp khẩu vị (≥ 0,2) còn làm được thì gọi, không thì 😕 đi tiếp; khách quen gọi món ruột */
@@ -476,6 +478,8 @@ function tick(dt){const st=D.st;st.t+=dt;
   D.cust=D.cust.filter(c=>c.x>-24&&c.x<180||c.st==='q');
   xeTick(dt);staffTick(dt);
   D.fx=D.fx.filter(x=>now-x.t<1.4);
+  /* hết hàng thì xong buổi luôn, khỏi đứng chờ (thẻ cuối buổi cho mua thêm hoặc về sớm) */
+  if(!st.done&&!st.out&&st.t<st.dur&&!queue().length&&soldOut()){st.out=1;st.t=st.dur;toast('📦 Hết hàng!',1600)}
   if(st.t>=st.dur&&!queue().length&&!st.done&&!D.cust.some(c=>c.st==='run')){st.done=true;$('#evBtn').hidden=true;stopEnd()}}
 $('#evBtn').onclick=()=>{if(!D||!D.st.ev||D.st.ev.done)return;D.st.ev.done=1;D.st.ev.ok=1;D.st.pause=5;$('#evBtn').hidden=true;sfx('pop');toast('🏃 Thoát!',1400)};
 /* nhân viên phụ chảo: chậm, mỗi lúc một que: lấy que (2,9–1,5 giây theo ⚡), nhúng, chờ vàng, vớt; vụng tay (🍳 thấp) thì có khi vớt muộn */
@@ -493,11 +497,17 @@ const rsPrice=k=>r1k(bagPrice(k)*1.3);
 function restockHTML(){const ks=[...new Set(S.menu.flatMap(m=>m.v))].filter(k=>!ITEMS[k].rare||k===S.mk.rare).sort((a,b)=>(D.stock[a]||0)-(D.stock[b]||0)).slice(0,4);
   return`<div class="rs">${ks.map(k=>{const n=D.stock[k]||0;return`<button class="rsb ${n<QUE*3?'low':''}" data-rs="${k}" ${S.money>=rsPrice(k)?'':'disabled'}><img src="${img(k)}" alt=""><b>${n}</b><small>+${BAG} · ${fk(rsPrice(k))}</small></button>`}).join('')}</div>`}
 $('#stopCard').addEventListener('click',e=>{const b=e.target.closest('[data-rs]');if(!b||!D)return;const k=b.dataset.rs,p=rsPrice(k);if(S.money<p)return;
-  S.money-=p;D.cost+=p;D.stock[k]=(D.stock[k]||0)+BAG;sfx('cash');const box=$('#stopCard .rs');if(box)box.outerHTML=restockHTML()});
+  S.money-=p;D.cost+=p;D.stock[k]=(D.stock[k]||0)+BAG;sfx('cash');const box=$('#stopCard .rs');if(box)box.outerHTML=restockHTML();const a=$('#stopCard .acts');if(a)a.innerHTML=stopActs()});
 function stopEnd(){const st=D.st,l=LOCS[st.l],last=D.si>=S.route.length-1,nx=last?null:LOCS[S.route[D.si+1]];D.stops.push(st);sfx('chime');
   $('#stopCard').innerHTML=`<div class="big">${l.i} ✓</div><div class="row"><span>💰 ${fk(st.rev)}</span><span>😊 ${st.served}</span>${st.miss?`<span>😕 ${st.miss}</span>`:''}${st.angry?`<span>😤 ${st.angry}</span>`:''}</div>
-    ${last?'':restockHTML()}<div class="acts"><button class="btn wide" id="goNext">${last?(L0().quan?'🌙 Đóng cửa':'🏠 Về nhà'):L0().quan?`${SLOTS[D.si+1].i} ${SLOTS[D.si+1].n} →`:`${L0().i} → ${nx.i} ${nx.n}`}</button></div>`;
-  $('#stopOv').hidden=false;$('#goNext').onclick=()=>{sfx('pop');nextStop()}}
+    ${last?'':restockHTML()}<div class="acts">${stopActs()}</div>`;
+  $('#stopOv').hidden=false}
+/* nút cuối buổi: hết hàng thì nút to là về sớm (mua thêm xong thì đổi lại) */
+const homeTxt=()=>L0().quan?'🌙 Đóng cửa':'🏠 Về nhà';
+function stopActs(){const last=D.si>=S.route.length-1,nx=last?null:LOCS[S.route[D.si+1]],out=!last&&soldOut();
+  const go=`<button class="btn ${out?'ghost':'wide'}" id="goNext">${last?homeTxt():L0().quan?`${SLOTS[D.si+1].i} ${SLOTS[D.si+1].n} →`:`${L0().i} → ${nx.i} ${nx.n}`}</button>`;
+  return out?`<button class="btn wide" id="goHome">📦 ${homeTxt()} sớm</button>${go}`:go}
+$('#stopCard').addEventListener('click',e=>{if(e.target.closest('#goNext')){sfx('pop');nextStop()}else if(e.target.closest('#goHome')){sfx('pop');endDay()}});
 /* mục tiêu: cấp kế tiếp (tổng kết và màn sáng), mua khi đủ tiền; lên quán thì chọn khu mở quán */
 function goalHTML(){const nx=LV[S.lv+1];if(!nx)return'';const f=clamp(S.money/nx.price,0,1),nl=Object.keys(LOCS).filter(l=>LOCS[l].lv===S.lv+1).map(l=>LOCS[l].i).join('');
   return`<div class="goal"><img src="${img(lvSpr(S.lv+1))}" alt=""><div class="gm"><b>🎯 ${nx.n}</b><small>📋${nx.menu} 🧺${nx.bags} 🥫${nx.sauces} 🍳${nx.fry} 👥${nx.staff}${nl?' · '+nl:''}${nx.quan&&!L0().quan?' · 🏠'+fk(nx.cost)+'/ngày':''}${nx.chain?' · 🏙️':''}</small><div class="gbar"><i style="width:${(f*100).toFixed(0)}%"></i></div></div>
@@ -752,8 +762,10 @@ function frame(ts){RAF=0;if(!D)return;const sec=ts/1000,dt=Math.min(.1,Math.max(
 let FT=0;
 function loop(){if(!RAF){last=performance.now()/1000;RAF=requestAnimationFrame(frame)}}
 function stopLoop(){if(RAF>0)cancelAnimationFrame(RAF);clearTimeout(FT);FT=0;RAF=0}
-function pause(on){PAUSED=on;$('#pauseOv').hidden=!on;$('#sndBtn').textContent=SND?'🔊 Âm thanh':'🔇 Âm thanh';$('#musBtn').textContent=MUSON?'🎵 Nhạc':'🔕 Nhạc'}
+function pause(on){PAUSED=on;$('#pauseOv').hidden=!on;const eb=$('#earlyBtn');delete eb.dataset.arm;eb.textContent=(D&&L0().quan?'🌙 Đóng cửa':'🏠 Về nhà')+' sớm';$('#sndBtn').textContent=SND?'🔊 Âm thanh':'🔇 Âm thanh';$('#musBtn').textContent=MUSON?'🎵 Nhạc':'🔕 Nhạc'}
 $('#pauseBtn').onclick=()=>pause(true);$('#resumeBtn').onclick=()=>pause(false);
+/* về sớm bất cứ lúc nào (bấm hai lần cho chắc) */
+$('#earlyBtn').onclick=e=>{const b=e.currentTarget;if(!D)return pause(false);if(!b.dataset.arm){b.dataset.arm=1;b.textContent='✓ '+homeTxt()+'?';return}pause(false);$('#stopOv').hidden=true;endDay()};
 $('#sndBtn').onclick=()=>{SND=!SND;localStorage.setItem('cv2_snd',SND?'1':'0');pause(true)};
 $('#musBtn').onclick=()=>{music(!MUSON);pause(true)};
 

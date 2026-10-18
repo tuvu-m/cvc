@@ -59,5 +59,9 @@ ok(stops===3,'bán xong mỗi điểm: thẻ kết thúc điểm, đẩy xe sang
 {const r=await p.evaluate(()=>({sum:!$('#sum').hidden,day:S.day,h:S.hist.length,sv:S.hist[0]&&S.hist[0].served}));ok(r.sum&&r.day===2&&r.h===1&&r.sv>=5,'tổng kết ngày 1, sang ngày 2 '+JSON.stringify(r))}
 await p.screenshot({path:`out/v2_sum_${W}.png`});
 await p.tap('#nextBtn');await p.waitForTimeout(200);ok(await p.evaluate(()=>!$('#route').hidden&&S.mk.day===2),'ngày 2: chọn lộ trình mới, giá chợ mới');
+{const r=await p.evaluate(async()=>{S.route=S.route||S.routes[0];startDay({},0);for(let i=0;i<30&&$('#stopOv').hidden;i++)await new Promise(r=>setTimeout(r,100));const home=$('#goHome');const r={ov:!$('#stopOv').hidden,home:!!home,t:D&&D.st.t<10};home&&home.click();r.sum=!$('#sum').hidden&&S.day===3;return r});
+  ok(r.ov&&r.home&&r.sum,'hết hàng: xong buổi ngay, nút về sớm, tổng kết '+JSON.stringify(r))}
+{const r=await p.evaluate(()=>{S.route=S.route||S.routes[0];startDay({cavien:400},0);pause(true);const b=$('#earlyBtn');b.click();const arm=!$('#pauseOv').hidden&&!!D;b.click();return{arm,sum:!$('#sum').hidden&&S.day===4}});
+  ok(r.arm&&r.sum,'tạm dừng: Về nhà sớm (bấm hai lần) '+JSON.stringify(r))}
 ok(!errs.length,'không lỗi JS'+(errs.length?': '+errs.join(' | '):''));await ctx.close()}
 await b.close();console.log(fails?fails+' FAILED':'ALL PASSED')})();
