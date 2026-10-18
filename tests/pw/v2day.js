@@ -46,10 +46,11 @@ ok(await p.evaluate(()=>xs().sauce.length===1&&xs().spray.length===1),'kéo chai
 const m0=await p.evaluate(()=>S.money);await tap((await R('xeServe'))[0]);await p.waitForTimeout(200);
 ok(await p.evaluate(m0=>D.served===1&&S.money>m0&&!xs().tray.length,m0),'GIAO: khách trả tiền, que rời khay');
 await p.screenshot({path:`out/v2_sell_${W}.png`});
-let stops=0,shot=0;for(let i=0;i<900;i++){const r=await p.evaluate(()=>{if(!D)return'end';if(!$('#stopOv').hidden){$('#goNext').click();return'stop'}
+let stops=0,shot=0,rs=null;for(let i=0;i<900;i++){const r=await p.evaluate(()=>{if(!D)return'end';if(!$('#stopOv').hidden){if(!window.__rs){const b=document.querySelector('[data-rs]:not([disabled])');if(b){const k=b.dataset.rs,n=D.stock[k]||0,m=S.money;b.click();window.__rs=D.stock[k]===n+BAG&&S.money<m}else window.__rs='none'}$('#goNext').click();return'stop'}
   const t=xeOrd(),X=xs();if(t){const o=t.o;for(const k of o.bs){const need=qN(o,k)-xeHave(k)-xeIn(k);for(let j=0;j<need;j++)xeTray(k)}
   if(X.fq.some(f=>f.c>=1))xeFry(0);for(const s of o.ss)if(!X.sauce.includes(s))xeSauce(s);xeServe()}return queue().length});
   if(r==='stop')stops++;if(r==='end')break;if(!shot&&r>=3){shot=1;await p.screenshot({path:`out/v2_busy_${W}.png`})}await p.waitForTimeout(100)}
+ok(await p.evaluate(()=>window.__rs===true),'giữa hai buổi: mua thêm một bịch viên đang thiếu');
 ok(stops===3,'bán xong mỗi điểm: thẻ kết thúc điểm, đẩy xe sang điểm kế, điểm cuối về nhà');
 {const r=await p.evaluate(()=>({sum:!$('#sum').hidden,day:S.day,h:S.hist.length,sv:S.hist[0]&&S.hist[0].served}));ok(r.sum&&r.day===2&&r.h===1&&r.sv>=5,'tổng kết ngày 1, sang ngày 2 '+JSON.stringify(r))}
 await p.screenshot({path:`out/v2_sum_${W}.png`});

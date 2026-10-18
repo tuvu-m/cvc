@@ -21,7 +21,7 @@ const lvSpr=l=>(window.ART||{})[LV[l].spr]?LV[l].spr:'tiem_2';
 
 /* ===================== lưu ===================== */
 const SAVE='cvc2';
-const NEW=()=>({v:1,day:1,money:300000,lv:1,rep:{},sauce:{s_tuongot:CHAI},stat:{},hist:[],mk:null,routes:null,buy:{},bring:['s_tuongot'],debt:0});
+const NEW=()=>({v:1,day:1,money:500000,lv:1,rep:{},sauce:{s_tuongot:CHAI},stat:{},hist:[],mk:null,routes:null,buy:{},bring:['s_tuongot'],debt:0});
 let S;try{S=JSON.parse(localStorage.getItem(SAVE))}catch(e){}if(!S||S.v!==1)S=NEW();
 /* bổ sung trường mới cho save cũ */
 (function fix(){if(S.menu){const seen=new Set();S.menu=S.menu.filter(m=>{const k=[...m.v].sort().join();if(seen.has(k))return false;seen.add(k);return true})}if(S.cart&&!S.lv)S.lv=S.cart;delete S.cart;S.lv=S.lv||1;
@@ -260,7 +260,7 @@ $('#mBody').addEventListener('click',e=>{const b=e.target.closest('[data-b],[dat
   if(SAUCES[k]&&d>0&&!S.bring.includes(k)){S.bring.push(k);if(S.bring.length>C.sauces)S.bring.shift()}
   if(n<=0)delete S.buy[k];else S.buy[k]=n;renderMarket()});
 /* gợi ý: đủ viên cho thực đơn trên lộ trình, trong số bịch chở được và số tiền đang có; sốt hợp khách */
-function autoBuy(){const C=L0(),dm=demandMenu(S.route);S.buy={};let budget=S.money*.92;
+function autoBuy(){const C=L0(),dm=demandMenu(S.route);S.buy={};let budget=S.money*.85;
   for(const k in dm)if(dm[k]>2)S.buy[k]=Math.max(1,Math.ceil(dm[k]*1.1/BAG));
   const tc=()=>Object.keys(S.buy).reduce((a,k)=>a+bagPrice(k)*S.buy[k],0);
   while(bagUse()>C.bags||tc()>budget){const k=Object.keys(S.buy).sort((a,b)=>S.buy[b]-S.buy[a])[0];if(!k)break;if(S.buy[k]>1)S.buy[k]--;else delete S.buy[k]}budget-=tc();
@@ -464,9 +464,15 @@ function staffTick(dt){const X=xs(),Q=queue().filter(c=>Math.abs(c.tx-c.x)<2).sl
     else if(w.st==='prep'){w.t-=dt;if(w.t>0)return;if(X.fq.length>=L0().fry||!(mMake(w.m)>0)){w.st='idle';w.t=.5;return}
       for(const k of S.menu[w.m].v)D.stock[k]--;w.f={m:w.m,v:[...S.menu[w.m].v],c:0,by:s.id};X.fq.push(w.f);w.st='fry';w.tg=1+Math.max(0,rnd(-.1,.5)*(5-s.kheo)/4);sfx('fry')}
     else if(w.st==='fry'){if(!X.fq.includes(w.f)){w.st='idle';w.t=.4;return}if(w.f.c>=w.tg){X.fq=X.fq.filter(f=>f!==w.f);X.tray.push({m:w.f.m,v:w.f.v,q:w.f.c});w.st='idle';w.t=.6}}})}
+/* giữa hai buổi ghé chợ mua thêm (đắt hơn 30%): viên trong thực đơn sắp hết thì có nút mua thêm một bịch */
+const rsPrice=k=>r1k(bagPrice(k)*1.3);
+function restockHTML(){const ks=[...new Set(S.menu.flatMap(m=>m.v))].filter(k=>!ITEMS[k].rare||k===S.mk.rare).sort((a,b)=>(D.stock[a]||0)-(D.stock[b]||0)).slice(0,4);
+  return`<div class="rs">${ks.map(k=>{const n=D.stock[k]||0;return`<button class="rsb ${n<QUE*3?'low':''}" data-rs="${k}" ${S.money>=rsPrice(k)?'':'disabled'}><img src="${img(k)}" alt=""><b>${n}</b><small>+${BAG} · ${fk(rsPrice(k))}</small></button>`}).join('')}</div>`}
+$('#stopCard').addEventListener('click',e=>{const b=e.target.closest('[data-rs]');if(!b||!D)return;const k=b.dataset.rs,p=rsPrice(k);if(S.money<p)return;
+  S.money-=p;D.cost+=p;D.stock[k]=(D.stock[k]||0)+BAG;sfx('cash');const box=$('#stopCard .rs');if(box)box.outerHTML=restockHTML()});
 function stopEnd(){const st=D.st,l=LOCS[st.l],last=D.si>=S.route.length-1,nx=last?null:LOCS[S.route[D.si+1]];D.stops.push(st);sfx('chime');
   $('#stopCard').innerHTML=`<div class="big">${l.i} ✓</div><div class="row"><span>💰 ${fk(st.rev)}</span><span>😊 ${st.served}</span>${st.miss?`<span>😕 ${st.miss}</span>`:''}${st.angry?`<span>😤 ${st.angry}</span>`:''}</div>
-    <div class="acts"><button class="btn wide" id="goNext">${last?(L0().quan?'🌙 Đóng cửa':'🏠 Về nhà'):L0().quan?`${SLOTS[D.si+1].i} ${SLOTS[D.si+1].n} →`:`${L0().i} → ${nx.i} ${nx.n}`}</button></div>`;
+    ${last?'':restockHTML()}<div class="acts"><button class="btn wide" id="goNext">${last?(L0().quan?'🌙 Đóng cửa':'🏠 Về nhà'):L0().quan?`${SLOTS[D.si+1].i} ${SLOTS[D.si+1].n} →`:`${L0().i} → ${nx.i} ${nx.n}`}</button></div>`;
   $('#stopOv').hidden=false;$('#goNext').onclick=()=>{sfx('pop');nextStop()}}
 /* mục tiêu: cấp kế tiếp (tổng kết và màn sáng), mua khi đủ tiền; lên quán thì chọn khu mở quán */
 function goalHTML(){const nx=LV[S.lv+1];if(!nx)return'';const f=clamp(S.money/nx.price,0,1),nl=Object.keys(LOCS).filter(l=>LOCS[l].lv===S.lv+1).map(l=>LOCS[l].i).join('');

@@ -24,7 +24,8 @@ const SAUCES={
   b_phomai:{n:'Bột PM',col:'#f6d062',c:3500,bot:1},b_ot:{n:'Bột ớt',col:'#e0522c',c:2500,bot:1},b_muoitom:{n:'Muối tôm',col:'#f08c5c',c:3000,bot:1},
   s_gochu:{n:'Gochujang',col:'#c22c2a',c:6000,rare:1},s_kewpie:{n:'Kewpie',col:'#fbf2d4',c:6500,rare:1},s_teri:{n:'Teriyaki',col:'#6a3a1e',c:6000,rare:1},s_sriracha:{n:'Sriracha',col:'#e2402a',c:6000,rare:1}
 };
-const BAG=20,CHAI=30,QUE=5;
+/* một bịch 40 viên (8 que): trước đây 20 viên nên xe đẩy chở 10 bịch chỉ đủ nửa ngày, buổi đầu đã hết hàng */
+const BAG=40,CHAI=30,QUE=5;
 /* giá bán một que = MARK lần giá vốn 5 viên, nhân hệ số cấp (quán bán đắt hơn) */
 const MARK=2.4;
 
@@ -47,14 +48,14 @@ const WEATHER={nang:{i:'☀️',m:1},mua:{i:'🌧️',m:.75,park:.4},nong:{i:'�
 /* menu số món, bags số bịch chở được, sauces số chai sốt mang theo, fry số que trong chảo, staff số nhân viên, cost chi mỗi ngày (xăng hoặc thuê mặt bằng),
    base khách đói dự kiến mỗi điểm lúc đông nhất, pm hệ số giá (khách quán sang hơn), stops số buổi bán, quan: bán cố định ở một khu, chain: có chi nhánh */
 const LV=[null,
-  {n:'Xe đẩy',i:'🛒',spr:'tiem_1',menu:6,bags:10,sauces:2,fry:5,staff:1,cost:10000,base:15,pm:1,stops:3},
-  {n:'Ki-ốt lưu động',i:'🛺',spr:'tiem_2',price:3e6,menu:8,bags:16,sauces:3,fry:6,staff:1,cost:20000,base:17,pm:1.1,stops:3},
-  {n:'Xe máy kéo',i:'🛵',spr:'xe_maykeo',price:8e6,menu:10,bags:24,sauces:4,fry:7,staff:2,cost:35000,base:18,pm:1.2,stops:4},
-  {n:'Quán nhỏ',i:'🏪',spr:'tiem_3',price:25e6,menu:12,bags:36,sauces:5,fry:8,staff:3,cost:250000,base:22,pm:1.5,stops:4,quan:1},
-  {n:'Quán hai tầng',i:'🏬',spr:'tiem_4',price:80e6,menu:14,bags:50,sauces:6,fry:10,staff:4,cost:600000,base:26,pm:1.9,stops:4,quan:1},
-  {n:'Chuỗi cá viên',i:'🏙️',spr:'tiem_5',price:250e6,menu:16,bags:60,sauces:6,fry:10,staff:5,cost:900000,base:28,pm:2.2,stops:4,quan:1,chain:1}];
+  {n:'Xe đẩy',i:'🛒',spr:'tiem_1',menu:6,bags:12,sauces:2,fry:5,staff:1,cost:10000,base:15,pm:1,stops:3},
+  {n:'Ki-ốt lưu động',i:'🛺',spr:'tiem_2',price:4e6,menu:8,bags:16,sauces:3,fry:6,staff:1,cost:20000,base:17,pm:1.1,stops:3},
+  {n:'Xe máy kéo',i:'🛵',spr:'xe_maykeo',price:12e6,menu:10,bags:24,sauces:4,fry:7,staff:2,cost:35000,base:18,pm:1.2,stops:4},
+  {n:'Quán nhỏ',i:'🏪',spr:'tiem_3',price:40e6,menu:12,bags:36,sauces:5,fry:8,staff:3,cost:250000,base:22,pm:1.5,stops:4,quan:1},
+  {n:'Quán hai tầng',i:'🏬',spr:'tiem_4',price:130e6,menu:14,bags:50,sauces:6,fry:10,staff:4,cost:600000,base:26,pm:1.9,stops:4,quan:1},
+  {n:'Chuỗi cá viên',i:'🏙️',spr:'tiem_5',price:400e6,menu:16,bags:60,sauces:6,fry:10,staff:5,cost:900000,base:28,pm:2.2,stops:4,quan:1,chain:1}];
 /* chi nhánh (cấp chuỗi): mỗi khu một chi nhánh, tự bán, thu tiền mỗi ngày */
-const BRANCH_PRICE=120e6,BRANCH_IN=1.6e6;
+const BRANCH_PRICE=180e6,BRANCH_IN=1.6e6;
 
 /* ===================== kiểu khách ===================== */
 /* hình, q số que mỗi món, k số món, like độ thích từng viên, sa sốt hay chọn, sp xác suất có sốt, pat kiên nhẫn (giây);
