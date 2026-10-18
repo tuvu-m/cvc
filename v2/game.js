@@ -85,7 +85,7 @@ document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1&&e.ca
 document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
 
 /* ===================== toast ===================== */
-let toT=0;function toast(m,ms=1400){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>t.classList.remove('show'),ms)}
+let toT=0;function toast(m,ms=1400,wrap){const t=$('#toast');t.textContent=m;t.classList.toggle('tip',!!wrap);t.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>t.classList.remove('show'),ms)}
 
 /* ===================== vẽ ===================== */
 const LINE='#1f2d4d',INK='#1f2d4d',GOLD='#d99a3e',BROWN='#9a5420',BURNT='#2e1c12';
@@ -184,6 +184,11 @@ function show(id){SCR.forEach(s=>$('#'+s).hidden=s!==id);$('#app').classList.tog
 function hud(){$('#hDay').textContent='Ngày '+S.day;$('#hMoney').textContent='💰 '+fk(S.money);const r=rating();$('#hRep').textContent='⭐ '+(r?r.toFixed(1):'—')}
 $('#hRep').onclick=()=>openHub('rv');
 /* hàng nút mở hub (nhân viên, đánh giá, khách quen, sưu tập, trang trí) ở màn sáng và tổng kết */
+/* chạm biểu tượng thì hiện một dòng giải thích (giữ màn ít chữ) */
+const TIPS={spd:()=>'⚡ Nhanh tay: lấy que nhúng chảo nhanh hơn',kheo:()=>'🍳 Khéo: vớt đúng lúc vàng, ít bị cháy',duyen:()=>'😊 Duyên: khách đứng chờ đỡ sốt ruột',
+  rep:l=>`❤️ Độ quen ở ${LOCS[l].n}: ${Math.round(rep(l))}/100 → khách đông hơn ${Math.round((repF(l)/.8-1)*100)}%. Bán 5★ ở đây để tăng`,
+  crowd:n=>`👥 ~${n} khách đói ghé buổi này`,like:l=>`Khách hay gặp ở ${LOCS[l].n} và món họ thích: ${topLikes(l).map(k=>ITEMS[k].n.toLowerCase()).join(', ')}`};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-tip]');if(!t)return;e.stopPropagation();const [k,a]=t.dataset.tip.split(':');if(TIPS[k]){sfx('tick');toast(TIPS[k](isNaN(+a)?a:+a),3200,1)}},true);
 const hubBar=()=>`<div class="hubbar">${[['staff','👥',S.staff.length+'/'+L0().staff],['rv','⭐',S.reviews.some(r=>r.s<=2&&!r.fought)?'⚔️':S.reviews.length],['reg','💛',S.regs.length],['coll','🏆',collDone()],['gear','🔧',S.gear.length+'/'+GEAR.length],['decor','🎨',S.decor.length+'/'+DECOR.length]].map(([k,i,n])=>`<button class="hb" data-hub="${k}"><i>${i}</i><small>${n}</small></button>`).join('')}</div>`;
 document.addEventListener('click',e=>{const b=e.target.closest('[data-hub]');if(b){sfx('tick');openHub(b.dataset.hub)}});
 
@@ -191,9 +196,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-hub]');if(
 function renderRoute(){morning();show('route');const W=WEATHER[S.weather],nx=LV[S.lv+1];if(S.mk.day!==S.day)morning();
   let h=hubBar()+`<h2>${W.i} ${L0().quan?'Hôm nay':'Hôm nay đi đâu?'}</h2>${nx&&S.money>=nx.price*.5?goalHTML():''}`;
   const stopRow=(l,i)=>{const L=LOCS[l],sl=SLOTS[i],N=expect(l,sl.id),bars=Math.round(clamp(N/3.5,0,5)),mx=mixAt(l),tops=Object.keys(mx).sort((a,b)=>mx[b]-mx[a]).slice(0,2);
-    return`<div class="stop"><div class="tm"><i>${sl.i}</i>${sl.n}</div><div class="ln">${L.i} ${L.n}${rep(l)?` <small>❤️${Math.round(rep(l))}</small>`:''}</div>
-    <div class="crowd"><div class="bars">${[1,2,3,4,5].map(b=>`<i class="${b<=bars?'on':''}" style="height:${6+b*3}px"></i>`).join('')}</div>👥${Math.round(N)}</div>
-    <div class="lk">${tops.map(t=>`<img class="hd" src="${img(TYPES[t].spr[0])}" alt="">`).join('')}<span style="width:6px"></span>${topLikes(l).map(k=>`<img src="${img(k)}" alt="">`).join('')}</div></div>`};
+    return`<div class="stop"><div class="tm"><i>${sl.i}</i>${sl.n}</div><div class="ln">${L.i} ${L.n}${rep(l)?` <small class="tp" data-tip="rep:${l}">❤️${Math.round(rep(l))}</small>`:''}</div>
+    <div class="crowd tp" data-tip="crowd:${Math.round(N)}"><div class="bars">${[1,2,3,4,5].map(b=>`<i class="${b<=bars?'on':''}" style="height:${6+b*3}px"></i>`).join('')}</div>👥${Math.round(N)}</div>
+    <div class="lk tp" data-tip="like:${l}">${tops.map(t=>`<img class="hd" src="${img(TYPES[t].spr[0])}" alt="">`).join('')}<span style="width:6px"></span>${topLikes(l).map(k=>`<img src="${img(k)}" alt="">`).join('')}</div></div>`};
   if(L0().quan)h+=`<div class="rcard"><div class="rh"><span>${L0().i} ${LOCS[S.quan].n}</span><button class="btn sm teal" data-route="q">Mở cửa</button></div>${S.route.map(stopRow).join('')}</div>`;
   else h+=S.routes.map((r,ri)=>`<div class="rcard"><div class="rh"><span>${['🅰','🅱'][ri]}</span><button class="btn sm teal" data-route="${ri}">Chọn</button></div>${r.map(stopRow).join('')}</div>`).join('');
   $('#routeBody').innerHTML=h}
@@ -377,7 +382,7 @@ function renderHub(){const tabs=[['staff','👥'],['rv','⭐'],['reg','💛'],['
   $('#hubBody').innerHTML=({staff:staffHTML,rv:rvHTML,reg:regHTML,coll:collHTML,gear:gearHTML,decor:decorHTML})[HUB]();hud()}
 $('#hubTabs').addEventListener('click',e=>{const b=e.target.closest('[data-hubt]');if(!b)return;sfx('tick');HUB=b.dataset.hubt;renderHub();$('#hubBody').scrollTop=0});
 function staffHTML(){const C=L0();let h=`<h2>👥 Nhân viên <small class="cnt">${S.staff.length}/${C.staff}</small></h2>`;
-  const row=(s,btn)=>`<div class="srow"><img src="${img(s.spr)}" alt=""><div class="sm"><b>${esc(s.name)}</b><div class="st"><span>⚡${stars(s.spd)}</span><span>🍳${stars(s.kheo)}</span><span>😊${stars(s.duyen)}</span></div><small>${fk(s.wage)}/ngày</small></div>${btn}</div>`;
+  const row=(s,btn)=>`<div class="srow"><img src="${img(s.spr)}" alt=""><div class="sm"><b>${esc(s.name)}</b><div class="st"><span class="tp" data-tip="spd">⚡${stars(s.spd)}</span><span class="tp" data-tip="kheo">🍳${stars(s.kheo)}</span><span class="tp" data-tip="duyen">😊${stars(s.duyen)}</span></div><small>${fk(s.wage)}/ngày</small></div>${btn}</div>`;
   h+=S.staff.map(s=>row(s,`<button class="btn sm ghost" data-fire="${s.id}" aria-label="Cho nghỉ">✕</button>`)).join('')||'<p class="empty">—</p>';
   if(S.day<3)h+=`<p class="empty">🔒 Ngày 3</p>`;
   else if(S.staff.length<C.staff&&S.cands.length)h+=`<div class="sec">🙋 Ứng viên</div>`+S.cands.map(s=>row(s,`<button class="btn sm teal" data-hire="${s.id}">Thuê</button>`)).join('');
