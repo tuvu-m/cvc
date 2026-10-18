@@ -37,20 +37,52 @@ const rateF=()=>{const r=rating();return r?clamp(.75+.1*(r-2.5),.75,1.1):1};
 /* trang trí: cộng dồn lợi ích theo biểu tượng (❤️ danh tiếng, ⏳ kiên nhẫn, 💰 tip, 👥 khách tối) */
 const perk=t=>S.decor.reduce((a,k)=>{const d=DECOR.find(x=>x.k===k);if(!d)return a;const m=d.perk.match(/^(\S+).*?\+(\d+)%/);return m&&m[1]===t?a+(+m[2])/100:a},0);
 
-/* ===================== âm thanh ===================== */
-let AC=null,SBUF={},SND=localStorage.getItem('cv2_snd')!=='0',MUSON=localStorage.getItem('cv2_mus')!=='0',MUS=null;
+/* ===================== âm thanh =====================
+   Rút kinh nghiệm từ Tiệm Trà Bobơ: iPhone chỉ cho bật âm thanh trong cú chạm thật (touchend/click), sau khi chuyển app/khoá máy
+   AudioContext có thể "chết" (interrupted) nên mỗi lần chạm đều đánh thức lại; chạm thật mà 1,2 giây sau vẫn không chạy thì lần
+   chạm thật sau bỏ AudioContext cũ, tạo cái mới ngay trong cú chạm. Nhạc nạp vào Web Audio (không dùng thẻ audio) để iPhone không
+   hiện bảng điều khiển nhạc trên màn hình khoá; kiểu "ambient": phát chung với nhạc app khác, gạt im lặng thì tắt tiếng. */
+let AC=null,SBUF={},SREQ={},SFAIL={},SND=true,MUSON=true;try{SND=localStorage.getItem('cv2_snd')!=='0';MUSON=localStorage.getItem('cv2_mus')!=='0'}catch(e){}
+try{if(navigator.audioSession)navigator.audioSession.type='ambient'}catch(e){}
 const SFX={bell:'bell',cash:'cash',err:'err',win:'win',meow:'meow',chime:'chime',fry:'pour'};
-function audio(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)();try{if(navigator.audioSession)navigator.audioSession.type='ambient'}catch(e){}
-  for(const k in SFX)fetch('../sfx/'+SFX[k]+'.mp3').then(r=>r.arrayBuffer()).then(b=>AC.decodeAudioData(b)).then(b=>SBUF[k]=b).catch(()=>{})}catch(e){}}
-  if(AC&&AC.state==='suspended')AC.resume();return AC}
-function beep(f,d,type='sine',v=.12){const a=AC;if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d)}
-function sfx(n){if(!SND||!AC)return;try{if(SBUF[n]){const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=n==='fry'?.25:.5;s.buffer=SBUF[n];s.connect(g);g.connect(AC.destination);s.start();return}
-  if(n==='pop')beep(620,.08,'triangle',.14);else if(n==='tick')beep(980,.05,'square',.05);else if(n==='err')beep(180,.18,'sawtooth',.08);else if(n==='cash'){beep(1320,.08);setTimeout(()=>beep(1760,.12),70)}else if(n==='win'){beep(880,.1);setTimeout(()=>beep(1320,.15),90)}}catch(e){}}
-function music(on){MUSON=on;localStorage.setItem('cv2_mus',on?'1':'0');if(!AC)return;if(MUS){try{MUS.s.stop()}catch(e){}MUS=null}if(!on)return;
-  const t=pick(['cozy','cafelofi','lofisunny','bossasunny','ukulele','sunny','cats','coffeeshop']);fetch('../nhac/'+t+'.mp4').then(r=>r.arrayBuffer()).then(b=>AC.decodeAudioData(b)).then(b=>{if(!MUSON||MUS)return;const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=.22;s.buffer=b;s.loop=true;s.connect(g);g.connect(AC.destination);s.start();MUS={s}}).catch(()=>{})}
-addEventListener('pointerdown',()=>{const first=!AC;audio();if(first&&MUSON)music(true)},true);
-document.addEventListener('visibilitychange',()=>{if(document.hidden){if(AC)AC.suspend();if(D&&!PAUSED)pause(true)}else if(AC)AC.resume()});
-document.addEventListener('gesturestart',e=>e.preventDefault());
+function audio(){if(!AC){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;try{AC=new A()}catch(e){return null}}if(AC.state!=='running'){try{AC.resume().catch(()=>{})}catch(e){}}return AC}
+/* giải mã: Safari cũ chỉ có dạng callback */
+const decode=ab=>new Promise((ok,no)=>{try{const r=AC.decodeAudioData(ab,ok,no);if(r&&r.then)r.then(ok,no)}catch(e){no(e)}});
+/* nạp tiếng hiệu ứng; tệp tải hỏng thì lần chạm sau thử lại, tối đa 3 lần */
+function sfxLoad(){if(!AC)return;for(const k in SFX){if(SBUF[k]&&SBUF[k].ctx===AC||SREQ[k]||(SFAIL[k]||0)>=3)continue;SREQ[k]=1;const ctx=AC;
+  fetch('../sfx/'+SFX[k]+'.mp3').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(decode).then(b=>{SBUF[k]={b,ctx};SREQ[k]=0},()=>{SREQ[k]=0;SFAIL[k]=(SFAIL[k]||0)+1})}}
+let SFXG=null;function sfxOut(){if(!SFXG||SFXG.context!==AC){SFXG=AC.createGain();const cp=AC.createDynamicsCompressor();cp.threshold.value=-10;cp.ratio.value=12;SFXG.connect(cp);cp.connect(AC.destination);SFXG.gain.value=1}return SFXG}
+function beep(f,d,type='sine',v=.12){const a=AC;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v*3,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.connect(g);g.connect(sfxOut());o.start();o.stop(a.currentTime+d+.02)}
+function sfx(n){if(!SND||!AC||AC.state!=='running')return;try{const B=SBUF[n];if(B&&B.ctx===AC){const s=AC.createBufferSource(),g=AC.createGain();g.gain.value=n==='fry'?.25:.5;s.buffer=B.b;s.connect(g);g.connect(AC.destination);s.start();return}
+  if(n==='pop')beep(620,.08,'triangle',.14);else if(n==='tick')beep(980,.05,'square',.05);else if(n==='err')beep(180,.18,'sawtooth',.08);else if(n==='cash'){beep(1320,.08);setTimeout(()=>AC&&beep(1760,.12),70)}else if(n==='win'){beep(880,.1);setTimeout(()=>AC&&beep(1320,.15),90)}else if(n==='fry')beep(300,.06,'triangle',.05)}catch(e){}}
+/* nhạc: 12 bài phát lần lượt (thứ tự xáo mỗi lần mở game), mỗi lúc giữ một bài đã giải mã; tải hỏng 3 lần liền thì thôi (chỉ còn tiếng hiệu ứng) */
+const REC_KEYS=['cozy','cafelofi','lofisunny','bossasunny','bossacafe','ukulele','sunny','cats','coffeeshop','jazzmorning','gentle-fields','red-river-valley'].sort(()=>Math.random()-.5);
+const MUS={on:false,rs:null,rg:null,rk:REC_KEYS[0],buf:null,bk:null,fail:0,dead:0,chk:0};
+function recLoad(k){if(MUS.bk===k&&MUS.buf&&MUS.bctx===AC)return Promise.resolve(MUS.buf);const ctx=AC;
+  return fetch('../nhac/'+k+'.mp4').then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}).then(decode).then(b=>{if(ctx!==AC)throw 0;MUS.buf=b;MUS.bk=k;MUS.bctx=AC;return b})}
+function recStop(){if(MUS.rs){const s=MUS.rs;MUS.rs=null;try{s.onended=null;s.stop()}catch(e){}}}
+function recPlay(k){MUS.rk=k;recLoad(k).then(b=>{if(!MUS.on||MUS.rk!==k||!AC)return;recStop();
+    try{if(!MUS.rg||MUS.rg.context!==AC){MUS.rg=AC.createGain();MUS.rg.gain.value=.22;MUS.rg.connect(AC.destination)}
+      const s=AC.createBufferSource();s.buffer=b;s.connect(MUS.rg);s.onended=()=>{if(MUS.rs===s&&MUS.on){MUS.rs=null;recPlay(REC_KEYS[(REC_KEYS.indexOf(k)+1)%REC_KEYS.length])}};s.start();MUS.rs=s;MUS.fail=0}
+    catch(e){MUS.on=false}},
+  ()=>{MUS.on=false;MUS.fail++})}
+function startMusic(){if(!MUSON||MUS.on||document.hidden||MUS.fail>=3||!audio())return;MUS.on=true;recPlay(MUS.rk)}
+function stopMusic(){MUS.on=false;recStop()}
+function music(on){MUSON=on;try{localStorage.setItem('cv2_mus',on?'1':'0')}catch(e){}if(on){MUS.fail=0;startMusic()}else stopMusic()}
+function wakeAudio(e){if(document.hidden)return;const real=e&&/^(touchend|click|keydown)$/.test(e.type);
+  if(real&&MUS.dead&&AC){MUS.dead=0;try{AC.close()}catch(x){}AC=null;MUS.rs=null;MUS.on=false;SFXG=null}
+  if(!SND&&!MUSON)return;if(!audio())return;sfxLoad();
+  if(AC.state!=='running'&&real&&!MUS.chk){MUS.chk=1;setTimeout(()=>{MUS.chk=0;if(AC&&AC.state!=='running'&&!document.hidden)MUS.dead=1},1200)}
+  if(MUSON&&!MUS.on)startMusic()}
+['touchstart','touchend','pointerdown','click','keydown'].forEach(ev=>document.addEventListener(ev,wakeAudio,{passive:true,capture:true}));
+window.addEventListener('pageshow',()=>{if(AC&&!document.hidden){try{AC.resume().catch(()=>{})}catch(e){}}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(AC)try{AC.suspend().catch(()=>{})}catch(e){}if(D&&!PAUSED)pause(true)}
+  else if(AC){try{AC.resume().catch(()=>{})}catch(e){}if(MUSON&&!MUS.on)startMusic()}});
+/* chống phóng to: iOS bỏ qua user-scalable=no nên chặn cử chỉ, chạm hai lần liền nhau ngoài nút/canvas, kéo hai ngón */
+['gesturestart','gesturechange','gestureend'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+{let lastTE=0;document.addEventListener('touchend',e=>{if(e.target.closest&&e.target.closest('input,textarea,select,button,a,canvas'))return;const n=e.timeStamp;if(n-lastTE<350&&e.cancelable)e.preventDefault();lastTE=n},{passive:false})}
+document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1&&e.cancelable)e.preventDefault()},{passive:false});
+document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
 
 /* ===================== toast ===================== */
 let toT=0;function toast(m,ms=1400){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toT);toT=setTimeout(()=>t.classList.remove('show'),ms)}
@@ -166,15 +198,18 @@ $('#toMarket').onclick=()=>{if(!S.menu.length)return toast('📋 Thêm món đã
 /* ---- xiên món: chạm/giữ tô viên để xiên lên que, chạm que để gỡ viên cuối ---- */
 let E=null,PW=0,PH=0,PR=[],PRAF=0,PD=null;const PC=mk($('#pc'),160,200);
 const edItems=()=>Object.keys(ITEMS).filter(k=>!ITEMS[k].rare||k===(S.mk&&S.mk.rare)||(E&&E.v.includes(k)));
-function edOpen(i){E={i,v:i>=0?[...S.menu[i].v]:[]};$('#edOv').hidden=false;$('#edDel').hidden=i<0;edHead();if(!PRAF)PRAF=requestAnimationFrame(edFrame)}
+function edOpen(i){E={i,v:i>=0?[...S.menu[i].v]:[]};$('#edOv').hidden=false;$('#edDel').hidden=i<0;edHead();PRAF=0;edKick()}
 function edHead(){const m={v:E.v},r=E.v.length===5&&recipeOf(m);$('#edHead').innerHTML=E.v.length?`<b>${r&&S.coll.recipe[r.id]?'📜 ':''}${mName(m)}</b> · ${fk(priceM(m))} <span class="faces">${E.v.length===5?likeFaces(m):''}</span>`:'<b>🍢 0/5</b>';$('#edOk').disabled=E.v.length<5}
 function edAdd(k){if(E.v.length>=5)return false;E.v.push(k);sfx('pop');edHead();return E.v.length<5}
 function edUndo(){if(!E.v.length)return;E.v.pop();sfx('tick');edHead()}
-function edClose(){E=null;$('#edOv').hidden=true;cancelAnimationFrame(PRAF);PRAF=0;PD=null;renderMenu()}
+function edClose(){E=null;$('#edOv').hidden=true;if(PRAF>0)cancelAnimationFrame(PRAF);clearTimeout(EFT);PRAF=0;PD=null;renderMenu()}
 $('#edOk').onclick=()=>{if(E.v.length<5)return;const m={v:E.v};if(E.i>=0)S.menu[E.i]=m;else S.menu.push(m);save();sfx('win');edClose()};
 $('#edDel').onclick=()=>{if(E.i>=0)S.menu.splice(E.i,1);save();edClose()};
 $('#edX').onclick=()=>edClose();
-function edFrame(ts){PRAF=0;if(!E)return;if(PD&&ts>=PD.nx){PD.nx=ts+150;if(PD.f()===false)PD=null}drawEd();PRAF=requestAnimationFrame(edFrame)}
+/* khung xiên chỉ đứng yên: vẽ lại liền khi đang giữ ngón, còn lại 4 lần/giây (để bắt kịp đổi cỡ); chạm thì edKick vẽ ngay */
+let EFT=0;function edFrame(ts){PRAF=0;if(!E)return;if(PD&&ts>=PD.nx){PD.nx=ts+150;if(PD.f()===false)PD=null}drawEd();
+  if(PD)PRAF=requestAnimationFrame(edFrame);else{PRAF=-1;EFT=setTimeout(()=>{EFT=0;if(PRAF===-1)PRAF=requestAnimationFrame(edFrame)},250)}}
+function edKick(){if(!E)return;clearTimeout(EFT);if(PRAF>0)return;PRAF=requestAnimationFrame(edFrame)}
 function drawEd(){if(!PW||!PH)return;PC.LH=160*PH/PW;fit(PC,PW,PH);begin(PC);const W=160,H=PC.LH;PR=[];
   RR(0,0,W,H,0,'#f1d9ad',null);for(let y=4;y<H;y+=7)LN(0,y,W,y,'rgba(122,86,70,.12)',.5);
   const qh=Math.min(H*.4,74),qs=Math.min(6,(qh-8)/(5*2.15+2));RR(W/2-20,3,40,qh,6,'rgba(255,250,240,.75)',LINE,.5);xeQueV(E.v,W/2,3+qh-qs*1.6-3,qs,null);
@@ -185,7 +220,7 @@ function drawEd(){if(!PW||!PH)return;PC.LH=160*PH/PW;fit(PC,PW,PH);begin(PC);con
     if(!drawSprite(SPR[k],r.x+2,r.y+2,r.w-4,r.h-11))drawPiece(k,r.x+r.w/2,r.y+r.h/2,4,ITEMS[k].col);TF(ITEMS[k].n,r.x+r.w/2,r.y+r.h-4.5,3.6,INK,r.w-2);
     PR.push({...r,f:()=>edAdd(k)})})}
 $('#pc').addEventListener('pointerdown',e=>{if(!E)return;const b=e.currentTarget.getBoundingClientRect(),x=(e.clientX-b.left)*160/b.width,y=(e.clientY-b.top)*PC.LH/b.height;
-  const R=PR.find(R=>x>=R.x&&x<=R.x+R.w&&y>=R.y&&y<=R.y+R.h);if(!R)return;e.preventDefault();try{e.currentTarget.setPointerCapture(e.pointerId)}catch(_){}if(R.f()!==false)PD={f:R.f,nx:performance.now()+300}});
+  const R=PR.find(R=>x>=R.x&&x<=R.x+R.w&&y>=R.y&&y<=R.y+R.h);if(!R)return;e.preventDefault();try{e.currentTarget.setPointerCapture(e.pointerId)}catch(_){}if(R.f()!==false)PD={f:R.f,nx:performance.now()+300};edKick()});
 ['pointerup','pointercancel'].forEach(ev=>$('#pc').addEventListener(ev,()=>{PD=null}));
 
 /* ===================== đi chợ ===================== */
@@ -666,9 +701,11 @@ let now=0,last=0,RAF=0,lastX=0;
 function frame(ts){RAF=0;if(!D)return;const sec=ts/1000,dt=Math.min(.1,Math.max(0,sec-last))*SPEED;last=sec;
   if(!PAUSED&&$('#stopOv').hidden){let r=dt;while(r>1e-6){const d=Math.min(r,.1);now+=d;tick(d);if(!D||!$('#stopOv').hidden)break;r-=d}holdTick()}
   if(!D)return;drawScene();drawXe();if(ts-lastX>120){lastX=ts;renderXord()}
-  RAF=requestAnimationFrame(frame)}
+  /* đỡ tốn pin (bài học từ Bobơ: xin rAF liên tục đánh thức máy 60–120 lần/giây): 20 hình/giây, đang kéo/giữ thì 30; giữa hai lần vẽ ngủ bằng setTimeout */
+  const busy=!!XD,nx=1000/(busy?30:20)-(performance.now()-ts)-4;if(nx>6){RAF=-1;FT=setTimeout(()=>{FT=0;if(RAF===-1)RAF=requestAnimationFrame(frame)},nx)}else RAF=requestAnimationFrame(frame)}
+let FT=0;
 function loop(){if(!RAF){last=performance.now()/1000;RAF=requestAnimationFrame(frame)}}
-function stopLoop(){if(RAF)cancelAnimationFrame(RAF);RAF=0}
+function stopLoop(){if(RAF>0)cancelAnimationFrame(RAF);clearTimeout(FT);FT=0;RAF=0}
 function pause(on){PAUSED=on;$('#pauseOv').hidden=!on;$('#sndBtn').textContent=SND?'🔊 Âm thanh':'🔇 Âm thanh';$('#musBtn').textContent=MUSON?'🎵 Nhạc':'🔕 Nhạc'}
 $('#pauseBtn').onclick=()=>pause(true);$('#resumeBtn').onclick=()=>pause(false);
 $('#sndBtn').onclick=()=>{SND=!SND;localStorage.setItem('cv2_snd',SND?'1':'0');pause(true)};
