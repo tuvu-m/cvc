@@ -145,6 +145,18 @@ const DEF={hit:['Ăn ở đây 3 năm chưa thấy cháy bao giờ!','Bạn đ�
 const REPLY={thx:['Cảm ơn bạn nhiều nha! Mai ghé tiếp nhé 💛','Cảm ơn nha, chúc bạn một ngày vui!','Thương ghê, cảm ơn bạn!'],
   sorry:['Xin lỗi bạn, lần sau mình làm kỹ hơn ạ 🙏','Dạ em xin lỗi, mai ghé em tặng thêm que nha!','Cảm ơn góp ý, mình sửa liền ạ!'],
   sass:['Ủa vậy hả, chắc bạn ăn nhầm xe bên cạnh 😏','Khẩu vị mỗi người mỗi khác mà 😜','Lần sau nhớ tới sớm nha 😎']};
+/* khách đáp lại câu trả lời: theo kiểu trả lời + kết quả (up/down/buzz/love) hoặc review tốt (good) / chê (bad) */
+const BACK={
+  thx:{love:['Hehe mai mình rủ cả nhóm ghé luôn! 🥰','Xe dễ thương ghê, ủng hộ dài dài nha!','Đã follow, mai gặp lại nha chủ xe 💛'],
+    good:['Dạ không có chi, ngon thì khen thôi 😋','Hihi, mai ghé tiếp!','Nhớ giữ phong độ nha 👍'],
+    bad:['Cảm ơn gì, sửa đi chứ 😑','Ủa mình chê mà cảm ơn là sao 😶','Cảm ơn thì được, lần sau làm kỹ nha.']},
+  sorry:{up:['Thôi được, thêm 1 sao nè, lần sau ngon hơn nha!','Thấy thành ý nên sửa review đó 😌','Ok bỏ qua, mai mình thử lại!'],
+    bad:['Hứa rồi đó nha, mai mình kiểm tra 👀','Xin lỗi thì ít, tặng que thì nhiều nha 😤','Để coi lần sau sao đã…'],
+    good:['Ủa có gì đâu mà xin lỗi, ngon mà 😂','Xin lỗi gì trời, khen thiệt mà!','Chủ xe khiêm tốn ghê 🤭']},
+  sass:{down:['Thái độ vậy hả?! Trừ thêm sao! 😤','Trả lời khách vậy đó hả, bye!','Chụp màn hình gửi group rồi nha 📸'],
+    buzz:['Haha xe này lầy ghê, mai dắt bạn tới coi 🤣','Ủa cà khịa duyên vậy, chịu luôn 😂','Ok chủ xe thắng, mai ghé ăn tiếp 🤝'],
+    bad:['Ừ thì… 🙄','Cãi hoài, không nói nữa 😒','Thôi kệ, ai ăn người nấy biết.'],
+    good:['Ủa mình khen mà?? 😳','Khen cũng bị cà khịa là sao 🥲','Chủ xe mặn ghê 🧂😆']}};
 
 /* ===================== sưu tập ===================== */
 /* que bí truyền: ghép đúng 5 viên (thứ tự nào cũng được) và bán ít nhất một que thì mở; món đó bán đắt hơn 15% */

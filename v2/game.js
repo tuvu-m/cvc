@@ -336,7 +336,9 @@ function defend(r,R,auto){const pow=R.love+R.visits*.5+rnd(0,6),gat=(6-r.s)*1.5+
 function replyRv(r,kind){if(r.rep)return;r.rep={kind,txt:pick(REPLY[kind])};
   if(kind==='sorry'&&r.s<=3&&Math.random()<.45){r.s++;r.edit=1;r.rep.res='⬆️'}
   else if(kind==='sass'){if(Math.random()<.5){r.s=Math.max(1,r.s-1);r.edit=1;r.rep.res='⬇️'}else if(Math.random()<.4){S.buzz=(S.buzz||0)+ri(2,5);r.rep.res='🔥'}}
-  else if(kind==='thx'&&r.s>=4&&Math.random()<.3){S.buzz=(S.buzz||0)+1;r.rep.res='💛'}save()}
+  else if(kind==='thx'&&r.s>=4&&Math.random()<.3){S.buzz=(S.buzz||0)+1;r.rep.res='💛'}
+  const res={'⬆️':'up','⬇️':'down','🔥':'buzz','💛':'love'}[r.rep.res],B=BACK[kind],good=r.s-(r.rep.res==='⬆️'?1:r.rep.res==='⬇️'?-1:0)>=4;
+  r.rep.back=pick(B[res]||(good?B.good:B.bad));save()}
 
 /* ===================== sưu tập, huy hiệu ===================== */
 const ACH=[
@@ -382,7 +384,7 @@ function rvHTML(){const R=S.reviews.slice().reverse(),r=rating(),cnt=s=>S.review
   h+=`<div class="filt">${F.map(([k,n])=>`<button class="${RVF===k?'on':''}" data-rvf="${k}">${n}</button>`).join('')}</div>`;
   h+=L.slice(0,40).map(x=>`<div class="rv ${x.s<=2?'bad':''}"><div class="rvh"><img src="${img(x.spr)}" alt=""><b>${esc(x.name)}</b><span class="s">${'★'.repeat(x.s)}${x.edit?'<small> ✎</small>':''}</span><small>N${x.day}${x.w>1?' · 📹':''}</small></div><p>${esc(x.t)}</p>
     ${x.def?`<div class="def ${x.def.win?'win':'lose'}"><img src="${img(x.def.spr)}" alt=""><div><b>💛 ${esc(x.def.nick)}:</b> ${esc(x.def.txt)}<br><i>↪ ${esc(x.def.back)} … ${esc(x.def.end)}</i></div></div>`:''}
-    ${x.rep?`<div class="rep">🍢 ${esc(x.rep.txt)} ${x.rep.res||''}</div>`:`<div class="ra">${x.s<=2&&!x.fought&&S.regs.length?`<button class="btn sm" data-fight="${x.id}">⚔️</button>`:''}<button class="btn sm ghost" data-rp="${x.id}" data-k="thx" aria-label="Cảm ơn">💛</button><button class="btn sm ghost" data-rp="${x.id}" data-k="sorry" aria-label="Xin lỗi">🙏</button><button class="btn sm ghost" data-rp="${x.id}" data-k="sass" aria-label="Cà khịa">😏</button></div>`}</div>`).join('')||'<p class="empty">—</p>';
+    ${x.rep?`<div class="rep">🍢 ${esc(x.rep.txt)} ${x.rep.res||''}</div>${x.rep.back?`<div class="rback"><img src="${img(x.spr)}" alt=""><span>↪ ${esc(x.rep.back)}</span></div>`:''}`:`<div class="ra">${x.s<=2&&!x.fought&&S.regs.length?`<button class="btn sm" data-fight="${x.id}">⚔️</button>`:''}<button class="btn sm ghost" data-rp="${x.id}" data-k="thx" aria-label="Cảm ơn">💛</button><button class="btn sm ghost" data-rp="${x.id}" data-k="sorry" aria-label="Xin lỗi">🙏</button><button class="btn sm ghost" data-rp="${x.id}" data-k="sass" aria-label="Cà khịa">😏</button></div>`}</div>`).join('')||'<p class="empty">—</p>';
   return h}
 document.addEventListener('click',e=>{const f=e.target.closest('[data-rvf]'),p=e.target.closest('[data-rp]'),g=e.target.closest('[data-fight]');
   if(f){RVF=f.dataset.rvf;sfx('tick');return renderHub()}
