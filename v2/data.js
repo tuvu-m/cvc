@@ -141,22 +141,54 @@ const DEF={hit:['Ăn ở đây 3 năm chưa thấy cháy bao giờ!','Bạn đ�
   back:['Tui ăn sao nói vậy!','Fan cuồng à?','Ai mướn bênh vậy?','Ủa liên quan?','Thôi né!'],
   win:['Thôi được, chắc hôm đó xui.','Ờ… để mai ăn lại xem.','Ok ok, tui sửa sao.','Nói vậy thì tui thử lại.'],
   lose:['Tui vẫn giữ ý kiến!','Không sửa đâu!','Kệ tui!']};
-/* chủ xe trả lời review */
-const REPLY={thx:['Cảm ơn bạn nhiều nha! Mai ghé tiếp nhé 💛','Cảm ơn nha, chúc bạn một ngày vui!','Thương ghê, cảm ơn bạn!'],
-  sorry:['Xin lỗi bạn, lần sau mình làm kỹ hơn ạ 🙏','Dạ em xin lỗi, mai ghé em tặng thêm que nha!','Cảm ơn góp ý, mình sửa liền ạ!'],
-  sass:['Ủa vậy hả, chắc bạn ăn nhầm xe bên cạnh 😏','Khẩu vị mỗi người mỗi khác mà 😜','Lần sau nhớ tới sớm nha 😎']};
+/* chủ xe trả lời review: theo kiểu (💛 thx, 🙏 sorry, 😏 sass), review khen (g) hay chê (b), lý do review nhắc tới (r.why, _ là câu chung);
+   {x} gọi khách ("chú Ba"), {X} viết hoa, {t} chủ xe tự xưng (con/em/mình), {m} món, {s} sốt, {k} viên hết, {p} giá */
+const REPLY={
+  thx:{g:{_:['Cảm ơn {x} nhiều nha! Mai ghé tiếp nhé 💛','Thương {x} ghê, cảm ơn nha!','Cảm ơn {x}, chúc {x} một ngày vui!','{X} khen vậy {t} chiên hăng say luôn 🔥','Được {x} khen là mai {t} dậy sớm chiên tiếp nè!','Cảm ơn {x}, nhớ ghé thường xuyên nha 🍢','Đọc review mà {t} vui cả buổi, cảm ơn {x}!','Cảm ơn {x} đã ủng hộ xe nhỏ của {t} 🙆','{X} dễ thương quá, lần sau {t} xịt sốt nhiều hơn nha!','Hihi cảm ơn {x}, mê {x} luôn 😍','Mai {x} ghé {t} tặng thêm viên nha 💛','Có {x} ủng hộ là có động lực liền!'],
+      crisp:['Bí quyết là dầu nóng vừa tới đó {x} 😎','{t} canh từng giây cho {m} vàng giòn đó nha!','Giòn vậy là nhờ {t} vớt đúng lúc á!','Cảm ơn {x}, {m} phải giòn mới đáng tiền chứ!'],
+      fast:['Tay {t} luyện cả năm mới nhanh vậy đó 😎','Nhanh là nghề của {t} rồi!','Không để {x} chờ lâu là nguyên tắc của xe!','Cảm ơn {x}, mai {t} chiên còn nhanh hơn nữa!'],
+      sauce:['{s} là sốt tủ của xe luôn đó {x}!','{t} tự pha {s} mỗi sáng đó nha 🥫','Mê {s} thì mai ghé {t} xịt đậm hơn nha!','Sốt ngon là nhờ {x} chọn khéo á!'],
+      price:['Giá vậy để ai cũng ăn được mà {x}!','Ăn no mà không xót ví là đúng ý {t} rồi 💸','Giá hạt dẻ, chất lượng hạt kim cương 😆'],
+      cat:['Hai bé mèo gửi lời cảm ơn {x} 🐱','Chub với Bim được khen là kiêu lắm á 😹','Mai {x} ghé vuốt mèo tiếp nha, tụi nó nhớ {x} đó!'],
+      combo:['Đông cỡ nào {t} cũng không lộn đơn đâu!','Cảm ơn {x} đã kiên nhẫn lúc đông nha!'],
+      rain:['Mưa mà {x} vẫn ghé, thương ghê ☔','Trời mưa ăn đồ chiên là chân ái mà!'],
+      night:['Xe mở khuya để {x} có chỗ ăn đó 🌙','Đói khuya cứ ghé {t} nha!'],
+      recipe:['{X} biết món bí truyền là sành ăn rồi đó 📜','Que {m} là niềm tự hào của xe đó {x}!']},
+    b:{_:['Cảm ơn {x} đã góp ý nha!','Cảm ơn {x}, {t} ghi nhận ạ.','{t} cảm ơn {x} đã nói thẳng 🙏','Cảm ơn {x}, mai {t} sẽ làm tốt hơn!','Góp ý của {x} quý lắm, cảm ơn nha.'],
+      burnt:['Cảm ơn {x} nhắc, mai {t} canh lửa kỹ hơn.'],cold:['Cảm ơn {x}, {t} sẽ chiên mới cho nóng.'],slow:['Cảm ơn {x} đã chờ {t} nha.'],miss:['Cảm ơn {x}, mai {t} mua thêm {k}.']}},
+  sorry:{g:{_:['Dạ {t} còn nhiều thiếu sót lắm ạ 🙏','Khen vậy chứ {t} còn phải cố nhiều!','{t} xin lỗi vì… quá ngon 😅','Dạ {t} chưa làm được gì nhiều đâu {x}!','Xin lỗi {x} vì để {x} ghiền 😆']},
+    b:{_:['Xin lỗi {x}, lần sau {t} làm kỹ hơn ạ 🙏','Dạ {t} xin lỗi, mai ghé {t} tặng thêm que nha!','Cảm ơn góp ý, {t} sửa liền ạ!','{t} xin lỗi {x} nhiều lắm 😢','Hôm đó {t} sơ suất, mong {x} cho thêm cơ hội ạ!','Xin lỗi {x}, lần sau {t} bù thêm sốt nha!','Dạ {t} biết lỗi rồi, {x} bỏ qua cho {t} nha 🥺','{t} xin lỗi, review của {x} {t} dán lên xe để nhắc mình luôn!'],
+      burnt:['Xin lỗi {x}, hôm đó {t} lỡ tay để {m} cháy 😭','Dạ {t} sẽ canh chảo kỹ hơn, xin lỗi {x}!','Xin lỗi {x}, que cháy đó lẽ ra {t} phải bỏ đi!','Lửa to quá {t} không để ý, xin lỗi {x} nhiều!'],
+      cold:['Xin lỗi {x}, lẽ ra {t} phải chiên mới cho {x}!','Dạ {t} sẽ không đưa que nguội nữa ạ 🙏','Xin lỗi {x}, lần sau {t} chiên nóng hổi tại chỗ!'],
+      slow:['Xin lỗi để {x} chờ lâu, hôm đó đông quá 😓','Dạ {t} sẽ thuê thêm người phụ, xin lỗi {x}!','Xin lỗi {x}, lần sau {t} ưu tiên {x} liền!','{t} xin lỗi, tay chiên tay giao nên chậm ạ 🙏'],
+      sauce:['Xin lỗi {x}, {t} xịt nhầm sốt rồi 😣','Dạ lần sau {t} hỏi lại sốt cho chắc ạ!','Xin lỗi {x}, mai ghé {t} xịt đúng {s} gấp đôi!'],
+      price:['Xin lỗi {x}, {t} sẽ xem lại giá ạ.','Dạ giá chợ tăng nên {t} phải tăng, xin lỗi {x} 🙏','Mai {x} ghé {t} bớt cho {x} nha!'],
+      miss:['Xin lỗi {x}, hôm đó {t} hết {k} sớm quá 😢','Dạ mai {t} mua thêm {k} để dành cho {x} nha!','Xin lỗi {x}, {k} bán chạy quá {t} không kịp mua thêm!'],
+      quit:['Xin lỗi để {x} chờ tới bỏ về, {t} áy náy lắm 😢','Dạ lần sau {x} ghé {t} làm cho {x} trước!','Xin lỗi {x}, {t} hứa không để ai chờ vậy nữa!'],
+      crowd:['Xin lỗi {x}, hôm đó đông quá {t} không xoay kịp 🙏','Dạ {t} sẽ mở thêm chỗ, xin lỗi {x} nha!']}},
+  sass:{g:{_:['Biết ngon rồi mà còn nói 😏','Khen ít vậy thôi hả {x}? 😜','Ngon vậy mà chỉ khen nhiêu đó à 😎','Biết ngay {x} sẽ quay lại mà 😏','Lại một người bị {t} chinh phục 😎','Nói nhỏ thôi kẻo xe bên cạnh nghe 🤫'],
+      cat:['Mèo của {t} chảnh lắm đó, được vuốt là may 😼'],price:['Rẻ vậy chứ đừng mua hết của {t} nha 😏'],fast:['Nhanh vậy là còn chậm đó {x} 😎']},
+    b:{_:['Ủa vậy hả, chắc {x} ăn nhầm xe bên cạnh 😏','Khẩu vị mỗi người mỗi khác mà 😜','Lần sau nhớ tới sớm nha {x} 😎','Cả xóm khen mà {x} chê là sao ta 🤔','Chắc hôm đó {x} đói quá nên khó tính 😏','{X} review vậy {t} buồn 3 giây thôi 😜','Không ngon thì sao {x} ăn hết vậy? 🤨','Ok {x}, để {t} báo mèo cắn {x} 😼'],
+      burnt:['Cháy là phiên bản đặc biệt đó {x} 😏','Giòn quá tay thôi mà {x} 😜','{X} không biết ăn đồ "xém" là trend à? 🔥','Than hoa giải độc đó {x} 😎'],
+      cold:['Ăn nguội cho mát mà {x} 😜','{X} đi chậm nên nó nguội đó chứ 😏','Đồ nguội mới thấm sốt nha {x} 🧊'],
+      slow:['Đồ ngon phải chờ chứ {x} 😏','Chờ chút mà than, đi ăn mì gói đi {x} 😜','{X} đứng chờ là đang tập thể dục đó 🏃','Chậm mà chắc nha {x} 😎'],
+      sauce:['Sốt nào chẳng là sốt {x} 😜','Đổi vị cho {x} khám phá đó 😏','{t} xịt theo cảm hứng nghệ sĩ á 🎨'],
+      price:['Tiền nào của nấy nha {x} 😏','{p} mà chê đắt thì {x} ăn không khí nha 😜','Giá này là ưu đãi cho người đẹp rồi đó 😎'],
+      miss:['Ngon quá nên hết sớm, ai bảo {x} tới trễ 😏','{k} bán đắt như tôm tươi mà {x} 😎','Mai tới sớm thì có {k} nha {x} 😜'],
+      quit:['Bỏ về là {x} thiệt chứ {t} đâu thiệt 😏','Kiên nhẫn là một đức tính đó {x} 😜','Lần sau mang ghế theo nha {x} 🪑'],
+      crowd:['Đông vậy là biết ngon rồi đó {x} 😎','Muốn ăn ngon thì phải chen nha {x} 😏']}}};
 /* khách đáp lại câu trả lời: theo kiểu trả lời + kết quả (up/down/buzz/love) hoặc review tốt (good) / chê (bad) */
 const BACK={
-  thx:{love:['Hehe mai mình rủ cả nhóm ghé luôn! 🥰','Xe dễ thương ghê, ủng hộ dài dài nha!','Đã follow, mai gặp lại nha chủ xe 💛'],
-    good:['Dạ không có chi, ngon thì khen thôi 😋','Hihi, mai ghé tiếp!','Nhớ giữ phong độ nha 👍'],
-    bad:['Cảm ơn gì, sửa đi chứ 😑','Ủa mình chê mà cảm ơn là sao 😶','Cảm ơn thì được, lần sau làm kỹ nha.']},
-  sorry:{up:['Thôi được, thêm 1 sao nè, lần sau ngon hơn nha!','Thấy thành ý nên sửa review đó 😌','Ok bỏ qua, mai mình thử lại!'],
-    bad:['Hứa rồi đó nha, mai mình kiểm tra 👀','Xin lỗi thì ít, tặng que thì nhiều nha 😤','Để coi lần sau sao đã…'],
-    good:['Ủa có gì đâu mà xin lỗi, ngon mà 😂','Xin lỗi gì trời, khen thiệt mà!','Chủ xe khiêm tốn ghê 🤭']},
-  sass:{down:['Thái độ vậy hả?! Trừ thêm sao! 😤','Trả lời khách vậy đó hả, bye!','Chụp màn hình gửi group rồi nha 📸'],
-    buzz:['Haha xe này lầy ghê, mai dắt bạn tới coi 🤣','Ủa cà khịa duyên vậy, chịu luôn 😂','Ok chủ xe thắng, mai ghé ăn tiếp 🤝'],
-    bad:['Ừ thì… 🙄','Cãi hoài, không nói nữa 😒','Thôi kệ, ai ăn người nấy biết.'],
-    good:['Ủa mình khen mà?? 😳','Khen cũng bị cà khịa là sao 🥲','Chủ xe mặn ghê 🧂😆']}};
+  thx:{love:['Hehe mai mình rủ cả nhóm ghé luôn! 🥰','Xe dễ thương ghê, ủng hộ dài dài nha!','Đã follow, mai gặp lại nha chủ xe 💛','Share lên group ăn vặt liền 📱','Trả lời dễ thương vậy ai không ghé 😍'],
+    good:['Dạ không có chi, ngon thì khen thôi 😋','Hihi, mai ghé tiếp!','Nhớ giữ phong độ nha 👍','Có gì đâu, ngon thật mà!','Mai lại ghé ăn 10 que 😆','Chủ xe dễ thương quá 🥰','Ủa trả lời nhanh vậy, thích ghê!','Cảm ơn lại nè 🙆'],
+    bad:['Cảm ơn gì, sửa đi chứ 😑','Ủa mình chê mà cảm ơn là sao 😶','Cảm ơn thì được, lần sau làm kỹ nha.','Nói vậy thôi chứ mai vẫn ghé 😒','Thấy có tâm đó, cho thêm cơ hội.']},
+  sorry:{up:['Thôi được, thêm 1 sao nè, lần sau ngon hơn nha!','Thấy thành ý nên sửa review đó 😌','Ok bỏ qua, mai mình thử lại!','Xin lỗi dễ thương vậy ai giận nổi 🥺','Được rồi, sửa sao cho nè ⭐','Mai ghé nhớ tặng que như đã hứa nha 😏'],
+    bad:['Hứa rồi đó nha, mai mình kiểm tra 👀','Xin lỗi thì ít, tặng que thì nhiều nha 😤','Để coi lần sau sao đã…','Ừ, mong là lần sau khác.','Nói thì dễ, làm mới khó nha.','Thôi được, cho thêm một cơ hội.'],
+    good:['Ủa có gì đâu mà xin lỗi, ngon mà 😂','Xin lỗi gì trời, khen thiệt mà!','Chủ xe khiêm tốn ghê 🤭','Ủa sao khen mà bị xin lỗi 😆','Dễ thương quá, mai ghé tiếp!']},
+  sass:{down:['Thái độ vậy hả?! Trừ thêm sao! 😤','Trả lời khách vậy đó hả, bye!','Chụp màn hình gửi group rồi nha 📸','Bán buôn kiểu gì vậy trời 😡','Đã chê còn bị cà khịa, hạ sao! 👎','Thôi khỏi ghé luôn!'],
+    buzz:['Haha xe này lầy ghê, mai dắt bạn tới coi 🤣','Ủa cà khịa duyên vậy, chịu luôn 😂','Ok chủ xe thắng, mai ghé ăn tiếp 🤝','Trời ơi mặn mà, follow liền 😆','Chủ xe này đi diễn hài được đó 🎤','Cả group cười xỉu, mai kéo nhau ra 🤣'],
+    bad:['Ừ thì… 🙄','Cãi hoài, không nói nữa 😒','Thôi kệ, ai ăn người nấy biết.','Ủa bán hàng mà cãi khách à 😑','Ừ, giỏi lắm 🙃','Nói chung là vẫn chê nha!'],
+    good:['Ủa mình khen mà?? 😳','Khen cũng bị cà khịa là sao 🥲','Chủ xe mặn ghê 🧂😆','Haha chảnh ghê, mà thích 😆','Lần sau khen ít lại 😤']}};
 
 /* ===================== sưu tập ===================== */
 /* que bí truyền: ghép đúng 5 viên (thứ tự nào cũng được) và bán ít nhất một que thì mở; món đó bán đắt hơn 15% */

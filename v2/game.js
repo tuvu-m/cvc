@@ -316,16 +316,18 @@ const regName=R=>`${R.name} ${R.nick}`;
 function rvText(c,s,f){const T0=TYPES[c.type],P=[],mm=f.m!=null&&S.menu[f.m],m=mm?mName(mm).toLowerCase():'cá viên',sa=f.ss&&f.ss[0]?SAUCES[f.ss[0]].n.toLowerCase():'tương ớt',pr=mm?fk(priceM(mm)):'';
   const sub=x=>x.replace('{m}',m).replace('{s}',sa).replace('{p}',pr).replace('{k}',f.k?ITEMS[f.k].n.toLowerCase():m).replace('{r}',f.rec||m),cap=x=>x[0].toUpperCase()+x.slice(1);
   P.push(pick(RV.open[s]));
-  if(s>=4){const pool=[];if(!f.burnt&&!f.cold)pool.push(...RV.good.crisp);if(f.fast)pool.push(...RV.good.fast);if(f.ss&&f.ss.length&&!f.sauceBad)pool.push(...RV.good.sauce);if(T0.sens<=1.1)pool.push(...RV.good.price);
-    if(Math.random()<.25)pool.push(...RV.good.cat);if(f.combo)pool.push(...RV.good.combo);if(S.weather==='mua')pool.push(...RV.good.rain);if(f.night)pool.push(...RV.good.night);if(f.rec)pool.push(...RV.good.recipe);
-    const a=pick(pool),b=pick(pool.filter(x=>x!==a));P.push(cap(sub(a))+(b&&Math.random()<.5?', '+sub(b):'')+'.')}
-  else{const pool=[];if(f.burnt)pool.push(...RV.bad.burnt);if(f.cold)pool.push(...RV.bad.cold);if(f.slow)pool.push(...RV.bad.slow);if(f.sauceBad)pool.push(...RV.bad.sauce);if(f.quit)pool.push(...RV.bad.quit);if(f.miss)pool.push(...RV.bad.miss);if(f.crowd)pool.push(...RV.bad.crowd);
-    if(T0.sens>=1.4&&!pool.length)pool.push(...RV.bad.price);if(!pool.length)pool.push(...RV.bad.slow);P.push(cap(sub(pick(pool)))+'.')}
-  if(T0.rv&&Math.random()<.7)P.push(cap(pick(T0.rv))+(s>=4?'!':'.'));
+  /* chọn lý do trước (f.why, để chủ xe trả lời đúng chuyện), rồi câu */
+  f.ctx={m,s:sa,k:f.k?ITEMS[f.k].n.toLowerCase():m,p:pr};
+  if(s>=4){const cs=[];if(!f.burnt&&!f.cold)cs.push('crisp');if(f.fast)cs.push('fast');if(f.ss&&f.ss.length&&!f.sauceBad)cs.push('sauce');if(T0.sens<=1.1)cs.push('price');
+    if(Math.random()<.25)cs.push('cat');if(f.combo)cs.push('combo');if(S.weather==='mua')cs.push('rain');if(f.night)cs.push('night');if(f.rec)cs.push('recipe');if(!cs.length)cs.push('crisp');
+    f.why=pick(cs);const a=pick(RV.good[f.why]),b=pick(cs.flatMap(c=>RV.good[c]).filter(x=>x!==a));P.push(cap(sub(a))+(b&&Math.random()<.5?', '+sub(b):'')+'.')}
+  else{const cs=['burnt','cold','slow','quit','miss','crowd'].filter(c=>f[c]);if(f.sauceBad)cs.push('sauce');
+    if(T0.sens>=1.4&&!cs.length)cs.push('price');if(!cs.length)cs.push('slow');f.why=pick(cs);P.push(cap(sub(pick(RV.bad[f.why])))+'.')}
+  if(T0.rv&&s>=3&&Math.random()<.7)P.push(cap(pick(T0.rv))+(s>=4?'!':'.'));
   return P.join(' ')+' '+pick(RV.end[s])}
 /* viết review: 5★ 35%, 4★ 25%, 3★ 30%, ≤2★ 60%; reviewer luôn viết và nặng gấp 3 */
 function review(c,s,f){const p=c.type==='reviewer'?1:s>=5?.35:s>=4?.25:s>=3?.3:.6;if(Math.random()>p)return;
-  const r={id:'v'+(++S.rid),day:S.day,name:c.reg?regName(c.reg):c.name||genName(c.type),spr:c.spr,type:c.type,s,t:rvText(c,s,f),w:c.type==='reviewer'?3:1,loc:D.st.l};S.reviews.push(r);if(S.reviews.length>150)S.reviews.shift();
+  const r={id:'v'+(++S.rid),day:S.day,name:c.reg?regName(c.reg):c.name||genName(c.type),spr:c.spr,type:c.type,s,t:rvText(c,s,f),why:f.why,ctx:f.ctx,w:c.type==='reviewer'?3:1,loc:D.st.l};S.reviews.push(r);if(S.reviews.length>150)S.reviews.shift();
   /* khách quen tự vào bênh (có lúc) */
   if(s<=2&&S.regs.length&&Math.random()<Math.min(.6,.2+.03*S.regs.length))defend(r,pick(S.regs),true)}
 /* khách quen bênh review chê: sức của khách quen (độ thân, số lần ghé) đấu với độ gắt của người chê */
@@ -333,7 +335,12 @@ function defend(r,R,auto){const pow=R.love+R.visits*.5+rnd(0,6),gat=(6-r.s)*1.5+
   r.def={nick:regName(R),spr:R.spr,txt:pick(DEF.hit),back:pick(DEF.back),end:win?pick(DEF.win):pick(DEF.lose),win};
   if(win){r.w*=.3;if(Math.random()<.4){r.s=Math.min(5,r.s+1);r.edit=1}R.love++;S.stat.regWins++}else R.love=Math.max(0,R.love-1);
   if(!auto)sfx(win?'win':'err');return win}
-function replyRv(r,kind){if(r.rep)return;r.rep={kind,txt:pick(REPLY[kind])};
+/* câu trả lời: 65% nói đúng chuyện review nhắc (r.why), còn lại câu chung; xưng hô theo tên khách */
+function replyTxt(r,kind){const T=REPLY[kind][r.s>=4?'g':'b'],L=r.why&&T[r.why]&&Math.random()<.65?T[r.why]:T._;
+  const w=r.name.split(' '),x0=(w[0]||'bạn').toLowerCase(),x=x0==='bạn'||x0==='em'?x0:x0+(w[1]?' '+w[1]:''),t=['cô','bà','dì','chú','bác','ông'].includes(x0)?'con':['anh','chị'].includes(x0)?'em':'mình',c=r.ctx||{};
+  const out=pick(L).replace(/\{x\}/g,x).replace(/\{X\}/g,x[0].toUpperCase()+x.slice(1)).replace(/\{t\}/g,t).replace(/\{m\}/g,c.m||'cá viên').replace(/\{s\}/g,c.s||'tương ớt').replace(/\{k\}/g,c.k||'cá viên').replace(/\{p\}/g,c.p||'giá này');
+  return out[0].toUpperCase()+out.slice(1)}
+function replyRv(r,kind){if(r.rep)return;r.rep={kind,txt:replyTxt(r,kind)};
   if(kind==='sorry'&&r.s<=3&&Math.random()<.45){r.s++;r.edit=1;r.rep.res='⬆️'}
   else if(kind==='sass'){if(Math.random()<.5){r.s=Math.max(1,r.s-1);r.edit=1;r.rep.res='⬇️'}else if(Math.random()<.4){S.buzz=(S.buzz||0)+ri(2,5);r.rep.res='🔥'}}
   else if(kind==='thx'&&r.s>=4&&Math.random()<.3){S.buzz=(S.buzz||0)+1;r.rep.res='💛'}
