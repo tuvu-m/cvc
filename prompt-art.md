@@ -197,6 +197,18 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 
 ---
 
+## 23 · Bản mới v2: từng viên đồ chiên (chưa có)
+
+Que trên chảo, khay giao và thực đơn đang vẽ bằng code. Có hình từng viên thì game xiên hình đó lên que và tự phủ màu vàng → nâu → cháy theo độ chín, nên chỉ vẽ **viên sống**, nhìn thẳng, không que, không bóng đổ. Mỗi viên vuông vức trong ô, nền trong suốt hoặc xám trơn để cắt, khoảng 200px.
+
+Tên file: `p_cavien` (cá viên tròn vàng kem), `p_bovien` (bò viên tròn nâu có đốm), `p_tomvien` (tôm viên hồng cam có vằn), `p_mucvien` (mực viên trắng có chấm tím), `p_xucxich` (khúc xúc xích đỏ nằm ngang), `p_dauhu` (miếng đậu hũ phô mai vuông vàng), `p_chaca` (miếng chả cá dẹt), `p_khoailang` (thanh khoai lang kén), `p_tomhum`, `p_kani` (thanh cua trắng đỏ), `p_chabusan` (miếng chả Hàn gợn sóng), `p_xxduc` (xúc xích Đức nâu đỏ).
+
+```
+Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset sprite sheet of twelve single raw Vietnamese street-food fried snack pieces, each drawn alone straight from the front with no skewer and no shadow: fish ball, beef ball with dark specks, pink shrimp ball, white squid ball with purple dots, short red sausage, cheese tofu cube, flat fish cake, sweet potato stick, lobster ball, crab stick, wavy Korean fish cake, German sausage. Same size and line weight, fully separated with generous empty space, on a plain flat grey background.
+```
+
+---
+
 ## Phong cách dự phòng
 
 Thay đoạn STYLE ở đầu mỗi prompt bằng một trong hai đoạn này (giữ nguyên đoạn bố cục và phần mô tả món).

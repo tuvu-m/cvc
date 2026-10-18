@@ -131,7 +131,7 @@ const RV={
   good:{crisp:['Que {m} vàng ươm, giòn rụm','{m} chiên tới, cắn cái rộp','Viên nào viên nấy vàng đều'],fast:['ra món nhanh như chớp','chưa kịp lướt điện thoại đã có','chủ xe tay nhanh dã man'],
         sauce:['{s} xịt vừa miệng','{s} đậm đà','sốt {s} quá hợp'],price:['giá mềm','{p} một que mà no','giá sinh viên'],cat:['hai bé mèo dưới xe cute xỉu','bé mèo cam nằm ngủ dễ thương','vuốt mèo free'],
         combo:['xe đông mà vẫn chuẩn','đông nghẹt mà không lộn món'],rain:['trời mưa ăn nóng hổi đã ghê'],night:['tối ăn khuya hết sảy'],recipe:['que {r} đúng chuẩn bí truyền']},
-  bad:{burnt:['que {m} cháy khét lẹt','viên cháy đen như than','khét lẹt cả họng'],slow:['chờ dài cổ','đứng chờ muốn mọc rễ','đợi lâu quá trời'],
+  bad:{cold:['que {m} nguội ngắt','viên nguội, hết giòn','đồ chiên để nguội mất ngon'],burnt:['que {m} cháy khét lẹt','viên cháy đen như than','khét lẹt cả họng'],slow:['chờ dài cổ','đứng chờ muốn mọc rễ','đợi lâu quá trời'],
         sauce:['xịt nhầm {s}','sốt tùm lum','kêu {s} mà xịt sốt khác'],price:['{p} một que hơi chát','giá hơi cao so với xe đẩy'],miss:['không có {k} để ăn','hết {k} rồi còn bày'],
         quit:['đứng chờ xong bỏ về luôn','chờ hoài không tới lượt'],crowd:['đông quá không chen nổi']},
   end:{5:['🔥','😍','💯','🥰','⭐⭐⭐⭐⭐','❤️'],4:['👍','😋','🙂'],3:['😐','🤷'],2:['😕','👎'],1:['😤','💢','🤬']}

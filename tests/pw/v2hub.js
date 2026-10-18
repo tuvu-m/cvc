@@ -39,7 +39,7 @@ ok(await p.evaluate(()=>S.decor.includes('c_senda')&&perk('❤️')>0),'mua tran
 await p.screenshot({path:`out/v2h_decor_${W}.png`});
 await p.tap('#hubBack');await p.waitForTimeout(100);ok(await p.evaluate(()=>!$('#route').hidden),'← về màn sáng');
 /* lên cấp tới quán: chọn khu */
-await p.evaluate(()=>{S.lv=3;S.money=40e6;S.mk.day=-1;save();renderRoute()});await p.waitForTimeout(100);
+await p.evaluate(()=>{S.lv=3;S.money=60e6;S.mk.day=-1;save();renderRoute()});await p.waitForTimeout(100);
 ok(await p.evaluate(()=>document.querySelectorAll('.stop').length===8),'xe máy kéo: 4 điểm mỗi lộ trình (có khuya)');
 await p.evaluate(()=>lvUp());await p.waitForTimeout(100);ok(await p.evaluate(()=>!$('#pickOv').hidden&&document.querySelectorAll('[data-pq]').length>=5),'lên quán: chọn khu mở quán');
 await p.screenshot({path:`out/v2h_pick_${W}.png`});

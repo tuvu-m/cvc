@@ -115,19 +115,26 @@ const FRY_MIN=.85,FRY_OK=1.35,FRY_BURN=1.85;
 function cookCol(k,c){const raw=ITEMS[k]?ITEMS[k].col:'#f0d9a0';if(c==null)return raw;const g=mixCol([[raw,.3],[GOLD,.7]]);
   if(c<1)return mixCol([[raw,1-c*.7+.001],[GOLD,c*.7+.001]]);if(c<FRY_BURN){const f=(c-1)/(FRY_BURN-1);return mixCol([[g,1-f+.001],[BROWN,f+.001]])}
   const f=Math.min(1,(c-FRY_BURN)/.4);return mixCol([[BROWN,1-f+.001],[BURNT,f+.001]])}
-function drawPiece(k,x,y,s,col,rot=0){const sc=shade(col,-.38),c=K.ctx;
-  if(k==='xucxich'||k==='xxduc'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.5*s,-.62*s,3*s,1.24*s,.62*s,col,sc,.3);c.restore()}
-  else if(k==='kani'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.4*s,-.55*s,2.8*s,1.1*s,.3*s,col,sc,.3);c.restore()}
-  else if(k==='dauhu'){c.save();c.translate(x,y);c.rotate(rot*.3);RR(-.95*s,-.95*s,1.9*s,1.9*s,.45*s,col,sc,.3);EL(0,0,.42*s,.36*s,'#fff3b8',null);c.restore()}
-  else if(k==='chaca'||k==='chabusan')ELR(x,y,1.35*s,.82*s,rot*.4,col,sc,.3);
-  else if(k==='khoailang')ELR(x,y,1.5*s,.62*s,rot*.5+.4,col,sc,.3);
-  else{EL(x,y,s,s,col,sc,.3);if(k==='bovien'){EL(x+.35*s,y+.25*s,.16*s,.16*s,'rgba(60,30,20,.5)',null);EL(x-.3*s,y+.35*s,.12*s,.12*s,'rgba(60,30,20,.5)',null)}
+/* đổ khối: sáng ở góc trên trái, tối ở góc dưới phải (kiểu in risograph: màu phẳng hai tông, viền xanh đen mảnh) */
+const PG=(x,y,r,col)=>{const g=K.ctx.createRadialGradient(x-r*.35,y-r*.4,r*.1,x,y,r*1.05);g.addColorStop(0,shade(col,.28));g.addColorStop(.62,col);g.addColorStop(1,shade(col,-.22));return g};
+/* có hình vẽ tay từng viên (p_<mã>, prompt 23) thì dùng hình: phủ màu vàng/nâu theo độ chín lên chính hình (source-atop), lưu sẵn 8 mức */
+const PIM={};function pieceImg(k,c){const im=SPR['p_'+k];if(!(im&&im.width))return null;const lv=c==null?0:Math.min(7,Math.round(c*4));const key=k+lv;if(PIM[key])return PIM[key];
+  const cv=document.createElement('canvas');cv.width=im.width;cv.height=im.height;const x=cv.getContext('2d');x.drawImage(im,0,0);
+  if(lv){x.globalCompositeOperation='source-atop';x.globalAlpha=lv<=4?.12*lv:.5+.08*(lv-4);x.fillStyle=lv<=4?GOLD:lv<=6?BROWN:BURNT;x.fillRect(0,0,cv.width,cv.height)}return PIM[key]=cv}
+function drawPiece(k,x,y,s,col,rot=0,c0){const pi=pieceImg(k,c0);if(pi){const c=K.ctx,h=s*2.3,w=h*pi.width/pi.height;c.save();c.translate(x,y);c.rotate(rot*.15);c.drawImage(pi,-w/2,-h/2,w,h);c.restore();return}
+  const sc=LINE,c=K.ctx,lw=Math.max(.22,s*.13);
+  if(k==='xucxich'||k==='xxduc'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.5*s,-.62*s,3*s,1.24*s,.62*s,PG(0,0,1.2*s,col),sc,lw);LN(-1.1*s,-.15*s,1.1*s,-.15*s,'rgba(255,255,255,.35)',s*.14);LN(-.9*s,.25*s,-.6*s,.25*s,shade(col,-.3),s*.1);LN(.2*s,.25*s,.5*s,.25*s,shade(col,-.3),s*.1);c.restore()}
+  else if(k==='kani'){c.save();c.translate(x,y);c.rotate(rot);RR(-1.4*s,-.55*s,2.8*s,1.1*s,.3*s,'#fff4ea',sc,lw);RR(-1.4*s,-.55*s,2.8*s,.55*s,.3*s,col,null);c.restore()}
+  else if(k==='dauhu'){c.save();c.translate(x,y);c.rotate(rot*.3);RR(-.95*s,-.95*s,1.9*s,1.9*s,.45*s,PG(0,0,s,col),sc,lw);EL(.1*s,.15*s,.42*s,.36*s,'#fff3b8',null);c.restore()}
+  else if(k==='chaca'||k==='chabusan')ELR(x,y,1.35*s,.82*s,rot*.4,PG(x,y,1.2*s,col),sc,lw);
+  else if(k==='khoailang')ELR(x,y,1.5*s,.62*s,rot*.5+.4,PG(x,y,1.1*s,col),sc,lw);
+  else{EL(x,y,s,s,PG(x,y,s,col),sc,lw);if(k==='bovien'){EL(x+.35*s,y+.25*s,.16*s,.16*s,'rgba(60,30,20,.5)',null);EL(x-.3*s,y+.35*s,.12*s,.12*s,'rgba(60,30,20,.5)',null)}
     /* mực viên: trắng lạnh có chấm tím mực, để khỏi lẫn với cá viên vàng kem */
     else if(k==='mucvien'){[[.38,.2],[-.32,.32],[.05,-.38],[-.4,-.1]].forEach(([a,b])=>EL(x+a*s,y+b*s,.15*s,.15*s,'rgba(110,60,140,.75)',null))}
     else if(k==='tomvien'){c.beginPath();c.arc(x,y+.1*s,.55*s,Math.PI*1.1,Math.PI*1.9);c.strokeStyle='rgba(200,60,40,.6)';c.lineWidth=.22*s;c.stroke()}}
   EL(x-.38*s,y-.4*s,.28*s,.2*s,'rgba(255,255,255,.5)',null)}
 /* que tre dựng dọc, viên xếp từ dưới lên */
-function xeQueV(v,x,yb,s,c){const g=s*2.15;LN(x,yb+s*1.3,x,yb-g*QUE-s*.2,'#c99a5e',.9);LN(x,yb+s*1.3,x,yb-g*QUE-s*.2,'#f2d8a0',.3);v.forEach((k,j)=>drawPiece(k,x,yb-j*g,s,cookCol(k,c),j*1.3+.5))}
+function xeQueV(v,x,yb,s,c){const g=s*2.15,top=yb-g*(QUE-1)-s*1.9,w=Math.max(.5,s*.32);LN(x,yb+s*1.4,x,top,LINE,w+.35);LN(x,yb+s*1.4,x,top,'#e3b878',w);PT([[x-w*.6,top],[x+w*.6,top],[x,top-s*.7]],'#e3b878',LINE,.2);v.forEach((k,j)=>drawPiece(k,x,yb-j*g,s,cookCol(k,c),j*1.3+.5,c))}
 const QI={};function queImg(v){const key=v.join(',');if(QI[key])return QI[key];const cv=document.createElement('canvas');cv.width=40;cv.height=120;const C={cv,ctx:cv.getContext('2d'),LW:20,LH:60,s:2},old=K;K=C;C.ctx.setTransform(2,0,0,2,0,0);C.ctx.lineCap='round';xeQueV(v,10,52,3.6,null);K=old;return QI[key]=cv.toDataURL()}
 
 /* ===================== món, thực đơn ===================== */
@@ -292,10 +299,10 @@ const regName=R=>`${R.name} ${R.nick}`;
 function rvText(c,s,f){const T0=TYPES[c.type],P=[],mm=f.m!=null&&S.menu[f.m],m=mm?mName(mm).toLowerCase():'cá viên',sa=f.ss&&f.ss[0]?SAUCES[f.ss[0]].n.toLowerCase():'tương ớt',pr=mm?fk(priceM(mm)):'';
   const sub=x=>x.replace('{m}',m).replace('{s}',sa).replace('{p}',pr).replace('{k}',f.k?ITEMS[f.k].n.toLowerCase():m).replace('{r}',f.rec||m),cap=x=>x[0].toUpperCase()+x.slice(1);
   P.push(pick(RV.open[s]));
-  if(s>=4){const pool=[];if(!f.burnt)pool.push(...RV.good.crisp);if(f.fast)pool.push(...RV.good.fast);if(f.ss&&f.ss.length&&!f.sauceBad)pool.push(...RV.good.sauce);if(T0.sens<=1.1)pool.push(...RV.good.price);
+  if(s>=4){const pool=[];if(!f.burnt&&!f.cold)pool.push(...RV.good.crisp);if(f.fast)pool.push(...RV.good.fast);if(f.ss&&f.ss.length&&!f.sauceBad)pool.push(...RV.good.sauce);if(T0.sens<=1.1)pool.push(...RV.good.price);
     if(Math.random()<.25)pool.push(...RV.good.cat);if(f.combo)pool.push(...RV.good.combo);if(S.weather==='mua')pool.push(...RV.good.rain);if(f.night)pool.push(...RV.good.night);if(f.rec)pool.push(...RV.good.recipe);
     const a=pick(pool),b=pick(pool.filter(x=>x!==a));P.push(cap(sub(a))+(b&&Math.random()<.5?', '+sub(b):'')+'.')}
-  else{const pool=[];if(f.burnt)pool.push(...RV.bad.burnt);if(f.slow)pool.push(...RV.bad.slow);if(f.sauceBad)pool.push(...RV.bad.sauce);if(f.quit)pool.push(...RV.bad.quit);if(f.miss)pool.push(...RV.bad.miss);if(f.crowd)pool.push(...RV.bad.crowd);
+  else{const pool=[];if(f.burnt)pool.push(...RV.bad.burnt);if(f.cold)pool.push(...RV.bad.cold);if(f.slow)pool.push(...RV.bad.slow);if(f.sauceBad)pool.push(...RV.bad.sauce);if(f.quit)pool.push(...RV.bad.quit);if(f.miss)pool.push(...RV.bad.miss);if(f.crowd)pool.push(...RV.bad.crowd);
     if(T0.sens>=1.4&&!pool.length)pool.push(...RV.bad.price);if(!pool.length)pool.push(...RV.bad.slow);P.push(cap(sub(pick(pool)))+'.')}
   if(T0.rv&&Math.random()<.7)P.push(cap(pick(T0.rv))+(s>=4?'!':'.'));
   return P.join(' ')+' '+pick(RV.end[s])}
@@ -463,7 +470,7 @@ function staffTick(dt){const X=xs(),Q=queue().filter(c=>Math.abs(c.tx-c.x)<2).sl
       if(m==null)return;w.st='prep';w.m=m;w.t=3.2-.35*s.spd}
     else if(w.st==='prep'){w.t-=dt;if(w.t>0)return;if(X.fq.length>=L0().fry||!(mMake(w.m)>0)){w.st='idle';w.t=.5;return}
       for(const k of S.menu[w.m].v)D.stock[k]--;w.f={m:w.m,v:[...S.menu[w.m].v],c:0,by:s.id};X.fq.push(w.f);w.st='fry';w.tg=1+Math.max(0,rnd(-.1,.5)*(5-s.kheo)/4);sfx('fry')}
-    else if(w.st==='fry'){if(!X.fq.includes(w.f)){w.st='idle';w.t=.4;return}if(w.f.c>=w.tg){X.fq=X.fq.filter(f=>f!==w.f);X.tray.push({m:w.f.m,v:w.f.v,q:w.f.c});w.st='idle';w.t=.6}}})}
+    else if(w.st==='fry'){if(!X.fq.includes(w.f)){w.st='idle';w.t=.4;return}if(w.f.c>=w.tg){X.fq=X.fq.filter(f=>f!==w.f);X.tray.push({m:w.f.m,v:w.f.v,q:w.f.c,t:now});w.st='idle';w.t=.6}}})}
 /* giữa hai buổi ghé chợ mua thêm (đắt hơn 30%): viên trong thực đơn sắp hết thì có nút mua thêm một bịch */
 const rsPrice=k=>r1k(bagPrice(k)*1.3);
 function restockHTML(){const ks=[...new Set(S.menu.flatMap(m=>m.v))].filter(k=>!ITEMS[k].rare||k===S.mk.rare).sort((a,b)=>(D.stock[a]||0)-(D.stock[b]||0)).slice(0,4);
@@ -518,21 +525,24 @@ function xeTray(i){const X=xs(),m=S.menu[i];if(X.fq.length>=L0().fry)return toas
   for(const k of m.v)D.stock[k]--;X.fq.push({m:i,v:[...m.v],c:0});sfx('fry');return true}
 /* chạm chảo: vớt mọi que đã vàng (ưu tiên que của mình, que nhân viên để họ tự vớt) */
 function xeFry(){const X=xs(),rd=X.fq.filter(g=>g.c>=FRY_MIN&&!g.by);if(rd.length)return xeLift(rd);const sr=X.fq.filter(g=>g.c>=FRY_MIN);if(sr.length)return xeLift(sr);if(X.fq.length)toast('⏳',700)}
-function xeLift(rd){const X=xs();X.fq=X.fq.filter(f=>!rd.includes(f));rd.forEach(f=>X.tray.push({m:f.m,v:f.v,q:f.c}));sfx('tick');if(rd.some(f=>f.c>FRY_OK))toast('Hơi cháy…',1000)}
+function xeLift(rd){const X=xs();X.fq=X.fq.filter(f=>!rd.includes(f));rd.forEach(f=>X.tray.push({m:f.m,v:f.v,q:f.c,t:now}));sfx('tick');if(rd.some(f=>f.c>FRY_OK))toast('Hơi cháy…',1000)}
 function xeSauce(k,free){const t=xeOrd();if(!t)return toast('⏳',700);const X=xs();X.cid=t.c.id;
   if(!free&&X.sauce.includes(k)){X.sauce=X.sauce.filter(x=>x!==k);X.spray=X.spray.filter(s=>s.k!==k);return sfx('tick')}
   if(!((S.sauce[k]||0)>0))return toast('Hết '+SAUCES[k].n.toLowerCase(),1100);
   if(!free){const G=XG.k;if(G){const p=[],n=9,y0=G.y+G.h*(.22+.1*(X.spray.length%4));for(let i=0;i<=n;i++)p.push([G.x+6+i*(G.w-12)/n,y0+(i%2?3:-1)]);X.spray.push({k,p})}}
   if(!X.sauce.includes(k))X.sauce.push(k);sfx('pop')}
 /* chọn que cho đơn: mỗi món lấy đủ số que, que chín đẹp nhất trước */
-function xePick(o){const X=xs(),got=[];for(const k of o.bs){const L=X.tray.filter(f=>f.m===k).sort((a,b)=>Math.abs(a.q-1)-Math.abs(b.q-1));if(L.length<qN(o,k))return null;got.push(...L.slice(0,qN(o,k)))}return got}
+/* chiên sẵn được: que vớt ra để trong khay nóng COLD_T giây, quá thì nguội (khách chê nhẹ); giao thì lấy que nóng, chín đẹp trước */
+const COLD_T=50,isCold=f=>now-(f.t??now)>COLD_T;
+function xePick(o){const X=xs(),got=[];for(const k of o.bs){const L=X.tray.filter(f=>f.m===k).sort((a,b)=>(isCold(a)-isCold(b))||Math.abs(a.q-1)-Math.abs(b.q-1));if(L.length<qN(o,k))return null;got.push(...L.slice(0,qN(o,k)))}return got}
+const BURNT_SAY=['Ơ cháy rồi nè!','Khét quá à…','Sao viên đen thui vậy?','Cháy xém hết rồi bé ơi!'],COLD_SAY=['Nguội rồi nè…','Hơi nguội ha…','Que này để lâu rồi hả?'];
 function xeServe(){const t=xeOrd();if(!t)return;const {c,o}=t,X=xs(),nm=k=>(S.menu[k]?mName(S.menu[k]):(ITEMS[k]||SAUCES[k]).n).toLowerCase();
   const short=o.bs.map(k=>[k,qN(o,k)-xeHave(k)]).filter(([,n])=>n>0);
   if(short.length)return sfx('err'),toast(short.map(([k,n])=>`${n} que ${nm(k)}`).join(' · ')+(short.some(([k])=>xeIn(k))?' ⏳':''),1300);
   const sm=o.ss.filter(k=>!X.sauce.includes(k));if(sm.length)return sfx('err'),toast('🥫 '+sm.map(nm).join(', '),1200);
   const got=xePick(o);X.tray=X.tray.filter(f=>!got.includes(f));
   /* sao: chờ lâu, hơi cháy, xịt sai sốt */
-  let s=5;const slow=c.p/c.max<.3,burnt=got.some(f=>f.q>FRY_OK),sauceBad=X.sauce.some(k=>!o.ss.includes(k));if(slow)s--;if(burnt)s--;if(sauceBad)s--;
+  let s=5;const slow=c.p/c.max<.3,burnt=got.some(f=>f.q>FRY_OK),veryBurnt=got.some(f=>f.q>1.6),cold=got.some(isCold),sauceBad=X.sauce.some(k=>!o.ss.includes(k));if(slow)s--;if(burnt)s--;if(veryBurnt)s--;if(cold)s--;if(sauceBad)s--;s=Math.max(1,s);
   X.sauce.forEach(k=>S.sauce[k]=Math.max(0,(S.sauce[k]||0)-1));const ssUsed=[...o.ss];X.sauce=[];X.spray=[];X.cid=null;
   D.combo=s>=5?D.combo+1:0;S.stat.maxCombo=Math.max(S.stat.maxCombo,D.combo);
   const T0=TYPES[c.type];let pay=o.bs.reduce((a,i)=>a+qN(o,i)*priceM(S.menu[i]),0),tip=(s>=5&&T0.tip&&Math.random()<T0.tip*(1+perk('💰'))?r1k(pay*rnd(.1,.25)):0)+(D.combo>=3?1000*Math.min(10,D.combo):0)+(c.reg?r1k(pay*.1):0)+(c.big?r1k(pay*.2):0);
@@ -544,9 +554,9 @@ function xeServe(){const t=xeOrd();if(!t)return;const {c,o}=t,X=xs(),nm=k=>(S.me
   /* sưu tập: album khách, que bí truyền */
   S.coll.album[c.type]=S.coll.album[c.type]||S.day;let rec=null;
   o.bs.forEach(i=>{const r=recipeOf(S.menu[i]);if(r&&!S.coll.recipe[r.id]){S.coll.recipe[r.id]=S.day;rec=r;toast(`📜 ${r.n}!`,2600);sfx('win')}});
-  const f={m:o.bs[0],ss:ssUsed,burnt,slow,sauceBad,fast:c.p/c.max>.7,combo:D.combo>=3,night:D.st.sl==='toi'||D.st.sl==='khuya',rec:rec&&rec.n};
+  const f={m:o.bs[0],ss:ssUsed,burnt,cold,slow,sauceBad,fast:c.p/c.max>.7,combo:D.combo>=3,night:D.st.sl==='toi'||D.st.sl==='khuya',rec:rec&&rec.n};
   if(c.type==='quyt'&&Math.random()<.7){c.st='run';c.tx=-30;c.owe=pay+tip;c.say='🏃 Chuồn!';c.sayT=now+1.5;D.fx.push({t:now,x:c.x,txt:'🏃 Bắt!',s:0});layoutQ();finishServe(c,s,f,0);sfx('err');return}
-  if(c.type==='betthu')say(c,[fxt.includes('2')?'Ngửa! Trả gấp đôi!':'Sấp… trả nửa thôi!'],1800);else say(c,s>=5?T0.thx:s>=3?T0.meh:T0.bad,2000);
+  if(c.type==='betthu')say(c,[fxt.includes('2')?'Ngửa! Trả gấp đôi!':'Sấp… trả nửa thôi!'],1800);else if(burnt)say(c,BURNT_SAY,2400);else if(cold)say(c,COLD_SAY,2200);else say(c,s>=5?T0.thx:s>=3?T0.meh:T0.bad,2000);
   S.money+=pay+tip;D.rev+=pay;D.tips+=tip;D.st.rev+=pay+tip;
   D.fx.push({t:now,x:c.x,txt:fxt+'+'+fk(pay+tip),s,combo:D.combo>=3?D.combo:0});
   finishServe(c,s,f,1);leave(c,s>=4?2:1);sfx('cash')}
@@ -569,31 +579,33 @@ function drawXe(){if(!XEW||!XEH||!D)return;XEC.LH=160*XEH/XEW;fit(XEC,XEW,XEH);c
   const T0=xeOrd(),o=T0&&T0.o,need={};if(o)o.bs.forEach(k=>need[k]=Math.max(0,qN(o,k)-xeHave(k)-xeIn(k)));
   const n=S.menu.length,{cols,rows}=menuGrid(n),tight=rows>2;
   RR(0,0,W,H,0,'#f4e6cc',null);for(let y=6;y<H;y+=9)LN(0,y,W,y,'rgba(31,45,77,.05)',.4);
-  const fh=tight?clamp(H*.27,48,72):clamp(H*.32,56,80),hy=fh+2,hh=tight?clamp(H*.2,36,50):clamp(H*.23,42,56),sy=hy+hh+3;
-  /* chảo chung, que dựng dọc */
-  const F=X.fq,N=L0().fry,cx=W/2,oy=fh*.5,rx=72,ry=fh*.41;
-  RR(14,oy+ry*.4,W-28,fh-oy-ry*.4-1,3,'#2f8f8a',LINE,.6);for(let i=0;i<4;i++)EL(30+i*33,fh-3.4,3.2,1,'#1f2d4d',null);
-  if(F.length)for(let i=0;i<9;i++){const fx=22+i*14.5,fl=1.6+Math.sin(t*14+i*1.7)*.6;PT([[fx-1.3,fh-1.5],[fx,fh-1.5-fl],[fx+1.3,fh-1.5]],i%2?'#ffb03a':'#ff7a3c',null)}
-  EL(cx,oy,rx+2.4,ry+2.2,'#6b7178',LINE,.7);RR(2,oy-2,7,4,1.6,'#3d4048',LINE,.4);RR(W-9,oy-2,7,4,1.6,'#3d4048',LINE,.4);
-  EL(cx,oy+.4,rx,ry,LG(0,oy-ry,0,oy+ry,[[0,'#f6cf66'],[1,'#d8902a']]),null);
-  if(F.length)for(let i=0;i<18;i++){const a=i*2.39+t*1.3,rr=.2+.75*((i*.37+t*.6)%1),z=(i*.61+t*2.2)%1;EL(cx+Math.cos(a)*rx*.9*rr,oy+Math.sin(a)*ry*.8*rr,.5+.7*z,.35+.45*z,'rgba(255,250,225,.85)',null)}
-  else EL(cx-rx*.4,oy-ry*.35,rx*.22,ry*.2,'rgba(255,255,255,.35)',null);
+  /* chảo: hình vẽ tay chao_dau, giữ đúng tỉ lệ (trước đây vẽ elip kéo dài hết bề ngang nên méo), chỉ lấy phần chảo + mép bếp (62% trên của hình);
+     que dựng đứng trong dầu nhô lên trên; khay giao thấp gọn để chảo và khay món có chỗ */
+  const fh=tight?clamp(H*.33,56,92):clamp(H*.38,62,104),hh=tight?clamp(H*.14,30,38):clamp(H*.15,32,42),hy=fh+2,sy=hy+hh+3;
+  const F=X.fq,N=L0().fry,im=SPR.chao_dau,CROP=.6,AR=im&&im.width?im.width/(im.height*CROP):2.19;
+  const ihc=Math.min(156/AR,fh*.74),iw=ihc*AR,ix=(W-iw)/2,iy=fh-ihc,cx=W/2,oy=iy+ihc*(.257/CROP),rx=iw*.368,ry=ihc*(.128/CROP);
+  if(F.length)for(let i=0;i<7;i++){const fx=cx-rx*.6+i*rx*.2,fl=1.8+Math.sin(t*14+i*1.7)*.6,fy=fh-1;PT([[fx-1.2,fy],[fx,fy-fl],[fx+1.2,fy]],i%2?'#ffb03a':'#ff7a3c',null)}
+  if(im&&im.width){c.drawImage(im,0,0,im.width,im.height*CROP,ix,iy,iw,ihc)}
+  else{EL(cx,oy,rx+2.4,ry+2.2,'#6b7178',LINE,.7);EL(cx,oy+.4,rx,ry,LG(0,oy-ry,0,oy+ry,[[0,'#f6cf66'],[1,'#d8902a']]),null)}
+  if(F.length)for(let i=0;i<14;i++){const a=i*2.39+t*1.3,rr=.2+.75*((i*.37+t*.6)%1),z=(i*.61+t*2.2)%1;EL(cx+Math.cos(a)*rx*.85*rr,oy+Math.sin(a)*ry*.75*rr,.4+.6*z,.3+.4*z,'rgba(255,250,225,.85)',null)}
   xeBox({x:0,y:0,w:W,h:fh},xeFry);XG.fry={x:0,y:0,w:W,h:fh};
-  const sw=2*rx*.84/N,qs=Math.min(3.4,(2*ry-4)/(QUE*2.15+1.5),sw*.3),qb=oy+QUE*qs*2.15/2-qs*.6,qt=qb-QUE*qs*2.15,slot=i=>cx+(i-(N-1)/2)*sw;
+  const sw=2*rx*.82/N,qb=oy+ry*.5,qs=Math.min(3.4,(qb-9)/(QUE*2.15+1.2),sw*.32),qt=qb-QUE*qs*2.15,slot=i=>cx+(i-(N-1)/2)*sw;
   for(let i=0;i<N;i++){const x=slot(i),f=F[i];if(f)f.slot=i;
-    if(!f){RR(x-.8,qt,1.6,qb-qt,.8,'rgba(150,90,30,.15)',null);continue}
-    const rd=f.c>=FRY_MIN&&f.c<=FRY_OK;if(rd&&!f.by){const p=.5+.5*Math.sin(t*9);AL(.3+.3*p,()=>RR(x-sw/2+1,qt-3,sw-2,qb-qt+6,4,'#fff6c8',null))}
-    xeQueV(f.v,x,qb,qs,f.c);for(let j=0;j<3;j++){const z=(t*1.7+j*.37+i*.21)%1;EL(x+qs*.9,qb-4-j*9-z*3,.6+z*.5,.4+z*.3,'rgba(255,250,225,.8)',null)}
-    const ty=Math.max(3.4,qt-4),fr=Math.min(1,f.c/FRY_BURN),tr=2.8;EL(x,ty,tr+.4,tr+.4,f.by?'#cfe9db':'#fffaf5',LINE,.4);c.beginPath();c.moveTo(x,ty);c.arc(x,ty,tr,-Math.PI/2,-Math.PI/2+fr*Math.PI*2);c.closePath();
-    c.fillStyle=f.c>FRY_OK?'#d9534f':f.c>=FRY_MIN?'#3f8f66':'#f0a83a';c.fill();if(f.by){const w=D.staff.find(w=>w.s.id===f.by);if(w)T(w.s.name[0],x,qb+qs*2.4,3,'#2f6a4c','center',800)}
+    if(!f){EL(x,qb-ry*.15,qs*.9,qs*.35,'rgba(150,90,30,.18)',null);continue}
+    const rd=f.c>=FRY_MIN&&f.c<=FRY_OK;if(rd&&!f.by){const p=.5+.5*Math.sin(t*9);AL(.3+.3*p,()=>RR(x-sw/2+1,qt-3,sw-2,qb-qt+5,4,'#fff6c8',null))}
+    xeQueV(f.v,x,qb,qs,f.c);AL(.55,()=>EL(x,qb+qs*.4,qs*1.4,qs*.45,'#f6cf66',null));
+    for(let j=0;j<3;j++){const z=(t*1.7+j*.37+i*.21)%1;EL(x+qs*.9,qb-4-j*9-z*3,.6+z*.5,.4+z*.3,'rgba(255,250,225,.8)',null)}
+    const ty=Math.max(3.4,qt-4.5),fr=Math.min(1,f.c/FRY_BURN),tr=2.8;EL(x,ty,tr+.4,tr+.4,f.by?'#cfe9db':'#fffaf5',LINE,.4);c.beginPath();c.moveTo(x,ty);c.arc(x,ty,tr,-Math.PI/2,-Math.PI/2+fr*Math.PI*2);c.closePath();
+    c.fillStyle=f.c>FRY_OK?'#d9534f':f.c>=FRY_MIN?'#3f8f66':'#f0a83a';c.fill();if(f.by){const w=D.staff.find(w=>w.s.id===f.by);if(w){RR(x-2.6,qb+qs*1.2,5.2,4.6,2,'#e4f4ea',LINE,.3);T(w.s.name[0],x,qb+qs*1.2+2.4,3,'#2f6a4c','center',800)}}
     if(f.c>FRY_OK)for(let j=0;j<3;j++){const k=(t*.8+j/3)%1;AL(.5*(1-k),()=>EL(x+Math.sin(j*2+t*2)*3,qt-k*10,1.6+k*2,1.2+k*1.5,'#a4aab0',null))}
     xeBox({x:x-sw/2,y:0,w:sw,h:fh},xeFry)}
   XSM=XSM.filter(s=>now-s.t<1.4);XSM.forEach(s=>{const k=(now-s.t)/1.4,x=slot(s.i||0);AL(.6*(1-k),()=>EL(x,oy-k*18,4+k*5,3+k*4,'#5a5a60',null))});
   if(F.some(f=>f.c>=FRY_MIN&&f.c<=FRY_OK&&!f.by)){RR(W-27,2,24,7,3.5,'#3f8f66','#fff',.5);T('VỚT!',W-15,5.7,4,'#fff','center',800)}
   /* khay vớt: que đã chiên xếp dọc, dùng chung cho mọi khách; xịt sốt lên đây */
-  const ts=Math.min(3.6,(hh-9)/(QUE*2.15+1.6)),px=2,pw=W-px-2-30;RR(px,hy,pw,hh,4,'#e9c48c',LINE,.5);RR(px+2,hy+2,pw-4,hh-4,3,'#f2d7a6',null);
+  const ts=Math.min(3.2,(hh-6)/(QUE*2.15+1.6)),px=2,pw=W-px-2-30;RR(px,hy,pw,hh,4,'#e9c48c',LINE,.5);RR(px+2,hy+2,pw-4,hh-4,3,'#f2d7a6',null);
   const pk=o?xePick(o)||[]:[],nq=X.tray.length,gx2=Math.min(13,(pw-8)/Math.max(1,nq)),qx=px+4+gx2/2+Math.max(0,(pw-8-gx2*nq)/2);
-  X.tray.forEach((f,i)=>{const x=qx+i*gx2;if(pk.includes(f))RR(x-gx2/2+.6,hy+3,gx2-1.2,hh-6,2.5,'rgba(63,143,102,.2)',null);xeQueV(f.v,x,hy+hh-ts*1.6-2.5,ts,f.q)});
+  X.tray.forEach((f,i)=>{const x=qx+i*gx2,cd=isCold(f),yb=hy+hh-ts*1.6-2;if(pk.includes(f))RR(x-gx2/2+.6,hy+2,gx2-1.2,hh-4,2.5,'rgba(63,143,102,.2)',null);
+    AL(cd?.7:1,()=>xeQueV(f.v,x,yb,ts,f.q));if(cd)T('❄',x+ts*1.2,hy+4,3.2,'#5b8fb0','center');else{const z=(t*1.2+i*.3)%1;AL(.6*(1-z),()=>EL(x+Math.sin(t*3+i)*1.2,hy+3-z*2,.8+z,.6+z*.6,'rgba(255,255,255,.9)',null))}});
   if(!nq)T('🍢',px+pw/2,hy+hh/2,8,'rgba(31,45,77,.12)','center');
   XG.k={x:px,y:hy,w:pw,h:hh};c.save();rrPath(px+1,hy+1,pw-2,hh-2,3.5);c.clip();X.spray.forEach(s=>{const Y=SAUCES[s.k];if(!Y||s.p.length<2)return;
     if(Y.bot){s.p.forEach(([x,y],i)=>EL(x+((i*.7)%1-.5)*3,y+((i*.37)%1-.5)*3,.45,.45,Y.col,null));return}
@@ -608,7 +620,7 @@ function drawXe(){if(!XEW||!XEH||!D)return;XEC.LH=160*XEH/XEW;fit(XEC,XEW,XEH);c
     RR(r.x,r.y,r.w,r.h,3,nd?'#ffe8d2':on?'#e4f4ea':'rgba(255,255,255,.5)',nd?'#ee7a1f':on?'#3f8f66':'#c9bdb5',nd||on?1.2:.5);
     if(!drawSprite(SPR[k],r.x+1,r.y+1,r.w-2,r.h-10.5,!q))RR(r.x+r.w/2-3,r.y+3,6,r.h-14,2,SAUCES[k].col,LINE,.4);
     TF(SAUCES[k].n,r.x+r.w/2,r.y+r.h-6.4,3.2,INK,r.w-2);T(String(q),r.x+r.w/2,r.y+r.h-2.6,2.9,q?'#7d7466':'#d9534f','center',800);if(on)T('✓',r.x+r.w-3.6,r.y+4,4.2,'#2f6a4c','center',800);xeBox({...r,drag:'sauce',k},()=>xeSauce(k))})}
-  if(n){const cw=(W-4)/cols,ch=Math.min(cw*1.25,(H-ty0-2)/rows),ox=n<cols?(cols-n)*cw/2:0;
+  if(n){const cw=(W-4)/cols,ch=Math.min(cw*1.6,(H-ty0-2)/rows),ox=n<cols?(cols-n)*cw/2:0;
     S.menu.forEach((m,i)=>{const r={x:2+ox+(i%cols)*cw,y:ty0+Math.floor(i/cols)*ch,w:cw-1.5,h:ch-1.5},nd=need[i]>0,q=mMake(i);
       RR(r.x,r.y,r.w,r.h,3.4,nd?'#ffe8d2':'rgba(255,255,255,.55)',nd?'#ee7a1f':'#c9bdb5',nd?1.3:.5);
       const qs2=Math.min(r.w*.16,(r.h-13)/(QUE*2.15+1.6));AL(q?1:.4,()=>xeQueV(m.v,r.x+r.w/2,r.y+r.h-10-qs2*1.3,qs2,null));
@@ -634,10 +646,10 @@ function holdTick(){if(!XD||XD.kind!=='hold'||PAUSED)return;const t=performance.
 function renderXord(){const el=$('#xord'),t=xeOrd(),X=xs(),Q=queue();let h;
   const mini=c=>`<span class="qn${c.reg?' reg':''}">${c.o.bs.map(i=>`<img class="qi" src="${queImg(S.menu[i].v)}" alt="">${qN(c.o,i)}`).join('')}${c.o.ss.length?`<i>🥫</i>`:''}</span>`;
   const stf=D&&D.staff.length?`<span class="sws">${D.staff.map(w=>`<span class="sw ${w.st}">${esc(w.s.name)}${w.st==='prep'?' 🍢':w.st==='fry'?' 🍳':''}</span>`).join('')}</span>`:'';
-  if(!t)h=`<div class="xn">${D&&D.st&&D.st.t>=D.st.dur?'🌙':'⏳'}</div>${stf}`;
+  if(!t)h=`<div class="xh" style="justify-content:center"><span class="xn">${D&&D.st&&D.st.t>=D.st.dur?'🌙':'⏳'}</span>${stf}</div>`;
   else{const {c,o}=t,chips=o.bs.map(i=>{const q=qN(o,i),g=Math.min(xeHave(i),q),w=xeIn(i);return`<span class="xc${g>=q?' ok':w?' wip':''}"><img class="qi" src="${queImg(S.menu[i].v)}" alt="">${mName(S.menu[i])} <b>${g}/${q}</b></span>`}).join('')
       +o.ss.map(k=>`<span class="xc s${X.sauce.includes(k)?' ok':''}">🥫 ${SAUCES[k].n}</span>`).join('')+X.sauce.filter(k=>!o.ss.includes(k)).map(k=>`<span class="xc s bad">🥫 ${SAUCES[k].n}</span>`).join('');
-    h=`<div class="xh">${c.reg?`<b class="rg">💛 ${esc(c.reg.nick)}</b>`:''}<i class="xp"><i></i></i><small>👥${Q.length}</small></div><div class="xcs">${chips}</div>`+(Q.length>1?`<div class="xq">${Q.slice(1).map(mini).join('')}</div>`:'')+stf}
+    h=`<div class="xh">${c.reg?`<b class="rg">💛 ${esc(c.reg.nick)}</b>`:''}<i class="xp"><i></i></i><small>👥${Q.length}</small>${stf}</div><div class="xcs">${chips}</div>`+(Q.length>1?`<div class="xq">${Q.slice(1).map(mini).join('')}</div>`:'')}
   if(el.dataset.h!==h){el.dataset.h=h;el.innerHTML=h}
   const bar=el.querySelector('.xp>i');if(bar&&t){const f=clamp(t.c.p/t.c.max,0,1);bar.style.width=(f*100).toFixed(0)+'%';bar.style.background=f>.55?'#3f8f66':f>.25?'#e0962a':'#d9534f'}}
 
