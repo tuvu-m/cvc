@@ -169,6 +169,34 @@ Retro Vietnamese street-food poster style, like a three-color risograph print: b
 
 ---
 
+## 20 · Bản mới v2: nền 7 địa điểm (chưa có)
+
+Game v2 (`v2/`) bán ở 7 nơi, mỗi nơi một nền đường phố. Hiện game vẽ tạm bằng code. Mỗi nền là **một ảnh riêng, khổ ngang 8:3 (ví dụ 1600×600)**, nhìn thẳng từ vỉa hè bên kia đường: trời ở 1/3 trên, nhà/cảnh ở giữa, **dải vỉa hè trống màu kem ở 1/5 dưới cùng** (xe và khách đứng ở đó, đừng vẽ người, xe, chữ lớn). Không vẽ mặt đường nhựa (game tự vẽ). Trời để màu trơn sáng ban ngày; game tự phủ màu chiều/tối.
+
+Tên file: `bg_truong` (cổng trường cấp 2, cổng sắt sơn đỏ, bảng tên trống, sân cờ, cây phượng) · `bg_cho` (dãy sạp chợ mái bạt sọc đỏ trắng, rổ rau, thúng trái cây) · `bg_congvien` (công viên: hàng cây xanh, ghế đá, đèn đường, hồ nhỏ phía xa) · `bg_vanphong` (toà văn phòng kính xanh mòng két, sảnh có bậc thềm, chậu cây) · `bg_benxe` (bến xe buýt: mái chờ, bảng giờ chạy trống, xe buýt đỏ đậu phía sau) · `bg_chodem` (chợ đêm: dãy sạp đèn lồng, dây bóng đèn vàng, biển hiệu không chữ) · `bg_ktx` (ký túc xá nhiều tầng, ban công phơi đồ, xe máy dựng hàng dưới)
+
+```
+Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Wide side-scrolling game background, flat front view of a Saigon street scene, no people, no vehicles in the foreground, no readable text, empty cream sidewalk strip along the bottom fifth, plain light sky in the top third, 8:3 landscape.
+```
+
+## 21 · Bản mới v2: xe máy kéo (cấp 3, chưa có)
+
+Cấp 3 là xe máy kéo thùng cá viên (giữa ki-ốt `tiem_2` và quán `tiem_3`); chưa có hình thì game dùng hình ki-ốt. Tên file: `xe_maykeo`. Nền trong suốt hoặc xám trơn để cắt, nhìn nghiêng 3/4 từ trước, cùng tỉ lệ với `tiem_1`, `tiem_2` (cao gấp ~1,2 lần người).
+
+```
+Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Game asset, single item centered on a plain flat grey background: an old Vietnamese scooter pulling a small two-wheel street food trailer selling fried fish balls, glass display case with skewers, small gas fryer with a wok of oil, red and white striped awning, little plastic stools hanging on the side, blank sign board with no text, three-quarter front view.
+```
+
+## 22 · Bản mới v2: nhân viên mới (tuỳ chọn)
+
+v2 đang dùng `nv1_o_hong`, `nv2_o_hong`, `nv1_o_xanh`, `nv2_o_xanh` của tiệm trà. Muốn hình riêng thì vẽ 4 nhân viên phụ chảo (2 nam, 2 nữ, tạp dề đỏ cà chua, khăn trùm đầu, cầm vá vớt hoặc chai sốt), tên file `nv_a`…`nv_d`, đứng thẳng nhìn trước, cùng khổ với khách.
+
+```
+Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Character sprite sheet, four young Vietnamese street food helpers standing straight facing front, full body, tomato red aprons and head scarves, one holding a wire skimmer, one a squeeze bottle of chili sauce, friendly smiles, each separated with generous empty space on a plain flat grey background.
+```
+
+---
+
 ## Phong cách dự phòng
 
 Thay đoạn STYLE ở đầu mỗi prompt bằng một trong hai đoạn này (giữ nguyên đoạn bố cục và phần mô tả món).

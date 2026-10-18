@@ -142,8 +142,8 @@ const hubBar=()=>`<div class="hubbar">${[['staff','👥',S.staff.length+'/'+L0()
 document.addEventListener('click',e=>{const b=e.target.closest('[data-hub]');if(b){sfx('tick');openHub(b.dataset.hub)}});
 
 /* ---- sáng: chọn lộ trình (xe) hoặc mở quán ---- */
-function renderRoute(){morning();show('route');const W=WEATHER[S.weather],nx=LV[S.lv+1];
-  let h=hubBar()+`<h2>${W.i} ${L0().quan?'Hôm nay':'Hôm nay đi đâu?'}</h2>${nx?`<div class="mtop"><span class="chip">🎯 ${nx.i} ${nx.n} · ${fk(S.money)}/${fk(nx.price)}</span></div>`:''}`;
+function renderRoute(){morning();show('route');const W=WEATHER[S.weather],nx=LV[S.lv+1];if(S.mk.day!==S.day)morning();
+  let h=hubBar()+`<h2>${W.i} ${L0().quan?'Hôm nay':'Hôm nay đi đâu?'}</h2>${nx&&S.money>=nx.price*.5?goalHTML():''}`;
   const stopRow=(l,i)=>{const L=LOCS[l],sl=SLOTS[i],N=expect(l,sl.id),bars=Math.round(clamp(N/3.5,0,5)),mx=mixAt(l),tops=Object.keys(mx).sort((a,b)=>mx[b]-mx[a]).slice(0,2);
     return`<div class="stop"><div class="tm"><i>${sl.i}</i>${sl.n}</div><div class="ln">${L.i} ${L.n}${rep(l)?` <small>❤️${Math.round(rep(l))}</small>`:''}</div>
     <div class="crowd"><div class="bars">${[1,2,3,4,5].map(b=>`<i class="${b<=bars?'on':''}" style="height:${6+b*3}px"></i>`).join('')}</div>👥${Math.round(N)}</div>
@@ -255,8 +255,8 @@ function rvText(c,s,f){const T0=TYPES[c.type],P=[],mm=f.m!=null&&S.menu[f.m],m=m
     if(T0.sens>=1.4&&!pool.length)pool.push(...RV.bad.price);if(!pool.length)pool.push(...RV.bad.slow);P.push(cap(sub(pick(pool)))+'.')}
   if(T0.rv&&Math.random()<.7)P.push(cap(pick(T0.rv))+(s>=4?'!':'.'));
   return P.join(' ')+' '+pick(RV.end[s])}
-/* viết review: 5★ 30%, 4★ 20%, 3★ 40%, ≤2★ 70%; reviewer luôn viết và nặng gấp 3 */
-function review(c,s,f){const p=c.type==='reviewer'?1:s>=5?.3:s>=4?.2:s>=3?.4:.7;if(Math.random()>p)return;
+/* viết review: 5★ 35%, 4★ 25%, 3★ 30%, ≤2★ 60%; reviewer luôn viết và nặng gấp 3 */
+function review(c,s,f){const p=c.type==='reviewer'?1:s>=5?.35:s>=4?.25:s>=3?.3:.6;if(Math.random()>p)return;
   const r={id:'v'+(++S.rid),day:S.day,name:c.reg?regName(c.reg):c.name||genName(c.type),spr:c.spr,type:c.type,s,t:rvText(c,s,f),w:c.type==='reviewer'?3:1,loc:D.st.l};S.reviews.push(r);if(S.reviews.length>150)S.reviews.shift();
   /* khách quen tự vào bênh (có lúc) */
   if(s<=2&&S.regs.length&&Math.random()<Math.min(.6,.2+.03*S.regs.length))defend(r,pick(S.regs),true)}
@@ -353,11 +353,11 @@ function nextStop(){D.si++;if(D.si>=S.route.length)return endDay();const l=S.rou
   D.st={l,sl:sl.id,t:0,dur:STOP_SEC,next:1.2,rev:0,served:0,miss:0,angry:0,N:expect(l,sl.id)+(D.si===0&&S.buzz?S.buzz:0),done:false,ev:null,pause:0};D.cust=[];
   if(D.si===0)S.buzz=0;S.coll.loc[l]=S.coll.loc[l]||S.day;
   /* sự kiện của buổi: trật tự đô thị (lúc còn xe), công ty đặt tiệc (từ ki-ốt) */
-  if(!L0().quan&&Math.random()<.14)D.st.evAt={k:'tttd',t:rnd(15,60)};else if(S.lv>=2&&Math.random()<.12)D.st.evAt={k:'tiec',t:rnd(10,50)};
+  if(!L0().quan&&S.day>=3&&Math.random()<.14)D.st.evAt={k:'tttd',t:rnd(15,60)};else if(S.lv>=2&&Math.random()<.12)D.st.evAt={k:'tiec',t:rnd(10,50)};
   $('#stopOv').hidden=true;PAUSED=false;toast(`${LOCS[l].i} ${LOCS[l].n} · ${sl.n}`,1600);loop()}
 const clock=()=>{const st=D.st,sl=SLOTS[D.si],h=sl.h0+(sl.h1-sl.h0)*clamp(st.t/st.dur,0,1),hh=Math.floor(h),mm=Math.floor((h-hh)*6)*10;return`${hh}:${String(mm).padStart(2,'0')}`};
 const queue=()=>D.cust.filter(c=>c.st==='q');
-const QMAX=5;
+const QMAX=()=>4+S.lv;
 /* người đi đường: người đói thèm một món theo kiểu khách, khách quen ghé, khách đặc biệt hiếm */
 function spawn(force){const st=D.st,mx=mixAt(st.l);let type=force||pickW(Object.keys(mx),t=>mx[t]),R=null;
   if(!force&&Math.random()<.035*(1+S.lv*.2))type=pick(SPECIALS);
@@ -377,7 +377,7 @@ function decide(c,big){c.dec=true;const T0=TYPES[c.type];let ms=S.menu.map((m,i)
   if(c.reg){const f=S.menu.findIndex(m=>mKey(m.v)===mKey(c.reg.fav));if(f>=0&&qAv(f)>0)ms=[{i:f,a:9},...ms.filter(x=>x.i!==f)]}
   if(!ms.length){D.miss[c.crave]=(D.miss[c.crave]||0)+1;D.st.miss++;c.bub={k:c.crave,no:1,t:now+1.4};say(c,TYPES[c.type].miss,2600,c.crave);if(c.reg)c.reg.love=Math.max(0,c.reg.love-1);return}
   const first=c.reg&&ms[0].a===9?ms[0]:pickW(ms,x=>x.a*x.a);
-  if(queue().length>=QMAX&&!big){D.full++;c.bub={m:first.i,full:1,t:now+1.6};c.say='Đông quá, thôi!';c.sayT=now+1.6;return}
+  if(queue().length>=QMAX()&&!big){D.full++;c.bub={m:first.i,full:1,t:now+1.6};c.say='Đông quá, thôi!';c.sayT=now+1.6;return}
   const kinds=big?Math.min(3,ms.length):Math.min(ri(T0.k[0],T0.k[1]),ms.length),bs=[first.i];
   while(bs.length<kinds){const x=pickW(ms.filter(y=>!bs.includes(y.i)),y=>y.a*y.a);if(!x)break;bs.push(x.i)}
   const q={};bs.forEach(i=>q[i]=Math.max(1,Math.min(big?ri(2,4):ri(T0.q[0],T0.q[1])+(L0().quan&&Math.random()<.3?1:0),qAv(i))));
@@ -385,7 +385,7 @@ function decide(c,big){c.dec=true;const T0=TYPES[c.type];let ms=S.menu.map((m,i)
   const bad=D.luck&&!D.luck.good&&D.luck.n>0;if(bad)D.luck.n--;
   c.o={bs,q,ss};const tot=bs.reduce((a,x)=>a+q[x],0);c.max=c.p=(T0.pat+tot*5)*(1+perk('⏳'))*(big?1.6:1)*(bad?.8:1);c.st='q';c.big=big;
   c.bub={m:first.i,t:now+1};c.say=c.reg?`${pick(['Như mọi khi nha!','Lại là mình nè!','Món ruột nha!'])} ${orderTxt(c.o)}!`:big?`Công ty đặt tiệc nè: ${orderTxt(c.o)}!`:`${pick(T0.hi)} ${orderTxt(c.o)}!`;c.sayT=now+2.8;sfx('bell');layoutQ()}
-function layoutQ(){queue().forEach((c,i)=>{c.tx=70+i*12.5})}
+function layoutQ(){const q=queue(),g=Math.min(12.5,84/Math.max(1,q.length));q.forEach((c,i)=>{c.tx=70+i*g})}
 function leave(c,mood){c.st='go';c.tx=-26;c.mood=mood;layoutQ()}
 /* nhân viên duyên dáng: khách đỡ sốt ruột */
 const pmul=()=>{const d=D.staff.reduce((a,w)=>a+w.s.duyen,0);return clamp(1-.025*d,.7,1)};
@@ -404,7 +404,7 @@ function tick(dt){const st=D.st;st.t+=dt;
     if(c.st==='run'&&c.x<=-20&&!c.lost){c.lost=1;D.lostQuyt+=c.owe;toast(`🏃 Mất ${fk(c.owe)}`,1600)}});
   if(now>(D.chatT||0)){D.chatT=now+rnd(4,7);const q=queue().filter(c=>Math.abs(c.tx-c.x)<1&&!(c.sayT>now));if(q.length){const c=pick(q);say(c,TYPES[c.type].wait,2600)}}
   /* khách đầu hàng cần món mà xe hết hẳn thì đi */
-  const f=queue()[0];if(f&&Math.abs(f.tx-f.x)<1){const lack=f.o.bs.find(i=>qN(f.o,i)>qAv(i));if(lack!=null){const k=S.menu[lack].v.find(k=>!(D.stock[k]>0))||S.menu[lack].v[0];D.miss[k]=(D.miss[k]||0)+1;st.miss++;say(f,TYPES[f.type].miss,2400,k);review(f,2,{miss:1,k,m:lack});leave(f,0)}}
+  const f=queue()[0];if(f&&Math.abs(f.tx-f.x)<1){const lack=f.o.bs.find(i=>qN(f.o,i)>qAv(i));if(lack!=null){const k=S.menu[lack].v.find(k=>!(D.stock[k]>0))||S.menu[lack].v[0];D.miss[k]=(D.miss[k]||0)+1;st.miss++;say(f,TYPES[f.type].miss,2400,k);if(Math.random()<.5)review(f,3,{miss:1,k,m:lack});leave(f,0)}}
   D.cust=D.cust.filter(c=>c.x>-24&&c.x<180||c.st==='q');
   xeTick(dt);staffTick(dt);
   D.fx=D.fx.filter(x=>now-x.t<1.4);
@@ -431,7 +431,7 @@ function goalHTML(){const nx=LV[S.lv+1];if(!nx)return'';const f=clamp(S.money/nx
 function lvUp(){const nx=LV[S.lv+1];if(!nx||S.money<nx.price)return;
   if(nx.quan&&!S.quan){$('#pickCard').innerHTML=`<div class="big">🏪</div><div class="picks">${locsOpen().sort((a,b)=>rep(b)-rep(a)).map(l=>`<button class="pk" data-pq="${l}"><span>${LOCS[l].i}</span><b>${LOCS[l].n}</b><small>❤️${Math.round(rep(l))}</small></button>`).join('')}</div><button class="btn ghost wide" id="pickX">✕</button>`;
     $('#pickOv').hidden=false;$('#pickX').onclick=()=>{$('#pickOv').hidden=true};return}
-  S.money-=nx.price;S.lv++;S.cands=[];S.mk=S.mk&&{...S.mk,day:-1};save();hud();sfx('win');toast(`${nx.i} ${nx.n}!`,2400);achCheck();if(!$('#sum').hidden)$('#goalBox').innerHTML=goalHTML()}
+  S.money-=nx.price;S.lv++;S.cands=[];S.mk=S.mk&&{...S.mk,day:-1};save();hud();sfx('win');toast(`${nx.i} ${nx.n}!`,2400);achCheck();if(!$('#sum').hidden)$('#goalBox').innerHTML=goalHTML();else if(!$('#route').hidden)renderRoute()}
 $('#pickCard').addEventListener('click',e=>{const b=e.target.closest('[data-pq]');if(!b)return;S.quan=b.dataset.pq;$('#pickOv').hidden=true;lvUp()});
 document.addEventListener('click',e=>{if(e.target.closest('#upBtn'))lvUp()});
 function endDay(){stopLoop();$('#evBtn').hidden=true;
@@ -503,7 +503,7 @@ function xeServe(){const t=xeOrd();if(!t)return;const {c,o}=t,X=xs(),nm=k=>(S.me
 function finishServe(c,s,f,paid){D.served++;D.st.served++;D.stars.push(s);S.stat.served++;if(s>=5)S.stat.five++;
   S.rep[D.st.l]=clamp(rep(D.st.l)+(s>=5?1:s>=4?.5:s<=2?-1:0)*(1+perk('❤️')),0,100);
   if(c.reg){c.reg.visits++;c.reg.last=S.day;if(s>=5)c.reg.love++}
-  else if(paid&&s>=5&&Math.random()<.22){const R=makeRegular(c,f.m);if(R){c.reg=R;R.last=S.day;D.fx.push({t:now+.5,x:c.x,txt:'💛 '+R.nick,s:0});toast(`💛 ${regName(R)}`,2000)}}
+  else if(paid&&s>=5&&Math.random()<.1){const R=makeRegular(c,f.m);if(R){c.reg=R;R.last=S.day;D.fx.push({t:now+.5,x:c.x,txt:'💛 '+R.nick,s:0});toast(`💛 ${regName(R)}`,2000)}}
   review(c,s,f);achCheck()}
 function xeTick(dt){const X=xs(),t=xeOrd();if(X.cid!=null&&(!t||t.c.id!==X.cid)){X.sauce=[];X.spray=[];X.cid=null}
   if(!X.fq.length)return;X.fq.forEach(f=>{f.c+=dt/xeCk(f.v)});
@@ -636,8 +636,9 @@ function drawScene(){if(!D||!D.st)return;begin(SC);const st=D.st;drawBg(st.l,st.
   const lv=L0(),sp=SPR[lvSpr(S.lv)],quan=lv.quan,h=quan?56:50,w=sp&&sp.width?h*sp.width/sp.height:50,cx=quan?2:10,top=62-h*(quan?.55:.45);
   /* chủ xe và nhân viên đứng sau quầy */
   const people=[{spr:'me_o_xanh'},...D.staff.slice(0,2).map(w=>({spr:w.s.spr,w}))];
-  people.forEach((p,i)=>{const im=SPR[p.spr];if(!(im&&im.width))return;const hh=30,ww=hh*im.width/im.height,x=cx+w*(.3+i*.2);K.ctx.drawImage(im,x-ww/2,top-14,ww,hh);if(p.w&&p.w.st!=='idle')T(p.w.st==='prep'?'🍢':'🍳',x+4,top-15,4,INK,'center')});
-  if(sp&&sp.width)K.ctx.drawImage(sp,cx,62-h,w,h);drawDecor(cx,w,top);
+  /* xe: người đứng sau xe; quán: người đứng trước quầy (hình quán che kín phía sau) */
+  const drawPpl=()=>people.forEach((p,i)=>{const im=SPR[p.spr];if(!(im&&im.width))return;const hh=quan?24:30,ww=hh*im.width/im.height,x=cx+w*(quan?.5+i*.16:.3+i*.2),y=quan?61-hh:top-14;K.ctx.drawImage(im,x-ww/2,y,ww,hh);if(p.w&&p.w.st!=='idle')T(p.w.st==='prep'?'🍢':'🍳',x+4,y-1,4,INK,'center')});
+  if(!quan)drawPpl();if(sp&&sp.width)K.ctx.drawImage(sp,cx,62-h,w,h);drawDecor(cx,w,top);if(quan)drawPpl();
   /* trật tự đô thị chạy tới từ bên phải */
   if(st.ev&&st.ev.k==='tttd'&&st.ev.x<178){drawSprite(SPR.xecongan,st.ev.x-4,48,22,11);if(!st.ev.ok)drawSprite(SPR.congan,st.ev.x+14,31,10,30)}
   D.cust.slice().sort((a,b)=>(a.st==='q')-(b.st==='q')).forEach(drawPerson);
@@ -655,7 +656,7 @@ $('#sc').addEventListener('pointerdown',e=>{if(!D||PAUSED)return;const r=e.curre
   if(x>18&&x<48&&y>50&&!L0().quan){sfx('meow');D.fx.push({t:now,x:32,txt:'❤️',s:0})}});
 
 /* ===================== bố cục, vòng lặp ===================== */
-function layout(){const W=$('#app').clientWidth,h=Math.round(W*70/160);fit(SC,W,h);$('#sc').parentElement.style.height=h+'px'}
+function layout(){const W=$('#app').clientWidth,h=Math.round(W*70/160);fit(SC,W,h);$('#sc').parentElement.style.height=h+'px';document.documentElement.style.setProperty('--sh',h+'px')}
 addEventListener('resize',()=>{if(D)layout()});
 if(window.ResizeObserver){new ResizeObserver(en=>{const r=en[0].contentRect;PW=Math.round(r.width);PH=Math.round(r.height)}).observe($('#pcWrap'));
   new ResizeObserver(en=>{const r=en[0].contentRect;XEW=Math.round(r.width);XEH=Math.round(r.height);document.documentElement.style.setProperty('--tb',XEH+'px')}).observe($('#xeWrap'))}
