@@ -179,7 +179,7 @@ Tên file: `bg_truong` (cổng trường cấp 2, cổng sắt sơn đỏ, bản
 Retro Vietnamese street-food poster style, like a three-color risograph print: bold flat colors with no gradients, chunky deep navy outlines of even weight, visible halftone dot shading, slight color misregistration and fine paper grain on the artwork only. Limited palette: tomato red, mustard yellow, teal green, cream and deep navy. Playful 1980s Saigon hand-painted signage vibe, simple confident geometric shapes, slightly exaggerated cute proportions. Wide side-scrolling game background, flat front view of a Saigon street scene, no people, no vehicles in the foreground, no readable text, empty cream sidewalk strip along the bottom fifth, plain light sky in the top third, 8:3 landscape.
 ```
 
-## 21 · Bản mới v2: xe máy kéo (cấp 3, chưa có)
+## 21 · Bản mới v2: xe máy kéo (cấp 3) ✅ đã có
 
 Cấp 3 là xe máy kéo thùng cá viên (giữa ki-ốt `tiem_2` và quán `tiem_3`); chưa có hình thì game dùng hình ki-ốt. Tên file: `xe_maykeo`. Nền trong suốt hoặc xám trơn để cắt, nhìn nghiêng 3/4 từ trước, cùng tỉ lệ với `tiem_1`, `tiem_2` (cao gấp ~1,2 lần người).
 
