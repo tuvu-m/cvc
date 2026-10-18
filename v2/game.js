@@ -720,12 +720,13 @@ function holdTick(){if(!XD||XD.kind!=='hold'||PAUSED)return;const t=performance.
 
 /* ---- đơn khách đầu hàng + khách đang chờ phía sau (HTML) ---- */
 function renderXord(){const el=$('#xord'),t=xeOrd(),X=xs(),Q=queue();let h;
-  const mini=c=>`<span class="qn${c.reg?' reg':''}">${c.o.bs.map(i=>`<img class="qi" src="${queImg(S.menu[i].v)}" alt="">${qN(c.o,i)}`).join('')}${c.o.ss.length?`<i>🥫</i>`:''}</span>`;
+  /* khách chờ phía sau: mặt khách + tên món ×số que (cùng tên với khay món) + 🥫 nếu có sốt */
+  const mini=c=>`<span class="qn${c.reg?' reg':''}${c.sw?' sw':''}"><img class="hd" src="${img(c.spr)}" alt="">${c.o.bs.map(i=>`<span class="qm">${mName(S.menu[i])}<b>×${qN(c.o,i)}</b></span>`).join('')}${c.o.ss.length?`<i>🥫</i>`:''}</span>`;
   const stf=D&&D.staff.length?`<span class="sws">${D.staff.map(w=>`<span class="sw ${w.st}">${esc(w.s.name)}${({prep:' 🍢',work:' 🍳',sauce:' 🥫',serve:' 🛎️'})[w.st]||''}</span>`).join('')}</span>`:'';
   if(!t)h=`<div class="xh" style="justify-content:center"><span class="xn">${D&&D.st&&D.st.t>=D.st.dur?'🌙':'⏳'}</span>${stf}</div>`;
   else{const {c,o}=t,chips=o.bs.map(i=>{const q=qN(o,i),g=Math.min(xeHave(i),q),w=xeIn(i);return`<span class="xc${g>=q?' ok':w?' wip':''}"><img class="qi" src="${queImg(S.menu[i].v)}" alt="">${mName(S.menu[i])} <b>${g}/${q}</b></span>`}).join('')
       +o.ss.map(k=>`<span class="xc s${X.sauce.includes(k)?' ok':''}">🥫 ${SAUCES[k].n}</span>`).join('')+X.sauce.filter(k=>!o.ss.includes(k)).map(k=>`<span class="xc s bad">🥫 ${SAUCES[k].n}</span>`).join('');
-    h=`<div class="xh">${c.reg?`<b class="rg">💛 ${esc(c.reg.nick)}</b>`:''}<i class="xp"><i></i></i><small>👥${Q.length}</small>${stf}</div><div class="xcs">${chips}</div>`+(Q.length>1?`<div class="xq">${Q.filter(x=>x!==c).map(x=>x.sw?mini(x).replace('class="qn','class="qn sw'):mini(x)).join('')}</div>`:'')}
+    h=`<div class="xh">${c.reg?`<b class="rg">💛 ${esc(c.reg.nick)}</b>`:''}<i class="xp"><i></i></i><small>👥${Q.length}</small>${stf}</div><div class="xcs">${chips}</div>`+(Q.length>1?`<div class="xq">${Q.filter(x=>x!==c).map(mini).join('')}</div>`:'')}
   if(el.dataset.h!==h){el.dataset.h=h;el.innerHTML=h}
   const bar=el.querySelector('.xp>i');if(bar&&t){const f=clamp(t.c.p/t.c.max,0,1);bar.style.width=(f*100).toFixed(0)+'%';bar.style.background=f>.55?'#3f8f66':f>.25?'#e0962a':'#d9534f'}}
 
