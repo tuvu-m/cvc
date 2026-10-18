@@ -121,7 +121,10 @@ function drawPiece(k,x,y,s,col,rot=0){const sc=shade(col,-.38),c=K.ctx;
   else if(k==='dauhu'){c.save();c.translate(x,y);c.rotate(rot*.3);RR(-.95*s,-.95*s,1.9*s,1.9*s,.45*s,col,sc,.3);EL(0,0,.42*s,.36*s,'#fff3b8',null);c.restore()}
   else if(k==='chaca'||k==='chabusan')ELR(x,y,1.35*s,.82*s,rot*.4,col,sc,.3);
   else if(k==='khoailang')ELR(x,y,1.5*s,.62*s,rot*.5+.4,col,sc,.3);
-  else{EL(x,y,s,s,col,sc,.3);if(k==='bovien'){EL(x+.35*s,y+.25*s,.16*s,.16*s,'rgba(60,30,20,.5)',null);EL(x-.3*s,y+.35*s,.12*s,.12*s,'rgba(60,30,20,.5)',null)}}
+  else{EL(x,y,s,s,col,sc,.3);if(k==='bovien'){EL(x+.35*s,y+.25*s,.16*s,.16*s,'rgba(60,30,20,.5)',null);EL(x-.3*s,y+.35*s,.12*s,.12*s,'rgba(60,30,20,.5)',null)}
+    /* mực viên: trắng lạnh có chấm tím mực, để khỏi lẫn với cá viên vàng kem */
+    else if(k==='mucvien'){[[.38,.2],[-.32,.32],[.05,-.38],[-.4,-.1]].forEach(([a,b])=>EL(x+a*s,y+b*s,.15*s,.15*s,'rgba(110,60,140,.75)',null))}
+    else if(k==='tomvien'){c.beginPath();c.arc(x,y+.1*s,.55*s,Math.PI*1.1,Math.PI*1.9);c.strokeStyle='rgba(200,60,40,.6)';c.lineWidth=.22*s;c.stroke()}}
   EL(x-.38*s,y-.4*s,.28*s,.2*s,'rgba(255,255,255,.5)',null)}
 /* que tre dựng dọc, viên xếp từ dưới lên */
 function xeQueV(v,x,yb,s,c){const g=s*2.15;LN(x,yb+s*1.3,x,yb-g*QUE-s*.2,'#c99a5e',.9);LN(x,yb+s*1.3,x,yb-g*QUE-s*.2,'#f2d8a0',.3);v.forEach((k,j)=>drawPiece(k,x,yb-j*g,s,cookCol(k,c),j*1.3+.5))}

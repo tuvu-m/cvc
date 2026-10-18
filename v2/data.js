@@ -7,7 +7,7 @@ const ITEMS={
   cavien:{n:'Cá viên',col:'#f1d9a2',c:1000,ck:3.2},
   bovien:{n:'Bò viên',col:'#9a6a4e',c:1500,ck:3.6},
   tomvien:{n:'Tôm viên',col:'#f3a88e',c:1800,ck:3},
-  mucvien:{n:'Mực viên',col:'#efe4d2',c:1800,ck:3},
+  mucvien:{n:'Mực viên',col:'#e6e2ef',c:1800,ck:3},
   xucxich:{n:'Xúc xích',col:'#d65a48',c:2500,ck:3.4},
   dauhu:{n:'Đậu hũ PM',col:'#f6e3a6',c:2000,ck:2.6},
   chaca:{n:'Chả cá',col:'#e6c08a',c:1500,ck:3.8},
