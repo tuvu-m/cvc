@@ -26,7 +26,7 @@ await p.screenshot({path:`out/v2_menu_${W}.png`});
 await p.tap('#toMarket');await p.waitForTimeout(200);
 ok(await p.evaluate(()=>!$('#market').hidden&&$('#mGo').disabled),'chợ: chưa mua gì thì chưa lên đường được');
 await p.tap('#mAuto');await p.waitForTimeout(200);
-const plan=await p.evaluate(()=>({u:bagUse(),c:buyCost(),m:S.money,cap:cart().bags,ks:Object.keys(S.buy).filter(k=>ITEMS[k])}));
+const plan=await p.evaluate(()=>({u:bagUse(),c:buyCost(),m:S.money,cap:L0().bags,ks:Object.keys(S.buy).filter(k=>ITEMS[k])}));
 ok(plan.u>=3&&plan.u<=plan.cap&&plan.c<=plan.m,'gợi ý: mua nguyên liệu cho thực đơn trong sức chở và số tiền');
 await p.tap('#mGo');await p.waitForTimeout(300);
 ok(await p.evaluate(()=>!$('#sell').hidden&&$('#hud').hidden&&$('#xeWrap').offsetHeight>180),'lên đường: màn bán, khung xe hiện');
@@ -37,7 +37,7 @@ const tap=async r=>{await p.touchscreen.tap(bb.x+(r.x+r.w/2)*s,bb.y+(r.y+r.h/2)*
 const tr=(await R('xeTray'))[mi],st0=await p.evaluate(mi=>S.menu[mi].v.map(k=>D.stock[k]),mi);await tap(tr);await tap(tr);
 ok(await p.evaluate(([mi,st0])=>xs().fq.length===2&&xs().fq.every(f=>f.m===mi&&f.v.length===5)&&mCount(S.menu[mi])&&Object.entries(mCount(S.menu[mi])).every(([k,n])=>D.stock[k]===st0[S.menu[mi].v.indexOf(k)]-2*n),[mi,st0]),'chạm món: mỗi chạm một que 5 viên vào chảo, trừ nguyên liệu theo món');
 for(let i=0;i<60;i++){await p.waitForTimeout(100);if(await p.evaluate(()=>xs().fq.every(f=>f.c>=FRY_MIN)))break}
-await tap((await R('xeFry(null)'))[0]);ok(await p.evaluate(()=>xs().tray.length===2),'que vàng: chạm chảo vớt ra khay');
+await tap((await R('function xeFry'))[0]);ok(await p.evaluate(()=>xs().tray.length===2),'que vàng: chạm chảo vớt ra khay');
 const sa=(await R('xeSauce'))[0],kh=await p.evaluate(()=>XG.k);const P=r=>[bb.x+(r.x+r.w/2)*s,bb.y+(r.y+r.h/2)*s];const [x0,y0]=P(sa),[x1,y1]=P(kh);
 await p.mouse.move(x0,y0);await p.mouse.down();for(let i=1;i<=14;i++){await p.mouse.move(x0+(x1-x0)*i/14+(i%2?-10:10),y0+(y1-y0)*i/14);await p.waitForTimeout(16)}await p.mouse.up();
 ok(await p.evaluate(()=>xs().sauce.length===1&&xs().spray.length===1),'kéo chai sốt: xịt lên khay theo tay');
